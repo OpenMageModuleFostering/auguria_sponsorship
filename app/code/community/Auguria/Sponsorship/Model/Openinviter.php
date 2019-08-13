@@ -15,7 +15,7 @@ class Auguria_Sponsorship_Model_Openinviter
 		$this->inviter = new OpenInviter();
 	}
     
-    public function getOpenIniviterPlugins()
+    public function getOpenInviterPlugins()
     {
 		return $this->inviter->getPlugins();
     }
@@ -52,7 +52,7 @@ class Auguria_Sponsorship_Model_Openinviter
     
     public function getPluginsArray()
     {
-    	$plugins = $this->getOpenIniviterPlugins();
+    	$plugins = $this->getOpenInviterPlugins();
     	$array = Array();
     	if (count($plugins))
     	{

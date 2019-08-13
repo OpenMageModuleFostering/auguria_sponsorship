@@ -37,7 +37,7 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
     		$old_form = array();
     		
         $new_form = array (
-    				'plugins'=>$inviter->getOpenIniviterPlugins(),
+    				'plugins'=>$inviter->getOpenInviterPlugins(),
     				'types'=>$inviter->getOpenInviterTypes(),
         			'step'=>'get_contacts'
     			);
@@ -85,7 +85,7 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
 				if (!count($errors))
 				{
 					$inviter = Mage::getModel('auguria_sponsorship/openinviter');
-					$inviter->getOpenIniviterPlugins();
+					$inviter->getOpenInviterPlugins();
 					include_once (Mage::getModuleDir('', 'Auguria_Sponsorship').'/Lib/OpenInviter/plugins/'.$post['provider_box'].'.plg.php');				
 					$result = $inviter->startPlugin($post['provider_box']);				
 					$contacts;

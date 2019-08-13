@@ -4,8 +4,12 @@
  * @package    Auguria_Sponsorship
  * @author     Auguria
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
+ */ 
  -->
+ <?php 
+ /* @var $this Auguria_Sponsorship_Block_Customer_Account_PointsDetail */
+ ?>
+ 
 <div class="std">
 	<div class="page-title">
     	<h1>
@@ -19,6 +23,7 @@
 
         //si il y eu des commandes
         $_items = $this->getCommandes();
+		//Zend_Debug::dump($_items);
         if ($_items):
         	$tableId = 'lastOrdersTable';
 ?>

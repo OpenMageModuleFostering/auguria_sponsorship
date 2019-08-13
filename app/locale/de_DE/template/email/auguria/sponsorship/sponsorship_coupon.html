@@ -7,17 +7,29 @@
 
 Available vars in sponsorship template:
 subject
+sender_id
+sender_name
+sender_email
 sender_name
 sender_email
 recipient_firstname
 recipient_lastname
-store_name
-godchild_firstname
-godchild_lastname
-added_points
-total_points
-
+discount_amount
+coupon_code
+  
 *}<!--@subject {{var data.subject}} @-->
+
+Hallo {{var data.recipient_firstname}} {{var data.recipient_lastname}},
+
+Ihre Punkte wurden erfolgreich in einen Gutschein umgewandelt.
+
+Sie verfügen ab sofort über ein Guthaben von {{var data.discount_amount}} Euro, welches Sie über die Eingabe folgenden Codes im Zuge Ihrer nächsten Bestellung einlösen können:
+
+{{var data.coupon_code}}
+
+{{store url=""}}
+
+--BOUNDARY_TEXT_OF_CHOICE_FOR_AUGURIA_SPONSORSHIP
 
 <style type="text/css">
 body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
@@ -46,9 +58,10 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-	                        <p><strong>Bonjour {{var data.recipient_firstname}} {{var data.recipient_lastname}}</strong>,</p>
-							<p>Votre filleul {{var data.godchild_firstname}} {{var data.godchild_lastname}} vous a fait gagner <strong>{{var data.added_points}}</strong> points.</p>
-	                        <p>Vous disposez maintenant de <strong>{{var data.total_points}}</strong> points.</p>
+                        <p><strong>Hallo {{var data.recipient_firstname}} {{var data.recipient_lastname}}</strong>,</p>
+						<p>Ihre Punkte wurden erfolgreich in einen Gutschein umgewandelt.</p>
+                        <p>Sie verfügen ab sofort über ein Guthaben von <strong>{{var data.discount_amount}} Euro</strong>, welches Sie über die Eingabe folgenden Codes im Zuge Ihrer nächsten Bestellung einlösen können:</p>
+                        <h1 align="center">{{var data.coupon_code}}</h1>
                         </td>
                     </tr>
                     <tr>

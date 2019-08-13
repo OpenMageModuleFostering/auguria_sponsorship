@@ -7,6 +7,7 @@ Action,Action
 %s is already an email to our customers,%s est déjà l'email d'un de nos clients
 %s points,%s points
 %s points exchange for customer (%s),Échange de points %s pour le client (%s)
+%s cash exchange,%s Échange d'argent
 %s sponsor points,Points de parrainage %s
 %s vouchers points exchange,%s échange de points en bon de réduction
 <a href='%s'>%s</a>,<a href='%s'>%s</a>
@@ -22,6 +23,7 @@ Add Recipient,Ajouter un destinataire
 Add recipients,Ajoutez les destinataires.
 Add recipients.,Ajoutez les destinataires.
 Address book provider:,Fournisseur de carnet d'adresse :
+Administrator email,Email de l'administrateur
 Allow customers who have never ordered to send invitations,Autoriser les clients n'ayant jamais commandé à envoyer des invitations
 Allow customers who have never ordered to send sponsorship invitations,Autoriser les clients n'ayant jamais commandé à envoyer des invitations
 Allow to sponsor registred customers (but never ordered),Autoriser le parainage de clients déjà enregistrés (mais n'ayant jamais commandé)
@@ -43,13 +45,14 @@ But it could not be saved.,Mais il n'a pas pu être enregistré.
 Buying,Achat
 Buying cancellation,Annulation d'achat
 Calculation period of the maximum allowed for an individual (days),Période de calcul du maximum autorisé pour un particulier (jours)
-Campany number,SIRET
+Company number,SIRET
 Cancel earned points on credit memo creation,Annuler les points gagnés lors de la création d'un avoir
 Cancel the use of points on credit memo creation,Annuler l'utilisation des points lors de la création d'un avoir
 Canceled,Annulé
 Cart exchange,Échange panier
 Cash,Cash
 cash,cash
+Cash Email Template, Gabarit du mail de l'échange de cash
 Cash exchange,Échange en cash
 Cash exchange,Échange de cash
 Cash exchange cancellation,Annulation échange de cash
@@ -82,6 +85,7 @@ Email Address:,Email :
 Email missing !,Il manque l'email !
 Email Providers,Fournisseurs de mails
 Email:,Email :
+Enable checking company number, Activer la vérification du SIRET
 Enter the cash you want.,Indiquez le cash que vous souhaitez obtenir.
 Enter the points you want to convert.,Indiquez les points que vous voulez convertir.
 Entries Per Page:,Nombre par page :
@@ -125,10 +129,12 @@ Guest mail,Email invité
 Guest name,Nom invité
 IBAN,IBAN
 ID,ID
+"If you uncheck this option, the option 'Maximum amount permitted without company number' will not be activated", "Si vous désactivez l'option, l'option 'Montant maximum autorisé sans SIRET' ne fonctionnera pas"
 Import Contacts,Importer contacts
 Import selected contacts,Importer les contacts sélectionnés
 Inactivity time before removal of the sponsorship link (days),Temps d'inactivité avant suppression du lien de parrainage (jours)
 "Invalid IBAN code ""%s""","Le code IBAN ""%s"" est invalide"
+"Invalid BIC code ""%s""","Le code BIC ""%s"" est invalide"
 Invitation detail,Détail de l'invitation
 Invitation does not exist,L'invitation n'existe pas
 Invitation Email Template,Gabarit du mail d'invitation
@@ -236,7 +242,7 @@ This sponsorship doesn't exist,Ce parrainage n'existe pas
 Time to send it automatically (days),Temps avant la relance automatique (jours)
 Time validity invitations (days),Temps de validité des invitations (jours)
 "To change more cash, you must specify a company number.","Pour changer plus de cash, vous devez indiquer un numéro SIRET."
-"To change your points into cash, you must indicate your IBAN.","Pour changer vos points en cash, vous devez indiquer votre code IBAN."
+"To change your points into cash, you must indicate your IBAN and BIC.","Pour changer vos points en cash, vous devez indiquer votre code IBAN et BIC."
 Type,Type
 Unable to find change to save,Impossible de trouver l'échange à enregistrer
 Unable to find invitation to save,Impossible de trouver l'invitation à enregistrer
@@ -258,6 +264,8 @@ Vouchers:,Bons de réduction :
 Waiting,En attente
 Winning,Points gagnés
 worth %s,soit %s
+Cash exchange mail options,Options des mails d'échange de cash
+A customer wants to exchange %s Euros,Un client souhaite échanger %s Euros
 You can't send an invitation to yourself,Vous ne pouvez pas vous envoyer une invitation à vous même.
 You do not have active godson.,Vous n'avez pas de filleul actif.
 You do not have as many points.,Vous ne disposez pas d'autant de points.

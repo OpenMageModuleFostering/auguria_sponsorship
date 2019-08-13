@@ -6,7 +6,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
  -->
-
 <label for="<?php echo $this->getFieldId('iban')?>">
 	<?php echo $this->__('IBAN') ?>
 </label>
@@ -18,8 +17,21 @@
         class="input-text"
         <?php echo $this->getFieldParams() ?> />
 </div>
+
+<label for="<?php echo $this->getFieldId('bic')?>">
+	<?php echo $this->__('BIC') ?>
+</label>
+<div class="input-box" >
+    <input type="text"
+        id="<?php echo $this->getFieldId('bic')?>"
+        name="<?php echo $this->getFieldName('bic')?>"
+        value="<?php echo $this->htmlEscape($this->getBic()) ?>"
+        class="input-text validate-bic"
+        <?php echo $this->getFieldParams() ?> />
+</div>
+
 <label for="<?php echo $this->getFieldId('siret')?>">
-	<?php echo $this->__('Campany number') ?>
+		<?php echo $this->__('Company number'); // SIRET ?> 
 </label>
 <div class="input-box" >
     <input type="text"
@@ -29,3 +41,14 @@
         class="input-text"
         <?php echo $this->getFieldParams() ?> />
 </div>
+
+<script type="text/javascript">
+//<![CDATA[
+   // var theForm = new VarienForm('theForm', true);
+    Validation.add('validate-bic','Enter a valid BIC!', function(the_field_value){
+    	var regSWIFT = /^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$/;
+    	if(the_field_value.empty()) return true;
+    	return regSWIFT.test(the_field_value);
+    });
+//]]>   
+</script>

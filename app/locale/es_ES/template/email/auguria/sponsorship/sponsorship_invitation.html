@@ -10,11 +10,17 @@ data.sender_name
 data.sender_email
 data.subject
 data.html_message
+data.text_message
 data.html_footer
+data.text_footer
 data.recipient_email
 data.sponsorship_url
   
 *}<!--@subject {{var data.subject}} @-->
+{{var data.text_message}}
+{{var data.text_footer}}
+
+--BOUNDARY_TEXT_OF_CHOICE_FOR_AUGURIA_SPONSORSHIP
 
 <style type="text/css">
 body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }

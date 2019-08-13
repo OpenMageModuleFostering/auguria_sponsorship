@@ -62,6 +62,7 @@
         	  if ($_virement->isEnabled()): ?>
             <li><?php echo $_virement->setIban($this->getCustomer()->getIban())
                                                                 ->setSiret($this->getCustomer()->getSiret())
+                                                                ->setBic($this->getCustomer()->getBic())
                                                                 ->toHtml(); ?></li>
         <?php
         	  endif

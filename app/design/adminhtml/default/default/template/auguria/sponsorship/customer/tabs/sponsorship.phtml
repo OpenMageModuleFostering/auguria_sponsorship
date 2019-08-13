@@ -161,6 +161,18 @@
 						</td>
 					</tr>
 					<tr>
+						<td class="label"><?php echo $this->__('BIC'); ?>
+						</td>
+						<td class="value">
+							<input id="sponsorship_iban" class=" input-text validate-alphanum"
+								type="text"
+								value="<?php echo $this->getCustomer()->getBic(); ?>"
+								name="sponsorship[iban]"/>
+						</td>
+						<td class="scope-label"><span class="nobr"></span>
+						</td>
+					</tr>
+					<tr>
 						<td class="label"><?php echo $this->__('SIRET'); ?>
 						</td>
 						<td class="value">

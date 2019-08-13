@@ -23,7 +23,7 @@ class Auguria_Sponsorship_Block_Openinviter extends Mage_Core_Block_Template
         	return 'get_contacts';
     }
     
-    public function getOpenIniviterPlugins()
+    public function getOpenInviterPlugins()
     {
     	$form = Mage::getSingleton('customer/session')->getData('openinviter_form');
         if (isset($form['plugins']))

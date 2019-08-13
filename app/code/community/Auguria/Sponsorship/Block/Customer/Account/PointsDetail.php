@@ -72,6 +72,12 @@ class Auguria_Sponsorship_Block_Customer_Account_PointsDetail extends Mage_Custo
 		return $fidelity_points_to_cash;
 	}
 
+	public function getFidelityEnableSiretConfig ()
+	{
+		$enableSiret = Mage::getStoreConfig('auguria_sponsorship/fidelity/enable_check_company_number');
+		return $enableSiret;
+	}
+
 	/**
 	 * Sponsorship configuration
 	 */
@@ -130,6 +136,12 @@ class Auguria_Sponsorship_Block_Customer_Account_PointsDetail extends Mage_Custo
 	{
 		$sponsor_points_to_cash = Mage::getStoreConfig('auguria_sponsorship/sponsor/sponsor_points_to_cash');
 		return $sponsor_points_to_cash;
+	}
+
+	public function getSponsorEnableSiretConfig ()
+	{
+		$enableSiret = Mage::getStoreConfig('auguria_sponsorship/sponsor/enable_check_company_number');
+		return $enableSiret;
 	}
 
 	/**
@@ -192,6 +204,12 @@ class Auguria_Sponsorship_Block_Customer_Account_PointsDetail extends Mage_Custo
 		return $accumulated_points_to_cash;
 	}
 
+	public function getAccumulatedEnableSiretConfig ()
+	{
+		$enableSiret = Mage::getStoreConfig('auguria_sponsorship/accumulated/enable_check_company_number');
+		return $enableSiret;
+	}
+
 
 
 
@@ -206,10 +224,10 @@ class Auguria_Sponsorship_Block_Customer_Account_PointsDetail extends Mage_Custo
 
 	public function getParrainages() {
 		$parrains = Mage::getModel("customer/customer")
-					->getCollection()
-					->addNameToSelect()
-					->addAttributeToSort('created_at', 'desc')
-					->addAttributeToFilter('sponsor', $this->getUserId());
+		->getCollection()
+		->addNameToSelect()
+		->addAttributeToSort('created_at', 'desc')
+		->addAttributeToFilter('sponsor', $this->getUserId());
 		$parrains = $parrains->getData();
 		return $parrains;
 	}
@@ -217,20 +235,20 @@ class Auguria_Sponsorship_Block_Customer_Account_PointsDetail extends Mage_Custo
 	public function getNbParrainages ($customerId)
 	{
 		$sponsor = Mage::getModel("customer/customer")
-					->getCollection()
-					->addFilter('e.is_active', 1)
-					->addAttributeToFilter('sponsor', $customerId)
-					->count();
+		->getCollection()
+		->addFilter('e.is_active', 1)
+		->addAttributeToFilter('sponsor', $customerId)
+		->count();
 		return $sponsor;
 	}
 
 	public function getDateDernCde ($customerId)
 	{
 		$commande = Mage::getModel("sales/order")
-					->getCollection()
-					->addAttributeToFilter('customer_id',$customerId)
-					->addAttributeToSort('created_at', 'asc')
-					->getLastItem();
+		->getCollection()
+		->addAttributeToFilter('customer_id',$customerId)
+		->addAttributeToSort('created_at', 'asc')
+		->getLastItem();
 		if ($commande) {
 			return $commande['created_at'];
 		}
@@ -242,10 +260,10 @@ class Auguria_Sponsorship_Block_Customer_Account_PointsDetail extends Mage_Custo
 	public function getCommandes()
 	{
 		$commandes = Mage::getModel("sales/order")
-					->getCollection()
-					->addAttributeToFilter('customer_id',$this->getUserId())
-					->addAttributeToSort('created_at', 'desc')
-					->setPageSize(5);
+		->getCollection()
+		->addAttributeToFilter('customer_id',$this->getUserId())
+		->addAttributeToSort('created_at', 'desc');
+		//->setPageSize(5);
 		return $commandes->getData();
 	}
 
@@ -325,10 +343,10 @@ class Auguria_Sponsorship_Block_Customer_Account_PointsDetail extends Mage_Custo
 	public function hasChange($module)
 	{
 		$changes = mage::getModel("auguria_sponsorship/change")
-					->getCollection()
-					->addAttributeToFilter("module", $module)
-					->addAttributeToFilter("customer_id", $this->getUserId())
-					->count();
+		->getCollection()
+		->addAttributeToFilter("module", $module)
+		->addAttributeToFilter("customer_id", $this->getUserId())
+		->count();
 		if ($changes)
 		{
 			return true;
@@ -437,18 +455,18 @@ class Auguria_Sponsorship_Block_Customer_Account_PointsDetail extends Mage_Custo
 		$read = $resource->getConnection('core_read');
 		$datetime = Mage::getModel('core/date')->gmtDate();
 		$select = $read->select()
-					->from(Array("s"=>$resource->getTableName('auguria_sponsorship/sponsorship')),array("*"=>"s.*"))
-					->where('s.parent_id=?', $this->getUserId())
-					->where('TO_DAYS("'.$datetime.'") - TO_DAYS(s.datetime) <= ?', Mage::getStoreConfig('auguria_sponsorship/invitation/sponsor_invitation_validity'))
-					->where('s.child_mail NOT IN ?',
-								new Zend_Db_Expr('(select ce.email from '.$resource->getTableName('customer_entity').' ce
-													  LEFT JOIN '.$resource->getTableName('eav_attribute').' AS ea ON ce.entity_type_id = ea.entity_type_id AND ea.backend_type = "int" AND ea.attribute_code = "sponsor"
-													  LEFT JOIN '.$resource->getTableName('customer_entity_int').' AS cev ON ce.entity_id = cev.entity_id AND ea.attribute_id = cev.attribute_id
-													  WHERE cev.value IS NOT NULL)'))
-					->where('s.datetime = ?',
+		->from(Array("s"=>$resource->getTableName('auguria_sponsorship/sponsorship')),array("*"=>"s.*"))
+		->where('s.parent_id=?', $this->getUserId())
+		->where('TO_DAYS("'.$datetime.'") - TO_DAYS(s.datetime) <= ?', Mage::getStoreConfig('auguria_sponsorship/invitation/sponsor_invitation_validity'))
+		->where('s.child_mail NOT IN ?',
+				new Zend_Db_Expr('(select ce.email from '.$resource->getTableName('customer_entity').' ce
+						LEFT JOIN '.$resource->getTableName('eav_attribute').' AS ea ON ce.entity_type_id = ea.entity_type_id AND ea.backend_type = "int" AND ea.attribute_code = "sponsor"
+						LEFT JOIN '.$resource->getTableName('customer_entity_int').' AS cev ON ce.entity_id = cev.entity_id AND ea.attribute_id = cev.attribute_id
+						WHERE cev.value IS NOT NULL)'))
+						->where('s.datetime = ?',
 								new Zend_Db_Expr('(select max(sp.datetime) from '.$resource->getTableName('auguria_sponsorship/sponsorship').' sp where sp.parent_id=s.parent_id and sp.child_mail = s.child_mail)'))
-					->order('datetime_boost')
-					->order('datetime');
+								->order('datetime_boost')
+								->order('datetime');
 		return $read->fetchAll($select);
 	}
 }

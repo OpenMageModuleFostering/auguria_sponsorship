@@ -1,8 +1,8 @@
 <?php
 
 $openinviter_settings=array(
-"username"=>"",
-"private_key"=>"",
+"username"=>"johnny",
+"private_key"=>"994fafc203f167ca337b947eb01a5e3d",
 "cookie_path"=>"/tmp",
 "transport"=>"curl",
 "local_debug"=>"on_error",

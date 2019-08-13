@@ -113,7 +113,7 @@
 		</reference>
 	</customer_account_index>
 	
-	<!-- Remplacement de edit.phtml pour ajout champ Iban dans les informations du compte -->
+	<!-- Remplacement de edit.phtml pour ajout champ Iban et Bic dans les informations du compte -->
 	<customer_account_edit>
         <reference name="customer_edit">
         	<action method="setTemplate">
@@ -130,13 +130,4 @@
                 <action ifconfig="auguria_sponsorship/accumulated/accumulated_enabled" method="addLink" translate="label" module="auguria_sponsorship"><name>accumulated_points</name><path>auguria_sponsorship/points/accumulated</path><label>Fidelity points and sponsorship management</label></action>
         </reference>
 	</customer_account>
-	
-    <!-- Remplacement de register.phtml pour afficher email de la session -->
-	<customer_account_create>
-        <reference name="customer_form_register">
-        	<action method="setTemplate">
-				<template>auguria/sponsorship/customer/form/register.phtml</template>
-			</action>
-        </reference>
-    </customer_account_create>
 </layout> 

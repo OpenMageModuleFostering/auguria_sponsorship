@@ -40,7 +40,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 	{
 		$mode = $this->getModuleMode();
 		if($mode=='fidelity'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return true;
 		}
 		return false;
@@ -54,7 +54,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 	{
 		$mode = $this->getModuleMode();
 		if($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return true;
 		}
 		return false;
@@ -90,11 +90,11 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 		}
 		else {
 			if($mode=='separated'
-			|| $mode=='fidelity') {
+					|| $mode=='fidelity') {
 				$config['fidelity'] = Mage::getStoreConfig('auguria_sponsorship/fidelity/points_validity');
 			}
 			if($mode=='separated'
-			|| $mode=='sponsorship') {
+					|| $mode=='sponsorship') {
 				$config['sponsorship'] = Mage::getStoreConfig('auguria_sponsorship/sponsor/points_validity');
 			}
 		}
@@ -111,7 +111,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/points_validity');
 		}
 		elseif ($mode=='separated'
-		|| $mode=='fidelity') {
+				|| $mode=='fidelity') {
 			return  Mage::getStoreConfig('auguria_sponsorship/fidelity/points_validity');
 		}
 		return 0;
@@ -127,7 +127,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/points_validity');
 		}
 		elseif ($mode=='separated'
-		|| $mode=='sponsorship') {
+				|| $mode=='sponsorship') {
 			return  Mage::getStoreConfig('auguria_sponsorship/sponsor/points_validity');
 		}
 		return 0;
@@ -150,11 +150,11 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 		}
 		else {
 			if($mode=='separated'
-			|| $mode=='fidelity') {
+					|| $mode=='fidelity') {
 				$config['fidelity'] = Mage::getStoreConfig('auguria_sponsorship/fidelity/fidelity_points_to_cash');
 			}
 			if($mode=='separated'
-			|| $mode=='sponsorship') {
+					|| $mode=='sponsorship') {
 				$config['sponsorship'] = Mage::getStoreConfig('auguria_sponsorship/sponsor/sponsor_points_to_cash');
 			}
 		}
@@ -177,11 +177,11 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 		}
 		else {
 			if($mode=='separated'
-			|| $mode=='fidelity') {
+					|| $mode=='fidelity') {
 				$activated['fidelity'] = Mage::getStoreConfig('auguria_sponsorship/fidelity/fidelity_cart');
 			}
 			if($mode=='separated'
-			|| $mode=='sponsorship') {
+					|| $mode=='sponsorship') {
 				$activated['sponsorship'] = Mage::getStoreConfig('auguria_sponsorship/sponsor/sponsor_cart');
 			}
 		}
@@ -198,7 +198,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/optional_order');
 		}
 		elseif ($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/sponsor/sponsor_optional_order');
 		}
 		return 0;
@@ -219,7 +219,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/sponsor_percent');
 		}
 		elseif ($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/sponsor/sponsor_percent');
 		}
 		return 0;
@@ -241,7 +241,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/allow_invit_registred_users');
 		}
 		elseif ($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/sponsor/allow_invit_registred_users');
 		}
 		return 0;
@@ -262,7 +262,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/newsletter_points');
 		}
 		elseif ($mode=='fidelity'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/fidelity/newsletter_points');
 		}
 		return 0;
@@ -283,7 +283,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/first_order_points');
 		}
 		elseif ($mode=='fidelity'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/fidelity/first_order_points');
 		}
 		return 0;
@@ -304,7 +304,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/godson_first_order_points');
 		}
 		elseif ($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/sponsor/godson_first_order_points');
 		}
 		return 0;
@@ -326,7 +326,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/sponsor_levels');
 		}
 		elseif ($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/sponsor/sponsor_levels');
 		}
 		return 0;
@@ -349,7 +349,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/notification_enabled');
 		}
 		elseif ($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/sponsor/notification_enabled');
 		}
 		return false;
@@ -370,7 +370,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/notification');
 		}
 		elseif ($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/sponsor/notification');
 		}
 		return false;
@@ -397,7 +397,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/cancel_earned_points');
 		}
 		elseif ($mode=='fidelity'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/fidelity/cancel_earned_points');
 		}
 		return false;
@@ -414,7 +414,7 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 			return Mage::getStoreConfig('auguria_sponsorship/accumulated/cancel_earned_points');
 		}
 		elseif ($mode=='sponsorship'
-		|| $mode=='separated') {
+				|| $mode=='separated') {
 			return Mage::getStoreConfig('auguria_sponsorship/sponsor/cancel_earned_points');
 		}
 		return false;
@@ -434,5 +434,9 @@ class Auguria_Sponsorship_Helper_Config extends Mage_Core_Helper_Abstract
 		}
 		return false;
 
+	}
+
+	public function getAdministratorEmail(){		
+		return Mage::getStoreConfig('auguria_sponsorship/cash/administrator_email');
 	}
 }
