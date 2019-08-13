@@ -7,7 +7,7 @@
  */
 $setup = new Mage_Sales_Model_Mysql4_Setup('core_setup');
 $setup->startSetup();
-if (!$setup->hasSponsorshipInstall()) {
+if (!$this->hasSponsorshipInstall()) {
 	$setup->addAttribute('order_item', 'catalog_fidelity_points', array(
 	        'type'              => 'decimal',
 	        'backend'           => '',

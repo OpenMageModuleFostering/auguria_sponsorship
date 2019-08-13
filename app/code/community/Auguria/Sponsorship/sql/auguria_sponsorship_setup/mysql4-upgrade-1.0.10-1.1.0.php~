@@ -9,7 +9,7 @@
 $installer = $this;
 
 $installer->startSetup();
-if (!$installer->hasSponsorshipInstall()) {
+if (!$setup->hasSponsorshipInstall()) {
 	Mage::getSingleton( 'eav/config' )
 			->getAttribute( 'customer', 'sponsor' )
 			->setData( 'used_in_forms', array() )
