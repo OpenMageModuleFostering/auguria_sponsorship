@@ -38,13 +38,17 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
             $url = $this->getSponsorUrl($id, $prenom, $nom, $email);
             return $this->__("<a href='%s'>%s</a>", $url, $this->getUrlWtHttp());
     }
-
-    public function getUrlWtHttp()
+    
+	public function getUrlWtHttp()
     {
-        $url = eregi_replace("(http://)|(/index.php)|[/]$", "", Mage::getUrl());
+        $patterns = array();
+		$patterns[0] = '/^http:\/\//i';
+		$patterns[1] = '/index.php\/*/';
+		$patterns[2] = '/\/$/';
+        $url = preg_replace($patterns, "", Mage::getUrl());
         return $url;
     }
-
+    
     public function htmlToText ($html)
     {
     	$h2t = new Auguria_Sponsorship_Lib_Html2Text($html);
