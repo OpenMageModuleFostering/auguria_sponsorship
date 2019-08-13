@@ -22,7 +22,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Link_Grid extends Mage_Adminhtml_Block
   	  $firstname  = $customer->getAttribute('firstname');
   	  $lastname   = $customer->getAttribute('lastname');
   	  $core = Mage::getSingleton('core/resource');
-
+  	  
       $collection = Mage::getResourceModel('customer/customer_collection')
                         ->addAttributeToSelect("sponsor")
                         ->addNameToSelect()
@@ -30,7 +30,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Link_Grid extends Mage_Adminhtml_Block
                             new Zend_Db_Expr('CONCAT((select cev.value from '.$core->getTableName('customer_entity_varchar').' cev where cev.entity_id={{sponsor}} and cev.attribute_id='.(int) $firstname->getAttributeId().')," ",(select cev.value from '.$core->getTableName('customer_entity_varchar').' cev where cev.entity_id={{sponsor}} and cev.attribute_id='.(int) $lastname->getAttributeId().'))'),
                             'sponsor')
                         ->addExpressionAttributeToSelect('date_last_order',
-                            new Zend_Db_Expr('(select max(so.created_at) from '.$core->getTableName('sales_order').' so where so.customer_id={{entity_id}})'),
+                            new Zend_Db_Expr('(select max(so.created_at) from '.$core->getTableName('sales/order').' so where so.customer_id={{entity_id}})'),
                             'entity_id')
                         ->addAttributeToFilter("sponsor", array('neq'=> array(0)))
       ;

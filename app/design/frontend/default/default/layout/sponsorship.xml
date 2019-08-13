@@ -16,6 +16,24 @@
         </reference>
     </sponsorship_index_index>
     
+    <!-- Déclaration du template OpenInviter -->    
+    <sponsorship_openinviter_index>
+    	<reference name="root">
+    		<action method="setTemplate"><template>page/empty.phtml</template></action>
+    	</reference>
+        <reference name="content">
+            <block type="sponsorship/openinviter" name="openinviter" template="sponsorship/openinviter.phtml" />
+        </reference>
+    </sponsorship_openinviter_index>
+    <sponsorship_openinviter_import>
+    	<reference name="root">
+    		<action method="setTemplate"><template>page/empty.phtml</template></action>
+    	</reference>
+        <reference name="content">
+            <block type="sponsorship/openinviter" name="openinviter" template="sponsorship/openinviterimport.phtml" />
+        </reference>
+    </sponsorship_openinviter_import>
+    
      <!-- Déclaration du block détail des points fidélité -->
     <sponsorship_fidelitypoints_index>
         <update handle="customer_account"/>

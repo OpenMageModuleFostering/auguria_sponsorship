@@ -45,9 +45,11 @@ class Auguria_Sponsorship_IndexController extends Mage_Core_Controller_Front_Act
         }
     }
     
-    public function postAction()
+    public function sendAction()
     {
-	$post = $this->getRequest()->getPost();
+		$post = $this->getRequest()->getPost();
+		$session = Mage::getSingleton('customer/session');
+		$session->setData('sponsorship_form', $post);
         if ( $post )
         {
             $translate = Mage::getSingleton('core/translate');
@@ -57,7 +59,7 @@ class Auguria_Sponsorship_IndexController extends Mage_Core_Controller_Front_Act
             $validation = $mail->validateMail($mails);
             $checksend = false;
             $checksave = false;
-            if ($validation == true)
+            if ($validation == true && isset($post['recipient']))
             {
                 foreach ($mails as $email)
                 {
@@ -73,6 +75,10 @@ class Auguria_Sponsorship_IndexController extends Mage_Core_Controller_Front_Act
                             if ($checksend == false)
                             {
                                 Mage::getSingleton('customer/session')->addSuccess(Mage::helper('sponsorship')->__("Your email has been successfully sent."));
+                                //remove recipient from session
+                                $form = Mage::getSingleton('customer/session')->getData('sponsorship_form');
+                                $form['recipient']=array();
+                                $session->setData('sponsorship_form', $form);
                                 $checksend = true;
                             }
                             if (!$mail->saveMail($email))
@@ -96,7 +102,7 @@ class Auguria_Sponsorship_IndexController extends Mage_Core_Controller_Front_Act
                 Mage::getSingleton('customer/session')->addError($this->__("Please check the form fields."));
                 $this->_redirect("*/*/");
             }
-            $translate->setTranslateInline(true);
+            $translate->setTranslateInline(true);            
             $this->_redirect("*/*/");
         }
         else

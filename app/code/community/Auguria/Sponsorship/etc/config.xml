@@ -10,7 +10,7 @@
 <config>
     <modules>
         <Auguria_Sponsorship>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
         </Auguria_Sponsorship>
     </modules>
     <frontend>
@@ -18,6 +18,7 @@
             <sponsorship_index>/sponsorship/index/</sponsorship_index>
             <sponsorship_boost>/sponsorship/boost/</sponsorship_boost>
             <sponsorship_points>/sponsorship/points/</sponsorship_points>
+            <sponsorship_openinviter>/sponsorship/openinviter/</sponsorship_openinviter>
         </secure_url>
         <routers>
             <sponsorship>
@@ -145,8 +146,17 @@
                         <method>setSponsor</method>
                     </set_sponsorship>
                 </observers>
-            </checkout_type_onepage_save_order_after>
-
+            </checkout_type_onepage_save_order_after>			
+			<!-- Affiliation sur toutes les pages -->
+			<controller_action_predispatch>
+                <observers>
+                    <affiliate>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>affiliate</method>
+                    </affiliate>
+                </observers>
+			</controller_action_predispatch>
             <!-- Incrémentation des points lors du paiement -->
             <sales_order_payment_pay>
                 <observers>
@@ -319,6 +329,11 @@
             <change>
                 <email_template_coupon>sponsorship_email_coupon</email_template_coupon>
             </change>
+            <open_inviter>
+            	<open_inviter_enabled>0</open_inviter_enabled>
+            	<username></username>
+            	<private_key></private_key>
+            </open_inviter>
         </sponsorship>
     </default>
     <crontab>

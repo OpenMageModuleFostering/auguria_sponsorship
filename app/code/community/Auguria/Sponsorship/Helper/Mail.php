@@ -88,6 +88,7 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
         $i = 0;
         $mails = Array();
         $valid = true;
+        if (isset($post['recipient']['email']))
         foreach ($post['recipient']['email'] as $recipient_email)
         {
             $mails[$i]["sender_name"] = $sender_name;

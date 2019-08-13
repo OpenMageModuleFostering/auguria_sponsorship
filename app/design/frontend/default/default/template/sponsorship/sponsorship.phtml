@@ -14,39 +14,48 @@
     function remove_recipient(i){
         $('recipient_firstname'+i).up(2).remove();
         recipCount = recipCount-1;
-        if(recipCount<maxRecip && maxRecip != 0) {
+        if(recipCount<=maxRecip && maxRecip != 0) {
             $('add_recipient_button').show();
             $('max_recipient_message').hide();
         }
         return false;
     }
 
-    function add_recipient(){
-        ul = $('recipient_options');
-        var li_mail = Element.extend(document.createElement("LI"));
-        li_mail.addClassName('addElement');
-
-        li_mail.innerHTML = '<div class="left"><label for="recipient_firstname" class="required"><em>*<\/em><?php echo $this->__('First name:') ?><\/label><br /><div style="width:250px"><input name="recipient[firstname][]" type="text" class="input-text required-entry" id="recipient_firstname'+i+'" style="width:250px;" /><\/div><\/div>';
-        li_mail.innerHTML += '<div class="right"><label for="recipient_lastname" class="required"><em>*<\/em><?php echo $this->__('Last name:') ?><\/label><br /><div style="width:250px"><input name="recipient[lastname][]" type="text" class="input-text required-entry" id="recipient_lastname'+i+'" style="width:250px;" /><\/div><\/div>';
-        li_mail.innerHTML += '<div class="left"><label for="recipient_email" class="required"><em>*<\/em><?php echo $this->__('Email Address:') ?><\/label><br /><div style="width:250px"><input name="recipient[email][]" value="" title="<?php echo $this->__('Email Address') ?>" id="recipient_email'+i+'" type="text" class="input-text required-entry validate-email" style="width:250px;" /><\/div><\/div>';
-
-        li_mail.innerHTML += '<button style="margin-top:10px" class="button right" onclick="remove_recipient('+i+');" type="button"><span><?php echo $this->__('Remove Recipient') ?><\/span><\/button>';
-        i++;
-        recipCount++;
-        if(recipCount>=maxRecip && maxRecip != 0) {
+    function add_recipient(firstname, lastname, email){
+    	if(maxRecip == 0 || recipCount<=maxRecip)
+    	{
+	        ul = $('recipient_options');
+	        var li_mail = Element.extend(document.createElement("LI"));
+	        li_mail.addClassName('addElement');
+	
+	        li_mail.innerHTML = '<div class="left"><label for="recipient_firstname"><?php echo $this->__('First name:') ?><\/label><br /><div style="width:250px"><input name="recipient[firstname][]" type="text" class="input-text" id="recipient_firstname'+i+'" value="'+firstname+'" style="width:250px;" /><\/div><\/div>';
+	        li_mail.innerHTML += '<div class="right"><label for="recipient_lastname" class="required"><em>*<\/em><?php echo $this->__('Last name:') ?><\/label><br /><div style="width:250px"><input name="recipient[lastname][]" value="'+lastname+'" type="text" class="input-text required-entry" id="recipient_lastname'+i+'" style="width:250px;" /><\/div><\/div>';
+	        li_mail.innerHTML += '<div class="left"><label for="recipient_email" class="required"><em>*<\/em><?php echo $this->__('Email Address:') ?><\/label><br /><div style="width:250px"><input name="recipient[email][]" value="'+email+'" title="<?php echo $this->__('Email Address') ?>" id="recipient_email'+i+'" type="text" class="input-text required-entry validate-email" style="width:250px;" /><\/div><\/div>';
+	
+	        li_mail.innerHTML += '<button style="margin-top:10px" class="button right" onclick="remove_recipient('+i+');" type="button"><span><?php echo $this->__('Remove Recipient') ?><\/span><\/button>';
+	        i++;
+	        recipCount++;
+	        if(recipCount>maxRecip && maxRecip != 0) {
+	            $('add_recipient_button').hide();
+	            $('max_recipient_message').show();
+	        }
+	
+	        ul.appendChild(li_mail);
+    	}
+    	else
+    	{
             $('add_recipient_button').hide();
             $('max_recipient_message').show();
-        }
-
-        ul.appendChild(li_mail);
+    	}
     }
 //]]>
 </script>
+
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="page-title">
     <h1><?php echo $this->__('Sponsor friends') ?></h1>
 </div>
-<form action="<?php echo $this->getUrl('sponsorship/index/post') ?>" id="sponsorship" method="post">
+<form action="<?php echo $this->getUrl('sponsorship/index/send') ?>" id="sponsorship" method="post">
     <div class="fieldset sender_options">
         <h2 class="legend"><?php echo $this->__('Sender:') ?></h2>
         <ul class="form-list" id="sender_options">
@@ -70,7 +79,7 @@
                 <div class="left">
                     <label for="message_subject" class="required"><em>*</em><?php echo $this->__('Subject:') ?></label><br/>
                     <div style="width:250px">
-                        <input name="message[subject]" value="<?php echo Mage::helper('sponsorship/mail')->getSubject() ?>" title="<?php echo $this->__('Subject') ?>" id="message_subject" type="text" class="input-text required-entry" style="width:250px;" />
+                        <input name="message[subject]" value="<?php echo $this->getSubject(); ?>" title="<?php echo $this->__('Subject') ?>" id="message_subject" type="text" class="input-text required-entry" style="width:250px;" />
                     </div>
                 </div>
             </li>
@@ -89,7 +98,7 @@
                 <div>
                     <label for="message_body" class="required"><em>*</em><?php echo $this->__('Your message:') ?></label>
                     <textarea name="message[body]" class="input-text required-entry" id="message_body" title="<?php echo $this->__('Your message') ?>" cols="3" rows="8" style="width:100%;height:180px"><?php
-                        echo Mage::helper('sponsorship/mail')->getMessage();
+                        echo $this->getBodyMessage();
                     ?></textarea>
                 </div>
             </li>
@@ -108,21 +117,19 @@
     </div>
     <div class="fieldset recipient_options">
         <h2 class="legend"><?php echo $this->__('Recipients:') ?></h2>
+        
+        <?php
+        	/**
+        	 * Open Inviter
+        	 */
+        	if (Mage::getStoreConfig('sponsorship/open_inviter/open_inviter_enabled')==true): ?>
+        <a href="<?php echo $this->getUrl('sponsorship/openinviter'); ?>" onclick='openPopup(this); return false'>
+        	<?php echo $this->__('Select recipients from your address book.')?>
+		</a>
+		&nbsp;<?php echo $this->__('Or add recipient manually.')?>
+        <?php endif; ?>
+        
         <ul class="form-list" id="recipient_options">
-                <li>
-                    <div class="left">
-                        <label for="recipient_firstname" class="required"><em>*</em><?php echo $this->__('First name:') ?></label><br/>
-                        <div style="width:250px"><input name="recipient[firstname][]" type="text" class="input-text required-entry" id="recipient_firstname" style="width:250px;" /></div>
-                    </div>
-                    <div class="right">
-                        <label for="recipient_lastname" class="required"><em>*</em><?php echo $this->__('Last name:') ?></label><br/>
-                        <div style="width:250px"><input name="recipient[lastname][]" type="text" class="input-text required-entry" id="recipient_lastname" style="width:250px;" /></div>
-                    </div>
-                    <div class="left">
-                        <label for="recipient_email" class="required"><em>*</em><?php echo $this->__('Email Address:') ?></label><br/>
-                        <div style="width:250px"><input name="recipient[email][]" value="" title="<?php echo $this->__('Email Address') ?>" id="recipient_email" type="text" class="input-text required-entry validate-email" style="width:250px;" /></div>
-                    </div>
-                </li>
         </ul>
         <div id="max_recipient_message" style="display:none">
         <?php if ($this->getMaxRecipients()): ?>
@@ -132,7 +139,7 @@
         <?php
               if (1 < $this->getMaxRecipients()): ?>
             <div id="add_recipient_button" class="buttons-set">
-                <button class="button" onclick="add_recipient();" type="button"><span><?php echo $this->__('Add Recipient') ?></span></button>
+                <button class="button" onclick="add_recipient('','','');" type="button"><span><?php echo $this->__('Add Recipient') ?></span></button>
             </div>
         <?php endif; ?>
         <div style="clear:both"></div>
@@ -145,5 +152,26 @@
 </form>
 
 <script type="text/javascript">
-    var sponsorship = new VarienForm('sponsorship', true);
-</script> 
+	var sponsorship = new VarienForm('sponsorship', true);
+	function openPopup(objet)
+	{
+		var largeur=600;
+		var hauteur=600;
+		var top=(screen.height-hauteur)/2;
+		var left=(screen.width-largeur)/2;
+		window.open(objet.href, "_blank", "menubar=no, scrollbars=yes, top="+top+",left="+left+",width="+largeur+",height="+hauteur);
+	}
+<?php 
+	$session = Mage::getSingleton('customer/session');
+    if (isset($session['sponsorship_form']['recipient']['email']) && count($session['sponsorship_form']['recipient']['email']))
+    {
+    	foreach ($session['sponsorship_form']['recipient']['email'] as $key=>$email)
+    	{
+    		$firstname = $session['sponsorship_form']['recipient']['firstname'][$key];
+    		$lastname = $session['sponsorship_form']['recipient']['lastname'][$key];
+    		echo 'add_recipient("'.$firstname.'", "'.$lastname.'", "'.$email.'");
+    		';
+    	}
+    }
+?>
+</script>

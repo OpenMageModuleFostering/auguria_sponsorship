@@ -331,4 +331,37 @@ class Auguria_Sponsorship_Model_Observer
     	}
 
     }
+    
+    public function affiliate($observer)
+    {
+    	$controller = $observer['controller_action'];
+    	/*
+    	 * Transmission de l'id du parrain + nom + prenom dans l'url
+    	 * http://www.inkonso.com?sponsor_id=x&nom=xxx&prenom=xxx&email=xxx
+        */
+    	$sponsorId = $controller->getRequest()->getParam('sponsor_id');    	
+    	if ($sponsorId!='')
+    	{
+    		$nom = $controller->getRequest()->getParam('nom');
+        	$prenom = $controller->getRequest()->getParam('prenom');
+        	$email = $controller->getRequest()->getParam('email');
+    		
+        	//stockage des variables dans la session
+        	$session = Mage::getSingleton('core/session');
+            $session->setData('sponsor_id',$sponsorId);
+        	$session->setData('firstname',$prenom);
+        	$session->setData('lastname',$nom);
+        	$session->setData('email',$email);
+        	
+        	//stockage de l'id du parrain dans un cookie        	
+            $sponsorInvitationValidity = Mage::getStoreConfig('sponsorship/sponsor/sponsor_invitation_validity');
+            $period =3600*24*$sponsorInvitationValidity;
+                
+        	$cookie = new Mage_Core_Model_Cookie;
+        	$cookie->set('sponsorship_id', $sponsorId, $period);
+        	$cookie->set('sponsorship_firstname', $prenom, $period);
+        	$cookie->set('sponsorship_lastname', $nom, $period);
+        	$cookie->set('sponsorship_email', $email, $period);
+    	}
+    }
 }
