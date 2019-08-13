@@ -130,4 +130,10 @@
                 <action ifconfig="auguria_sponsorship/accumulated/accumulated_enabled" method="addLink" translate="label" module="auguria_sponsorship"><name>accumulated_points</name><path>auguria_sponsorship/points/accumulated</path><label>Fidelity points and sponsorship management</label></action>
         </reference>
 	</customer_account>
+	<!-- Ajout du js pour le remplissage automatique des champs lors de l'invitation-->
+	<customer_account_create>
+        <reference name="content">
+            <block type="auguria_sponsorship/customer_javascript" name="customer_javascript" />
+        </reference>
+    </customer_account_create>
 </layout> 

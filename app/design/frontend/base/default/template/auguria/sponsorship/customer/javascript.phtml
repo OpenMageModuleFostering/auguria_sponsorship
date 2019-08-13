@@ -1,0 +1,21 @@
+<?php if($this->isJs()) : ?>
+<script type="text/javascript">
+//<![CDATA[
+    Event.observe(window, 'load', function() {
+		var prenom_parrainage = "<?php echo $this->getInvit('firstname'); ?>";
+		var nom_parrainage = "<?php echo $this->getInvit('lastname'); ?>";
+		var email_parrainage = "<?php echo $this->getInvit('email'); ?>";
+		
+		if(prenom_parrainage && $('firstname')){
+			$('firstname').setValue(prenom_parrainage);
+		}
+		if(nom_parrainage && $('lastname')){
+			$('lastname').setValue(nom_parrainage);
+		}	
+		if(email_parrainage && $('email_address')){
+			$('email_address').setValue(email_parrainage);
+		}
+	});
+  //]]>
+</script>
+<?php endif; ?>

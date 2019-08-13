@@ -5,14 +5,11 @@
  * @author     Auguria
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Auguria_Sponsorship_Block_Customer_Widget_Name extends Mage_Customer_Block_Widget_Name
+class Auguria_Sponsorship_Block_Customer_Javascript extends Mage_Core_Block_Template
 {
     public function _construct()
     {
-        Mage_Customer_Block_Widget_Abstract::_construct();
-
-        // default template location
-        $this->setTemplate('auguria/sponsorship/customer/widget/name.phtml');
+        $this->setTemplate('auguria/sponsorship/customer/javascript.phtml');
     }
     
     public function getInvit($param)
@@ -30,4 +27,9 @@ class Auguria_Sponsorship_Block_Customer_Widget_Name extends Mage_Customer_Block
     	}
     	return $value;
     }
+    
+    public function isJs(){
+    	return true;
+    }
+    
 }
