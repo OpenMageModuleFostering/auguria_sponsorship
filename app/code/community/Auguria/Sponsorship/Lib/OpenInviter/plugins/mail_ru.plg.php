@@ -1,13 +1,13 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Mail.ru',
-	'version'=>'1.1.4',
+	'version'=>'1.1.5',
 	'description'=>"Get the contacts from a Mail.ru account",
-	'base_version'=>'1.6.3',
+	'base_version'=>'1.8.0',
 	'type'=>'email',
 	'check_url'=>'http://www.mail.ru',
 	'requirement'=>'email',
-	'allowed_domains'=>array('/(in.com)/i','/(list.ru)/i','/(inbox.ru)/i','/(bk.ru)/i','/(mail.ru)/i'),
+	'allowed_domains'=>array('/(list.ru)/i','/(inbox.ru)/i','/(bk.ru)/i','/(mail.ru)/i'),
 	'imported_details'=>array('first_name','middle_name','last_name','nickname','email_1','email_2','email_3','organization','phone_mobile','phone_home','phone_work','fax','pager','address_home','address_work','website','address_city','address_state','address_country','postcode_home','isq_messenger','skype_messenger','yahoo_messenger','msn_messenger','aol_messenger','other_messenger'),
 	);
 /**

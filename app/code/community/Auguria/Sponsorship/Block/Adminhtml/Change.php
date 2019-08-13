@@ -10,7 +10,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Change extends Mage_Adminhtml_Block_Wi
 	public function __construct()
 	{
 		$this->_controller = 'adminhtml_change';
-		$this->_blockGroup = 'sponsorship';
+		$this->_blockGroup = 'auguria_sponsorship';
 		$this->_headerText = $this->__('Points exchanges list');
 		parent::__construct();
 		$this->removeButton('add');

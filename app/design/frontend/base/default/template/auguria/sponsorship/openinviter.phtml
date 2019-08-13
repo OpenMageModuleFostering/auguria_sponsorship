@@ -1,0 +1,76 @@
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+ <?php
+ if (Mage::getStoreConfig('auguria_sponsorship/open_inviter/open_inviter_enabled')==true):
+ ?>
+<div id="messages_openinviter"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
+<form action="<?php echo $this->getUrl('sponsorship/openinviter/import'); ?>" id="openinviter" method="post">
+    <div class="fieldset open_inviter_options">
+        <h2 class="legend"><?php echo $this->__('Select your provider and sign in:') ?></h2>
+        <?php
+        		$step = $this->getOpenInviterStep();
+        		$oi_services = $this->getOpenIniviterPlugins();
+        		$oi_types = $this->getOpenInviterTypes();
+	        	if ($step=='get_contacts')
+				{
+		?>
+		<ul class="form-list" id="open_inviter_options">
+        	<li>
+				<div class="left">
+                	<label for="email_box" class="required"><em>*</em><?php echo $this->__('Your login:') ?></label><br/>
+					<div>
+						<input name="email_box" type="text" class="input-text required-entry" id="email_box" value="<?php echo $this->getOpenInviterEmailBox(); ?>" />
+					</div>
+					<div id="email_box_alert" style="display:none;" class="validation-advice"><?php echo $this->__('Field is required.') ?></div>				
+				</div>
+			</li>
+			<li>
+				<div class='left'>
+					<label for="password_box" class="required"><em>*</em><?php echo $this->__('Password:') ?></label><br/>
+					<div><input name="password_box" type="password" class="input-text required-entry" id="password_box" value=""/></div>
+				</div>
+			</li>
+			<li>
+				<div class="left">
+					<label for="provider_box" class="required"><em>*</em><?php echo $this->__('Address book provider:') ?></label><br/>
+					<select class='select required-entry' name='provider_box' id='provider_box'><option value=''><?php echo $this->__('Choose your provider'); ?></option>
+		<?php
+		/* With social networking
+					foreach ($oi_services as $type=>$providers)	
+					{
+						echo "<optgroup label='".$this->__($oi_types[$type])."'>";
+						foreach ($providers as $provider=>$details)
+							echo "<option value='{$provider}'".($this->getOpenInviterProviderBox() == $provider ? 'selected' : '').">{$details['name']}</option>";
+						echo "</optgroup>";
+					}
+		*/
+		//Without socialnetworking
+					foreach ($oi_services['email'] as $provider=>$details)	
+					{
+						echo "<option value='{$provider}'".($this->getOpenInviterProviderBox() == $provider ? 'selected' : '').">{$details['name']}</option>";
+					}		
+		?>
+					</select>
+				</div>
+			</li>
+		</ul>		
+		<div class="buttons-set">
+			<button class="button" type="submit"><span><?php echo $this->__('Import Contacts') ?></span></button>
+			<input type='hidden' name='step' value='get_contacts' />
+		</div>
+    </div>
+		<?php
+				}
+		?>
+</form>
+<?php endif; ?>
+<script type="text/javascript">
+	var openinviter = new VarienForm('openinviter', true);
+</script> 

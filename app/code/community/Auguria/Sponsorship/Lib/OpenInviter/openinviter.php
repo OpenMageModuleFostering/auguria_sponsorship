@@ -11,7 +11,7 @@
 class openinviter
 	{
 	public $pluginTypes=array('email'=>'Email Providers','social'=>'Social Networks');
-	private $version='1.9.1';
+	private $version='1.9.4';
 	private $configStructure=array(
 		'username'=>array('required'=>true,'default'=>''),
 		'private_key'=>array('required'=>true,'default'=>''),
@@ -104,7 +104,8 @@ class openinviter
 	private function statsOpenDB()
 		{
 		if (!$this->settings['stats']) return true;
-		if ($this->statsDB=sqlite_open($this->basePath.'/openinviter_stats.sqlite',0666)) return true;
+		if (function_exists('sqlite_open')) 
+			if ($this->statsDB=sqlite_open($this->basePath.'/openinviter_stats.sqlite',0666)) return true;
 		return false;
 		}
 	
@@ -142,74 +143,54 @@ class openinviter
 	 * @param string $plugin_name The name of the plugin being started
 	 */	  
 	public function startPlugin($plugin_name,$getPlugins=false)
-	{
-		if (!$getPlugins)
-			$this->currentPlugin=$this->availablePlugins[$plugin_name];
-		
-		if (file_exists($this->basePath."/postinstall.php"))
 		{
-			$this->internalError="You have to delete postinstall.php before using OpenInviter";
-			return false;
-		}
-		elseif (!$this->configOK)			
-			return false;
-		elseif (!$this->statsCheck())
-			return false;
+		if (!$getPlugins) $this->currentPlugin=$this->availablePlugins[$plugin_name];
+		if (file_exists($this->basePath."/postinstall.php")) { $this->internalError="You have to delete postinstall.php before using OpenInviter";return false; }
+		elseif (!$this->configOK) return false;
+		elseif (!$this->statsCheck()) return false;
 		elseif ($this->settings['hosted'])
-		{
-			if (!file_exists($this->basePath."/plugins/_hosted.plg.php"))
-				$this->internalError="Invalid service provider";
-			else
 			{
-				if (!class_exists('_hosted'))
-					require_once($this->basePath."/plugins/_hosted.plg.php");
-				if ($getPlugins)
+			if (!file_exists($this->basePath."/plugins/_hosted.plg.php")) $this->internalError="Invalid service provider";
+			else
 				{
+				if (!class_exists('_hosted')) require_once($this->basePath."/plugins/_hosted.plg.php");
+				if ($getPlugins)
+					{
 					$this->servicesLink=new _hosted($plugin_name);
 					$this->servicesLink->settings=$this->settings;
 					$this->servicesLink->base_version=$this->version;
 					$this->servicesLink->base_path=$this->basePath;
-				}
+					}
 				else
-				{
+					{
 					$this->plugin=new _hosted($plugin_name);
 					$this->plugin->settings=$this->settings;
 					$this->plugin->base_version=$this->version;
 	    			$this->plugin->base_path=$this->basePath;
 	    			$this->plugin->hostedServices=$this->getPlugins();
+					}
 				}
 			}
-		}
 		elseif (file_exists($this->basePath."/plugins/{$plugin_name}.plg.php"))
-		{
-			$ok=true;
-			if (!class_exists($plugin_name))
 			{
-				require_once($this->basePath."/plugins/{$plugin_name}.plg.php");
-			}
+			$ok=true;
+			if (!class_exists($plugin_name)) require_once($this->basePath."/plugins/{$plugin_name}.plg.php");
 			$this->plugin=new $plugin_name();
     		$this->plugin->settings=$this->settings;
     		$this->plugin->base_version=$this->version;
     		$this->plugin->base_path=$this->basePath;
     		$this->currentPlugin=$this->availablePlugins[$plugin_name];
 			if (file_exists($this->basePath."/conf/{$plugin_name}.conf")) 
-			{
+				{
 				include($this->basePath."/conf/{$plugin_name}.conf");
 				if (empty($enable)) $this->internalError="Invalid service provider";
 				if (!empty($messageDelay)) $this->plugin->messageDelay=$messageDelay; else  $this->plugin->messageDelay=1;
-				if (!empty($maxMessages))
-					$this->plugin->maxMessages=$maxMessages;
-				else
-					$this->plugin->maxMessages=10;
+				if (!empty($maxMessages)) $this->plugin->maxMessages=$maxMessages; else $this->plugin->maxMessages=10;
 				}
 			}
-		else
-		{
-			$this->internalError="Invalid service provider";
-			return false;
-		}
+		else { $this->internalError="Invalid service provider";return false; }
 		return true;
-	}
+		}
 	
 	/**
 	 * Stop the internal plugin

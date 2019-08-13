@@ -1,0 +1,33 @@
+<!-- 
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<?php
+$mode = Mage::helper('auguria_sponsorship/config')->getModuleMode();
+if ($mode=='sponsorship'
+|| $mode=='separated'):
+	$customerId = $this->getUserId();
+	$customer = Mage::getModel('customer/customer')->load($customerId);	
+	$nbSponsor = $this->getNbParrainages ($customerId);	
+?>
+<div class="box-account box-sponsorship">
+	<div class="box-head">
+		<h2><?php echo $this->__('Sponsorship'); ?></h2>
+		<a href="<?php echo $this->getUrl('sponsorship/points/sponsorship') ?>"><?php echo $this->__('Details')?></a>
+	</div>
+	<div class="col1-set">
+		<?php echo $this->__('Sponsorship points:') ?> <?php echo floor($customer->getSponsorPoints()); ?>
+		<br/>
+		<?php echo $this->__('Active godsons:') ?> <?php echo $nbSponsor; ?>
+		<br/>
+		<a href="<?php echo $this->getUrl('sponsorship_info') ?>"><?php echo $this->__('Principles of Sponsorship')?></a>
+		<br/>
+		<a href="<?php echo $this->getUrl('sponsorship') ?>"><?php echo $this->__('Sponsor friends')?></a>
+		<br/>
+	</div>
+</div>
+<?php endif;?>

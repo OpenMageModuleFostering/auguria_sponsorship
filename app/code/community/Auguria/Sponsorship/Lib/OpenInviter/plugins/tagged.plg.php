@@ -1,7 +1,7 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Tagged',
-	'version'=>'1.0.9',
+	'version'=>'1.1.0',
 	'description'=>"Get the contacts from a Tagged.com account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',
@@ -137,7 +137,7 @@ class tagged extends openinviter_base
 		foreach ($contacts as $id=>$username)
 			{
 			$countMessages++;
-			$form_action='http://www.tagged.com/handle_inbox.html';
+			$form_action="http://www.tagged.com/messages.html?action=compose&rid={$id}";			
 			$post_elements=array('recipient_id'=>$id,
 								 'subject'=>$message['subject'],
 								 'mce_editor_0_fontSizeSelect'=>0,

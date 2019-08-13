@@ -29,7 +29,7 @@ $openinviter_settings=array(
 "stats"=>"",
 "plugins_cache_time"=>"1800",
 "plugins_cache_file"=>"oi_plugins.php",
-"update_files"=>"0",
+"update_files"=>true,
 "stats_user"=>"",
 "stats_password"=>"");
 ?>';

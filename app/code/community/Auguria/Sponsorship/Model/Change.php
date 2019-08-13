@@ -10,6 +10,6 @@ class Auguria_Sponsorship_Model_Change extends Mage_Core_Model_Abstract
     public function _construct()
     {
         parent::_construct();
-        $this->_init('sponsorship/change');
+        $this->_init('auguria_sponsorship/change');
     }
 }

@@ -10,7 +10,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Link extends Mage_Adminhtml_Block_Widg
   public function __construct()
   {    
     $this->_controller = 'adminhtml_link';
-    $this->_blockGroup = 'sponsorship';
+    $this->_blockGroup = 'auguria_sponsorship';
     $this->_headerText = $this->__('Sponsorships list');
     parent::__construct();
     $this->removeButton('add');

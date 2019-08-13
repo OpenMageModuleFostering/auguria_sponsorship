@@ -9,18 +9,18 @@ class Auguria_Sponsorship_Adminhtml_LinkController extends Mage_Adminhtml_Contro
 {
 
 	protected function _initAction() {
-		$this->loadLayout()
-			->_setActiveMenu('link/items')
-			->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
-		
+		$layout = $this->loadLayout();
+		$layout->_setActiveMenu('link/items');
+		$layout->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 		return $this;
-	}   
- 
-	public function indexAction() {
+	}
+
+	public function indexAction()
+	{
 		$this->_initAction()
 			->renderLayout();
 	}
-	
+
 	public function editAction() {
 		$id     = $this->getRequest()->getParam('id');
 		$model  = Mage::getModel('customer/customer')->load($id);
@@ -40,12 +40,12 @@ class Auguria_Sponsorship_Adminhtml_LinkController extends Mage_Adminhtml_Contro
 
 			$this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-			$this->_addContent($this->getLayout()->createBlock('sponsorship/adminhtml_link_edit'))
-				->_addLeft($this->getLayout()->createBlock('sponsorship/adminhtml_link_edit_tabs'));
+			$this->_addContent($this->getLayout()->createBlock('auguria_sponsorship/adminhtml_link_edit'))
+				->_addLeft($this->getLayout()->createBlock('auguria_sponsorship/adminhtml_link_edit_tabs'));
 
 			$this->renderLayout();
 		} else {
-			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__("This sponsorship doesn't exist"));
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__("This sponsorship doesn't exist"));
 			$this->_redirect('*/*/');
 		}
 	}
@@ -58,7 +58,7 @@ class Auguria_Sponsorship_Adminhtml_LinkController extends Mage_Adminhtml_Contro
                     $model = Mage::getModel('customer/customer')->load($this->getRequest()->getParam('entity_id'));
                     $model->setSponsor($this->getRequest()->getParam('sponsor'));
                     $model->save();
-                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sponsorship')->__('Sponsorship was successfully saved'));
+                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('auguria_sponsorship')->__('Sponsorship was successfully saved'));
                     Mage::getSingleton('adminhtml/session')->setFormData(false);
 
                     if ($this->getRequest()->getParam('back')) {
@@ -76,13 +76,13 @@ class Auguria_Sponsorship_Adminhtml_LinkController extends Mage_Adminhtml_Contro
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__('Unable to find sponsorship to save'));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__('Unable to find sponsorship to save'));
             $this->_redirect('*/*/');
 	}
          public function exportCsvAction()
         {
             $fileName   = 'sponsorship.csv';
-            $content    = $this->getLayout()->createBlock('sponsorship/adminhtml_link_grid')
+            $content    = $this->getLayout()->createBlock('auguria_sponsorship/adminhtml_link_grid')
                 ->getCsv();
 
             $this->_sendUploadResponse($fileName, $content);
@@ -91,7 +91,7 @@ class Auguria_Sponsorship_Adminhtml_LinkController extends Mage_Adminhtml_Contro
         public function exportXmlAction()
         {
             $fileName   = 'sponsorship.xml';
-            $content    = $this->getLayout()->createBlock('sponsorship/adminhtml_link_grid')
+            $content    = $this->getLayout()->createBlock('auguria_sponsorship/adminhtml_link_grid')
                 ->getXml();
 
             $this->_sendUploadResponse($fileName, $content);

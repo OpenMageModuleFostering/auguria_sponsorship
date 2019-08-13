@@ -11,29 +11,28 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
     {
         parent::preDispatch();
 		//verification que le module de parrainage est activé
-        if( !Mage::getStoreConfig('sponsorship/sponsor/sponsor_enabled')) {
+        if( !Mage::helper('auguria_sponsorship/config')->isSponsorshipEnabled()
+        	&& !Mage::helper('auguria_sponsorship/config')->isAccumulatedEnabled() ){
             $this->_redirect('');
         }
         //verification que l'utilisateur est logué
     	elseif (!Mage::getSingleton('customer/session')->isLoggedIn()) {
-    		$this->_redirectUrl(Mage::helper('customer')->getAccountUrl());
+    		$this->_redirect('customer/account');
         }
         //verification que l'envoie de mail est autorisé sans commande
-        elseif (!Mage::getStoreConfig('sponsorship/sponsor/sponsor_optional_order') &&
-        		!Mage::helper('sponsorship/data')->haveOrder()) {
-        	//vérification qu'une commande a été passée
-        	if (!Mage::helper('sponsorship/data')->haveOrder()) {
-        		$this->_redirecturl(Mage::helper('customer')->getAccountUrl());
-        	}
+        //et qu'une commande a été passée
+        elseif (!Mage::helper('auguria_sponsorship/config')->isInvitAllowedWithoutOrder()
+        		&& !Mage::helper('auguria_sponsorship')->haveOrder()) {
+        	$this->_redirect('customer/account');
         }
     }
     
     public function indexAction()
     {
-    	$inviter = Mage::getModel('sponsorship/openinviter');
+    	$inviter = Mage::getModel('auguria_sponsorship/openinviter');
     	$session = Mage::getSingleton('customer/session');
     	$old_form = Mage::getSingleton('customer/session')->getData('openinviter_form');
-    	mage::log(Mage::getSingleton('customer/session')->getData('openinviter_form'));
+    	
     	if (!isset($old_form))
     		$old_form = array();
     		
@@ -52,16 +51,15 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
     	$session->setData('openinviter_form', $form);
     	
         $this->loadLayout();
-        $this->getLayout()->getBlock('sponsorship/openinviter');
+        $this->getLayout()->getBlock('auguria_sponsorship/openinviter');
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('catalog/session');
         $this->renderLayout();
-        
+       
         //Ajout d'un message d'erreur si l'envoie de mail n'est pas autorisé sans commande et que le client n'a pas commandé
-    	if (!Mage::getStoreConfig('sponsorship/sponsor/sponsor_optional_order')) {
-        	if (!Mage::helper('sponsorship/data')->haveOrder()) {
-        		Mage::getSingleton('customer/session')->addError(Mage::helper('sponsorship')->__('You must already have purchased to sponsor.'));
-        	}
+    	if (!!Mage::helper('auguria_sponsorship/config')->isInvitAllowedWithoutOrder()
+    		&& !Mage::helper('auguria_sponsorship')->haveOrder()) {
+			Mage::getSingleton('customer/session')->addError(Mage::helper('auguria_sponsorship')->__('You must already have purchased to sponsor.'));
         }
     }
     
@@ -75,18 +73,18 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
 	        if ( $post )
 	        {
 	        	if (empty($post['email_box']))
-					Mage::getSingleton('customer/session')->addError(Mage::helper('sponsorship')->__("Email missing !"));
+					Mage::getSingleton('customer/session')->addError(Mage::helper('auguria_sponsorship')->__("Email missing !"));
 				if (empty($post['password_box']))
-					Mage::getSingleton('customer/session')->addError(Mage::helper('sponsorship')->__("Password missing !"));
+					Mage::getSingleton('customer/session')->addError(Mage::helper('auguria_sponsorship')->__("Password missing !"));
 				if (empty($post['provider_box']))
-					Mage::getSingleton('customer/session')->addError(Mage::helper('sponsorship')->__("Provider missing !"));
+					Mage::getSingleton('customer/session')->addError(Mage::helper('auguria_sponsorship')->__("Provider missing !"));
 				
 				$messages = Mage::getSingleton('customer/session')->getMessages();
 				$errors = $messages->getErrors();
 				$form['step']= 'get_contacts';
 				if (!count($errors))
 				{
-					$inviter = Mage::getModel('sponsorship/openinviter');
+					$inviter = Mage::getModel('auguria_sponsorship/openinviter');
 					$inviter->getOpenIniviterPlugins();
 					include_once (Mage::getModuleDir('', 'Auguria_Sponsorship').'/Lib/OpenInviter/plugins/'.$post['provider_box'].'.plg.php');				
 					$result = $inviter->startPlugin($post['provider_box']);				
@@ -94,17 +92,17 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
 					
 					$internal = $inviter->getInternalError();
 					if ($internal)
-						Mage::getSingleton('customer/session')->addError(Mage::helper('sponsorship')->__($internal));
+						Mage::getSingleton('customer/session')->addError(Mage::helper('auguria_sponsorship')->__($internal));
 					
 					elseif (!$inviter->login($post['email_box'],$post['password_box']))
 					{
 						$internal=$inviter->getInternalError();
 						$message = ($internal ? $internal : "Login failed. Please check the email and password you have provided and try again later !");
-						Mage::getSingleton('customer/session')->addError(Mage::helper('sponsorship')->__($message));				
+						Mage::getSingleton('customer/session')->addError(Mage::helper('auguria_sponsorship')->__($message));				
 					}
 					elseif (false===$contacts=$inviter->getMyContacts())
 					{
-						Mage::getSingleton('customer/session')->addError(Mage::helper('sponsorship')->__("Unable to get contacts !"));
+						Mage::getSingleton('customer/session')->addError(Mage::helper('auguria_sponsorship')->__("Unable to get contacts !"));
 					}
 					else
 					{
@@ -120,7 +118,7 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
 				if ($form['step']=='send_invites')
 				{       
 	            	$this->loadLayout();
-			        $this->getLayout()->getBlock('sponsorship/openinviter');
+			        $this->getLayout()->getBlock('auguria_sponsorship/openinviter');
 			        $this->_initLayoutMessages('customer/session');
 			        $this->_initLayoutMessages('catalog/session');
 			        $this->renderLayout();	
@@ -135,7 +133,7 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
     	}
     	catch (Exception $e)
     	{
-    		Mage::getSingleton('customer/session')->addError(Mage::helper('sponsorship')->__("An exception occured !"));
+    		Mage::getSingleton('customer/session')->addError(Mage::helper('auguria_sponsorship')->__("An exception occured !"));
     		$this->_redirect("*/*/");
     	}
     }

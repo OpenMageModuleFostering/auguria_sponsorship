@@ -1,7 +1,7 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'FastMail',
-	'version'=>'1.0.8',
+	'version'=>'1.0.9',
 	'description'=>"Get the contacts from a FastMail account",
 	'base_version'=>'1.6.3',
 	'type'=>'email',
@@ -142,11 +142,17 @@ class fastmail extends openinviter_base
 			return false;
 			}
 		else $url=$this->login_ok;
-		$res=$this->get($url,true);
-		
+		$res=$this->get($url,true);		
 		$form_action=$this->getElementString($res,'action="','"');
-		$post_elements=$this->getHiddenElements($res);$post_elements['MSignal_UA-*U-1']='Upload/Download';
-		$res=$this->post($form_action,$post_elements,true);
+		$post_elements=$this->getHiddenElements($res);
+		$post_elements["_charset"]="UTF-8";
+		$post_elements['FAD-ST']=false;
+		$post_elements['FAD-AL-SortBy']='SNM';
+		$post_elements['nojs']=false;
+		$post_elements['MSignal_UA-*U-1']=false;
+		print_r($post_elements);
+		echo $res=$this->post($form_action,$post_elements,true);
+		exit;
 		if ($this->checkResponse('contacts_page',$res))
 			$this->updateDebugBuffer('contacts_page',"{$form_action}",'POST',true,$post_elements);
 		else 
@@ -166,7 +172,7 @@ class fastmail extends openinviter_base
 		$post_elements['SAD-AL-DR']=0;
 		$post_elements['FUA-DownloadFormat']='OL';
 		$post_elements['FUA-Group']=0;
-		$post_elements['MSignal_UA-Download*']='';
+		$post_elements['MSignal_UA-Download*']='';	
 		$res=$this->post($form_action,$post_elements);
 		if ($this->checkResponse('contacts_file',$res))
 			$this->updateDebugBuffer('contacts_file',"{$form_action}",'POST',true,$post_elements);

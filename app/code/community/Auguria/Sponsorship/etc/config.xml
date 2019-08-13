@@ -10,7 +10,7 @@
 <config>
     <modules>
         <Auguria_Sponsorship>
-            <version>1.0.4</version>
+            <version>1.2.8</version>
         </Auguria_Sponsorship>
     </modules>
     <frontend>
@@ -21,19 +21,19 @@
             <sponsorship_openinviter>/sponsorship/openinviter/</sponsorship_openinviter>
         </secure_url>
         <routers>
-            <sponsorship>
+            <auguria_sponsorship>
                 <use>standard</use>
                 <args>
                     <module>Auguria_Sponsorship</module>
                     <frontName>sponsorship</frontName>
                 </args>
-            </sponsorship>
+            </auguria_sponsorship>
         </routers>
         <layout>
             <updates>
-                <sponsorship>
-                    <file>sponsorship.xml</file>
-                </sponsorship>
+                <auguria_sponsorship>
+                    <file>auguria/sponsorship.xml</file>
+                </auguria_sponsorship>
             </updates>
         </layout>
         <translate>
@@ -45,46 +45,117 @@
                 </Auguria_Sponsorship>
             </modules>
         </translate>
+        <events>        	
+            <checkout_submit_all_after>
+                <observers>
+            <!-- Création éventuelle du lien de parrainage lors de la commande -->
+                    <auguria_sponsorship_set_sponsorship>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>setSponsorOnOrder</method>
+                    </auguria_sponsorship_set_sponsorship>
+            <!-- Remove points in customer accounts if auguria_sponsorship_discount is set, log and insert in change -->
+	                 <auguria_sponsorship_remove_cart_points_exchange>
+	                     <type>singleton</type>
+	                     <class>Auguria_Sponsorship_Model_Observer</class>
+	                     <method>cartPointsExchange</method>
+	                 </auguria_sponsorship_remove_cart_points_exchange>
+                </observers>
+            </checkout_submit_all_after>
+			<!-- Affiliation sur toutes les pages -->
+			<controller_action_predispatch>
+                <observers>
+                    <auguria_sponsorship_affiliate>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>affiliate</method>
+                    </auguria_sponsorship_affiliate>
+                </observers>
+			</controller_action_predispatch>
+            
+            <customer_save_before>
+            	<observers>
+            <!-- Add newsletter points while customer register -->
+                    <auguria_sponsorship_register_newsletter>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>addNewsletterPoints</method>
+                    </auguria_sponsorship_register_newsletter>
+            <!-- Set sponsor while customer register -->
+                    <auguria_sponsorship_register_customer>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>setSponsorOnRegister</method>
+                    </auguria_sponsorship_register_customer>
+            <!-- Add specific fields to customer -->               
+                    <auguria_sponsorship_update_frontend_fields>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>frontUpdateSponsorshipFields</method>
+                    </auguria_sponsorship_update_frontend_fields>
+                </observers>
+            </customer_save_before>
+            <!-- Update paypal cart. Thanks to Bertrand T -->
+            <paypal_prepare_line_items>
+				<observers>
+					<auguria_sponsorship_update_paypal>
+						<type>singleton</type>
+						<class>Auguria_Sponsorship_Model_Observer</class>
+						<method>updatePaypal</method>
+					</auguria_sponsorship_update_paypal>
+				</observers>
+             </paypal_prepare_line_items>
+             <!-- refund fidelity points. Thanks to Bertrand T -->
+             <sales_order_payment_cancel>
+                 <observers>
+					<auguria_sponsorship_payment_canceled>
+                        <type>singleton</type>
+						<class>Auguria_Sponsorship_Model_Observer</class>
+						<method>paymentCanceled</method>
+					</auguria_sponsorship_payment_canceled>
+                 </observers>
+             </sales_order_payment_cancel>
+        </events>
     </frontend>
     <admin>
         <routers>
-			<sponsorship>
+			<auguria_sponsorship>
 				<use>admin</use>
 				<args>
 					<module>Auguria_Sponsorship</module>
 					<frontName>sponsorship</frontName>
 				</args>
-			</sponsorship>
+			</auguria_sponsorship>
         </routers>
     </admin>
     <adminhtml>
         <menu>
-            <sponsorship module="sponsorship">
+            <auguria_sponsorship module="auguria_sponsorship">
                 <title>Fidelity and Sponsorship</title>
                 <sort_order>71</sort_order>
                 <children>
-                        <invitations module="sponsorship">
+                        <invitations module="auguria_sponsorship">
                                 <title>Invitations list</title>
                                 <sort_order>0</sort_order>
-                                <action>sponsorship/adminhtml_sponsorship</action>
+                                <action>auguria_sponsorship/adminhtml_sponsorship</action>
                         </invitations>
-                        <parrainages module="sponsorship">
+                        <parrainages module="auguria_sponsorship">
                                 <title>Sponsorships list</title>
                                 <sort_order>1</sort_order>
-                                <action>sponsorship/adminhtml_link</action>
+                                <action>auguria_sponsorship/adminhtml_link</action>
                         </parrainages>
-                        <echanges module="sponsorship">
+                        <echanges module="auguria_sponsorship">
                                 <title>Points exchanges list</title>
                                 <sort_order>2</sort_order>
-                                <action>sponsorship/adminhtml_change</action>
+                                <action>auguria_sponsorship/adminhtml_change</action>
                         </echanges>
-                        <openinviter module="sponsorship">
+                        <openinviter module="auguria_sponsorship">
                                 <title>Open inviter providers</title>
                                 <sort_order>3</sort_order>
-                                <action>sponsorship/adminhtml_openinviter</action>
+                                <action>auguria_sponsorship/adminhtml_openinviter</action>
                         </openinviter>
                 </children>
-            </sponsorship>
+            </auguria_sponsorship>
         </menu>
 		<acl>
             <resources>
@@ -97,42 +168,89 @@
                             <children>
                                 <config>
                                     <children>
-                                        <sponsorship translate="title" module="sponsorship">
+                                        <auguria_sponsorship translate="title" module="auguria_sponsorship">
                                             <title>Module Sponsorship</title>
-                                        </sponsorship>
+                                        </auguria_sponsorship>
                                     </children>
                                 </config>
                             </children>
                         </system>
-                        <sponsorship module="sponsorship">
+                        <auguria_sponsorship module="auguria_sponsorship">
                             <title>Sponsorship</title>
                             <sort_order>80</sort_order>
                             <children>
-                                <invitations module="sponsorship">
+                                <invitations module="auguria_sponsorship">
                                     <title>Invitations list</title>
                                 </invitations>
-                                <parrainages module="sponsorship">
+                                <parrainages module="auguria_sponsorship">
                                     <title>Sponsorships list</title>
                                 </parrainages>
-                                <echanges module="sponsorship">
+                                <echanges module="auguria_sponsorship">
                                     <title>Points exchanges list</title>
                                 </echanges>
-                                <openinviter module="sponsorship">
+                                <openinviter module="auguria_sponsorship">
                                 	<title>Open inviter providers</title>
                         		</openinviter>
                             </children>
-                        </sponsorship>
+                        </auguria_sponsorship>
                     </children>
                 </admin>
             </resources>
         </acl>
 		<layout>
 			<updates>
-				<sponsorship>
-					<file>sponsorship.xml</file>
-				</sponsorship>
+				<auguria_sponsorship>
+					<file>auguria/sponsorship.xml</file>
+				</auguria_sponsorship>
 			</updates>
 		</layout>
+		<events>
+			<customer_save_before>
+            	<observers>
+                    <auguria_sponsorship_update_admin_fields>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>adminUpdateSponsorshipFields</method>
+                    </auguria_sponsorship_update_admin_fields>
+                </observers>
+            </customer_save_before>
+			<customer_save_after>
+            	<observers>
+                    <auguria_sponsorship_update_admin_points>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>adminUpdatePoints</method>
+                    </auguria_sponsorship_update_admin_points>
+                </observers>
+            </customer_save_after>
+            <sales_order_creditmemo_save_before>
+            	<observers>
+            		<auguria_sponsorship_create_creditmemo>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>cancelPointsOnCreditMemo</method>
+            		</auguria_sponsorship_create_creditmemo>
+            	</observers>
+            </sales_order_creditmemo_save_before>
+            <sales_order_save_before>
+            	<observers>
+            		<auguria_sponsorship_cancel_order>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>cancelPointsOnOrderCanceled</method>
+            		</auguria_sponsorship_cancel_order>
+            	</observers>
+            </sales_order_save_before>
+            <adminhtml_block_salesrule_actions_prepareform>
+            	<observers>
+            		<auguria_sponsorship_salesrules_add_action>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>salesRulesAddAction</method>
+            		</auguria_sponsorship_salesrules_add_action>
+            	</observers>
+            </adminhtml_block_salesrule_actions_prepareform>
+    	</events>
 		<translate>
 			<modules>
 				<Auguria_Sponsorship>
@@ -144,39 +262,35 @@
 		</translate>
     </adminhtml>
     <global>
-        <events>
-        <!-- Création éventuelle du lien de parrainage lors de la commande -->
-            <checkout_type_onepage_save_order_after>
-                <observers>
-                    <set_sponsorship>
-                        <type>singleton</type>
-                        <class>Auguria_Sponsorship_Model_Observer</class>
-                        <method>setSponsor</method>
-                    </set_sponsorship>
-                </observers>
-            </checkout_type_onepage_save_order_after>			
-			<!-- Affiliation sur toutes les pages -->
-			<controller_action_predispatch>
-                <observers>
-                    <affiliate>
-                        <type>singleton</type>
-                        <class>Auguria_Sponsorship_Model_Observer</class>
-                        <method>affiliate</method>
-                    </affiliate>
-                </observers>
-			</controller_action_predispatch>
-            <!-- Incrémentation des points lors du paiement -->
+        <events>            
             <sales_order_payment_pay>
                 <observers>
+                	<!-- Incrémentation des points lors du paiement -->
                     <calc_points>
                         <type>singleton</type>
                         <class>Auguria_Sponsorship_Model_Observer</class>
                         <method>calcPoints</method>
                     </calc_points>
+                    <!-- Add first order points -->
+                    <auguria_sponsorship_first_order>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>addFirstOrderPoints</method>
+                    </auguria_sponsorship_first_order>
                 </observers>
             </sales_order_payment_pay>
+            <salesrule_validator_process>
+            	<observers>
+            		<auguria_sponsorship_points_calculation_process>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>validatorPointsCalculationProcess</method>            		
+            		</auguria_sponsorship_points_calculation_process>
+            	</observers>
+            </salesrule_validator_process>
     	</events>
     	<fieldsets>
+    		<!-- copies winning points from quote items to order items -->
             <sales_convert_quote_item>
                 <cart_fidelity_points>
                     <to_order_item>*</to_order_item>
@@ -185,184 +299,296 @@
                     <to_order_item>*</to_order_item>
                 </cart_sponsor_points>
             </sales_convert_quote_item>
-            <sales_convert_order_item>
-                <cart_fidelity_points>
-                    <to_quote_item>*</to_quote_item>
-                </cart_fidelity_points>
-                <cart_sponsor_points>
-                    <to_quote_item>*</to_quote_item>
-                </cart_sponsor_points>
-            </sales_convert_order_item>
+            
+<!--     inutile        <sales_convert_order_item> -->
+<!--                 <cart_fidelity_points> -->
+<!--                     <to_quote_item>*</to_quote_item> -->
+<!--                 </cart_fidelity_points> -->
+<!--                 <cart_sponsor_points> -->
+<!--                     <to_quote_item>*</to_quote_item> -->
+<!--                 </cart_sponsor_points> -->
+<!--             </sales_convert_order_item> -->
+
+            <sales_convert_quote_address>
+            <!-- copies discount amounts from quote address to order -->
+                <base_auguria_sponsorship_discount_amount>
+                	<to_order>*</to_order>
+                </base_auguria_sponsorship_discount_amount>
+                <auguria_sponsorship_discount_amount>
+                	<to_order>*</to_order>
+                </auguria_sponsorship_discount_amount>
+            <!-- copies discount points from quote address to order -->
+            	<auguria_sponsorship_fidelity_points_used>
+                	<to_order>*</to_order>
+            	</auguria_sponsorship_fidelity_points_used>
+            	<auguria_sponsorship_sponsor_points_used>
+                	<to_order>*</to_order>
+            	</auguria_sponsorship_sponsor_points_used>
+            	<auguria_sponsorship_accumulated_points_used>
+                	<to_order>*</to_order>
+            	</auguria_sponsorship_accumulated_points_used>
+            </sales_convert_quote_address>
+            <!-- copies discount amounts from order to invoice/shipment/creditmemo -->
+            <sales_convert_order>
+                <base_auguria_sponsorship_discount_amount>
+                	<to_invoice>*</to_invoice>
+                	<to_shipment>*</to_shipment>
+                	<to_cm>*</to_cm>
+                </base_auguria_sponsorship_discount_amount>
+                <auguria_sponsorship_discount_amount>
+                	<to_invoice>*</to_invoice>
+                	<to_shipment>*</to_shipment>
+                	<to_cm>*</to_cm>
+                </auguria_sponsorship_discount_amount>
+            </sales_convert_order>            
         </fieldsets>
-    	<rewrite>
-    		<auguria_sponsorship_customer_account>
-                <from><![CDATA[#^/customer/account/#]]></from><!-- si index à la place de account : ne pas mettre index -->
-                <to>/sponsorship/customer_account/</to>
-            </auguria_sponsorship_customer_account>
-        </rewrite>
         <models>
             <catalogrule_mysql4>
                 <rewrite>
                     <rule>Auguria_Sponsorship_Model_Mysql4_Rule</rule>
                 </rewrite>
             </catalogrule_mysql4>
-            <salesrule>
-            	<rewrite>
-            		<validator>Auguria_Sponsorship_Model_Validator</validator>
-            	</rewrite>
-            </salesrule>
-            <customer>
-            	<rewrite>
-            		<customer>Auguria_Sponsorship_Model_Customer_Customer</customer>
-            	</rewrite>
-            </customer>
-            <sponsorship>
+            <auguria_sponsorship>
                 <class>Auguria_Sponsorship_Model</class>
-                <resourceModel>sponsorship_mysql4</resourceModel>
-            </sponsorship>
-            <sponsorship_mysql4>
+                <resourceModel>auguria_sponsorship_mysql4</resourceModel>
+            </auguria_sponsorship>
+            <auguria_sponsorship_mysql4>
                 <class>Auguria_Sponsorship_Model_Mysql4</class>
                 <entities>
                     <sponsorship>
-                        <table>sponsorship</table>
+                        <table>auguria_sponsorship</table>
                     </sponsorship>
                     <catalogfidelitypoint>
-                        <table>catalogrule_product_fidelity_point</table>
+                        <table>auguria_catalogrule_product_fidelity_point</table>
                     </catalogfidelitypoint>
                     <catalogsponsorpoint>
-                        <table>catalogrule_product_sponsor_point</table>
+                        <table>auguria_catalogrule_product_sponsor_point</table>
                     </catalogsponsorpoint>
-                    <fidelitylog>
-                        <table>sponsorship_fidelity_log</table>
-                    </fidelitylog>
-                    <sponsorlog>
-                        <table>sponsorship_sponsor_log</table>
-                    </sponsorlog>
+                    <log>
+                        <table>auguria_sponsorship_log</table>
+                    </log>
                     <change>
-                        <table>sponsorship_change</table>
+                        <table>auguria_sponsorship_change</table>
                     </change>
-                    <link>
-                        <table>sponsorship_change</table>
-                    </link>
                     <sponsorshipopeninviter>
-                        <table>sponsorship_openinviter</table>
+                        <table>auguria_sponsorship_openinviter</table>
                     </sponsorshipopeninviter>
                 </entities>
-            </sponsorship_mysql4>
-            <!-- rewrite socialbookmarking url -->
+            </auguria_sponsorship_mysql4>
+            <!-- rewrite socialbookmarking url @todo:update-->
              <socialbookmarking>
                  <rewrite>
-                 	<bookmarks>Auguria_Sponsorship_Model_SocialBookmarking_Bookmarks</bookmarks>
+                 	<urls>Auguria_Sponsorship_Model_SocialBookmarking_Urls</urls>
                  </rewrite>
              </socialbookmarking>
         </models>
         <resources>
-            <sponsorship_setup>
+            <auguria_sponsorship_setup>
                 <setup>
                     <module>Auguria_Sponsorship</module>
+					<class>Auguria_Sponsorship_Model_Eav_Entity_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>
                 </connection>
-            </sponsorship_setup>
-            <sponsorship_write>
+            </auguria_sponsorship_setup>
+            <auguria_sponsorship_write>
                 <connection>
                     <use>core_write</use>
                 </connection>
-            </sponsorship_write>
-            <sponsorship_read>
+            </auguria_sponsorship_write>
+            <auguria_sponsorship_read>
                 <connection>
                     <use>core_read</use>
                 </connection>
-            </sponsorship_read>
+            </auguria_sponsorship_read>
         </resources>
         <blocks>
-            <sponsorship>
+            <auguria_sponsorship>
                 <class>Auguria_Sponsorship_Block</class>
-            </sponsorship>
-             <adminhtml>
-                 <rewrite>
-                     <promo_catalog_edit_tab_actions>Auguria_Sponsorship_Block_Promo_Catalog_Edit_Tab_Actions</promo_catalog_edit_tab_actions>
-                     <promo_quote_edit_tab_actions>Auguria_Sponsorship_Block_Promo_Quote_Edit_Tab_Actions</promo_quote_edit_tab_actions>
-                 </rewrite>
-             </adminhtml>
-             <customer>
+            </auguria_sponsorship>
+            <adminhtml>
+				<rewrite>
+					<!-- Rewrite promo catlog action to allow choosing auguria sponsorship actions -->
+					<promo_catalog_edit_tab_actions>Auguria_Sponsorship_Block_Promo_Catalog_Edit_Tab_Actions</promo_catalog_edit_tab_actions>
+					<!-- Rewrite Mage_Adminhtml_Block_Sales_Totals to display auguria sponsorship discount -->
+					<sales_order_totals>Auguria_Sponsorship_Block_Adminhtml_Sales_Order_Totals</sales_order_totals>
+					<sales_order_invoice_totals>Auguria_Sponsorship_Block_Adminhtml_Sales_Order_Invoice_Totals</sales_order_invoice_totals>
+                </rewrite>
+            </adminhtml>
+            <customer>
              	<rewrite>
+             		<!-- Rewrite customer form to prefill fields if cookie is set -->
              		<widget_name>Auguria_Sponsorship_Block_Customer_Widget_Name</widget_name>
              	</rewrite>
-             </customer>
+            </customer>
+			<sales>
+                <rewrite>
+                	<!-- Rewrite Mage_Sales_Block_Order_Totals to display auguria sponsorship discount -->
+                    <order_totals>Auguria_Sponsorship_Block_Sales_Order_Totals</order_totals>
+                </rewrite>
+            </sales>
         </blocks>
         <helpers>
-            <sponsorship>
+            <auguria_sponsorship>
                 <class>Auguria_Sponsorship_Helper</class>
-            </sponsorship>
+            </auguria_sponsorship>
         </helpers>
         <template>
             <email>
-                <sponsorship_email_invitation translate="label" module="sponsorship">
-                    <label>Sponsorship invitation</label>
-                    <file>sponsorship_invitation.html</file>
-                    <type>html</type>
-                </sponsorship_email_invitation>
-                <sponsorship_email_coupon translate="label" module="sponsorship">
+                <auguria_sponsorship_coupon_template translate="label" module="auguria_sponsorship">
                     <label>Sponsorship coupon</label>
-                    <file>sponsorship_coupon.html</file>
+                    <file>auguria/sponsorship/sponsorship_coupon.html</file>
                     <type>html</type>
-                </sponsorship_email_coupon>
+                </auguria_sponsorship_coupon_template>
+                <auguria_sponsorship_invitation_template translate="label" module="auguria_sponsorship">
+                    <label>Sponsorship invitation</label>
+                    <file>auguria/sponsorship/sponsorship_invitation.html</file>
+                    <type>html</type>
+                </auguria_sponsorship_invitation_template>
+                <auguria_sponsorship_sponsor_notification translate="label" module="auguria_sponsorship">
+                    <label>Sponsorship notification</label>
+                    <file>auguria/sponsorship/sponsorship_notification.html</file>
+                    <type>html</type>
+                </auguria_sponsorship_sponsor_notification>
+                <auguria_sponsorship_accumulated_notification translate="label" module="auguria_sponsorship">
+                    <label>Sponsorship notification(accumulated)</label>
+                    <file>auguria/sponsorship/sponsorship_notification.html</file>
+                    <type>html</type>
+                </auguria_sponsorship_accumulated_notification>
             </email>
         </template>
+        <sales>
+        	<quote>
+                <totals>
+                    <auguria_sponsorship_discount>
+                        <class>auguria_sponsorship/total_quote_discount</class>
+                        <after>tax,discount,shipping</after>
+                    </auguria_sponsorship_discount>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <auguria_sponsorship_discount>
+                        <class>auguria_sponsorship/total_invoice_discount</class>
+                        <after>tax,discount,shipping</after>
+                    </auguria_sponsorship_discount>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <auguria_sponsorship_discount>
+                        <class>auguria_sponsorship/total_creditmemo_discount</class>
+                        <after>tax,discount,shipping</after>
+                    </auguria_sponsorship_discount>
+                </totals>
+            </order_creditmemo>
+        </sales>
     </global>
 
     <default>
-        <sponsorship>
+        <sales>
+            <totals_sort>
+                <auguria_sponsorship_discount>25</auguria_sponsorship_discount>
+            </totals_sort>            
+        </sales>
+        <auguria_sponsorship>
+        	<general>
+        		<module_mode>separated</module_mode>        	
+        	</general>
+        	<accumulated>
+            	<accumulated_enabled>0</accumulated_enabled>
+        		<points_validity>0</points_validity>
+                <cash>1</cash>
+                <coupon>1</coupon>
+                <cart>0</cart>
+                <gift>0</gift>
+                <max_cash>350</max_cash>
+                <time_max_cash>90</time_max_cash>
+                <points_to_cash>1</points_to_cash>
+                <optional_order>1</optional_order>
+                <allow_invit_registred_users>1</allow_invit_registred_users>
+                <sponsor_link_validity>365</sponsor_link_validity>
+                <sponsor_levels>100</sponsor_levels>
+                <sponsor_percent>50</sponsor_percent>
+                <newsletter_points>0</newsletter_points>
+                <first_order_points>0</first_order_points>
+                <godson_first_order_points>0</godson_first_order_points>
+                <notification_enabled>1</notification_enabled>
+                <notification>auguria_sponsorship_accumulated_notification</notification>
+                <cancel_earned_points>0</cancel_earned_points>
+				<cancel_cart_points>0</cancel_cart_points>
+        	</accumulated>
             <sponsor>
-                <sponsor_enabled>1</sponsor_enabled>
+            	<sponsor_enabled>1</sponsor_enabled>
+        		<points_validity>0</points_validity>
                 <sponsor_cash>1</sponsor_cash>
                 <sponsor_coupon>1</sponsor_coupon>
+                <sponsor_cart>0</sponsor_cart>
                 <sponsor_gift>0</sponsor_gift>
                 <sponsor_max_cash>350</sponsor_max_cash>
                 <sponsor_time_max_cash>90</sponsor_time_max_cash>
                 <sponsor_points_to_cash>1</sponsor_points_to_cash>
                 <sponsor_optional_order>1</sponsor_optional_order>
+                <allow_invit_registred_users>1</allow_invit_registred_users>
                 <sponsor_link_validity>365</sponsor_link_validity>
                 <sponsor_levels>100</sponsor_levels>
                 <sponsor_percent>50</sponsor_percent>
+                <godson_first_order_points>0</godson_first_order_points>
+                <notification_enabled>1</notification_enabled>
+                <notification>auguria_sponsorship_sponsor_notification</notification>
+                <cancel_earned_points>0</cancel_earned_points>
+				<cancel_cart_points>0</cancel_cart_points>
             </sponsor>
-            <invitation_email>
-                <sponsor_invitation_validity>365</sponsor_invitation_validity>
-                <time_before_boost>7</time_before_boost>
-                <max_recipients>20</max_recipients>
-                <email_template>sponsorship_email_invitation</email_template>
-            </invitation_email>
             <fidelity>
-                <fidelity_enabled>1</fidelity_enabled>
+            	<fidelity_enabled>1</fidelity_enabled>
+        		<points_validity>0</points_validity>
                 <fidelity_cash>1</fidelity_cash>
                 <fidelity_coupon>1</fidelity_coupon>
+                <fidelity_cart>0</fidelity_cart>
                 <fidelity_gift>0</fidelity_gift>
                 <fidelity_max_cash>350</fidelity_max_cash>
                 <fidelity_time_max_cash>90</fidelity_time_max_cash>
                 <fidelity_points_to_cash>1</fidelity_points_to_cash>
+                <newsletter_points>0</newsletter_points>
+                <first_order_points>0</first_order_points>
+                <cancel_earned_points>0</cancel_earned_points>
+				<cancel_cart_points>0</cancel_cart_points>
             </fidelity>
-            <change>
-                <email_template_coupon>sponsorship_email_coupon</email_template_coupon>
-            </change>
+            <invitation>
+                <template>auguria_sponsorship_invitation_template</template>
+                <sponsor_invitation_validity>365</sponsor_invitation_validity>
+                <time_before_boost>7</time_before_boost>
+                <max_recipients>20</max_recipients>
+            </invitation>
+            <coupon>
+                <template>auguria_sponsorship_coupon_template</template>
+            </coupon>
             <open_inviter>
             	<open_inviter_enabled>0</open_inviter_enabled>
             	<username></username>
             	<private_key></private_key>
             </open_inviter>
-        </sponsorship>
+        </auguria_sponsorship>
     </default>
     <crontab>
         <jobs>
-            <sponsorship_boost>
+            <auguria_sponsorship_auto_boost>
                 <schedule>
-                    <cron_expr>0 */1 * * *</cron_expr>
+                    <cron_expr>0 0 * * *</cron_expr>
                 </schedule>
                 <run>
-                    <model>sponsorship/autoBoost::process</model>
+                    <model>auguria_sponsorship/autoBoost::process</model>
                 </run>
-            </sponsorship_boost>
+            </auguria_sponsorship_auto_boost>
+            <auguria_sponsorship_apply_validity>
+                <schedule>
+                    <cron_expr>0 0 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>auguria_sponsorship/applyValidity::process</model>
+                </run>
+            </auguria_sponsorship_apply_validity>
         </jobs>
     </crontab>
 </config>

@@ -4,7 +4,7 @@
  */
 $_pluginInfo=array(
 	'name'=>'Meinvz',
-	'version'=>'1.0.7',
+	'version'=>'1.0.9',
 	'description'=>"Get the contacts from a MeinVz account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',

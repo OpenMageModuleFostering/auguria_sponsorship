@@ -13,15 +13,15 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Edit_Tabs extends Mage_Adminhtm
       parent::__construct();
       $this->setId('change_tabs');
       $this->setDestElementId('edit_form');
-      $this->setTitle(Mage::helper('sponsorship')->__('Exchange detail'));
+      $this->setTitle(Mage::helper('auguria_sponsorship')->__('Exchange detail'));
   }
 
   protected function _beforeToHtml()
   {
       $this->addTab('form_section', array(
-          'label'     => Mage::helper('sponsorship')->__('Exchange detail'),
-          'title'     => Mage::helper('sponsorship')->__('Exchange detail'),
-          'content'   => $this->getLayout()->createBlock('sponsorship/adminhtml_change_edit_tab_form')->toHtml(),
+          'label'     => Mage::helper('auguria_sponsorship')->__('Exchange detail'),
+          'title'     => Mage::helper('auguria_sponsorship')->__('Exchange detail'),
+          'content'   => $this->getLayout()->createBlock('auguria_sponsorship/adminhtml_change_edit_tab_form')->toHtml(),
       ));
      
       return parent::_beforeToHtml();

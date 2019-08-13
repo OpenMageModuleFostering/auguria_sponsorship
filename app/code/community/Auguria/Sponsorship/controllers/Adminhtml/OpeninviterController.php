@@ -10,7 +10,7 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
 
 	protected function _initAction() {
 		$this->loadLayout()
-			->_setActiveMenu('sponsorship/openinviter')
+			->_setActiveMenu('auguria_sponsorship/openinviter')
 			->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 		
 		return $this;
@@ -29,7 +29,7 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
 	
 	public function editAction() {
 		$id     = $this->getRequest()->getParam('id');
-		$model  = Mage::getModel('sponsorship/sponsorshipopeninviter')->load($id);
+		$model  = Mage::getModel('auguria_sponsorship/sponsorshipopeninviter')->load($id);
 
 		if ($model->getId() || $id == 0) {
 			$data = Mage::getSingleton('adminhtml/session')->getFormData(true);
@@ -40,19 +40,19 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
 			Mage::register('openinviter_data', $model);
 
 			$this->loadLayout();
-			$this->_setActiveMenu('sponsorship/openinviter');
+			$this->_setActiveMenu('auguria_sponsorship/openinviter');
 
 			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('Item Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('Item News'), Mage::helper('adminhtml')->__('Item News'));
 
 			$this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-			$this->_addContent($this->getLayout()->createBlock('sponsorship/adminhtml_openinviter_edit'))
-				->_addLeft($this->getLayout()->createBlock('sponsorship/adminhtml_openinviter_edit_tabs'));
+			$this->_addContent($this->getLayout()->createBlock('auguria_sponsorship/adminhtml_openinviter_edit'))
+				->_addLeft($this->getLayout()->createBlock('auguria_sponsorship/adminhtml_openinviter_edit_tabs'));
 
 			$this->renderLayout();
 		} else {
-			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__('Invitation does not exist'));
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__('Invitation does not exist'));
 			$this->_redirect('*/*/');
 		}
 	}
@@ -85,13 +85,13 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
 	  			
 	  		if(isset($data['openinviterimage']['delete'])) $data['image'] = '';
 			
-			$model = Mage::getModel('sponsorship/sponsorshipopeninviter');		
+			$model = Mage::getModel('auguria_sponsorship/sponsorshipopeninviter');		
 			$model->setData($data)
 				->setId($this->getRequest()->getParam('id'));
 			
 			try {				
 				$model->save();
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sponsorship')->__('Provider was successfully saved'));
+				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('auguria_sponsorship')->__('Provider was successfully saved'));
 				Mage::getSingleton('adminhtml/session')->setFormData(false);
 
 				if ($this->getRequest()->getParam('back')) {
@@ -107,7 +107,7 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__('Unable to find provider to save'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__('Unable to find provider to save'));
         $this->_redirect('*/*/');
 	}
  	
@@ -117,10 +117,10 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
 		{
 			try
 			{
-				$model = Mage::getModel('sponsorship/sponsorshipopeninviter');				 
+				$model = Mage::getModel('auguria_sponsorship/sponsorshipopeninviter');				 
 				$model->setId($this->getRequest()->getParam('id'))->delete();
 					 
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sponsorship')->__('Provider was successfully deleted'));
+				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('auguria_sponsorship')->__('Provider was successfully deleted'));
 				$this->_redirect('*/*/');
 			}
 			catch (Exception $e)
@@ -137,7 +137,7 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
         $providersIds = $this->getRequest()->getParam('openinviter');
         if (!is_array($providersIds))
         {
-			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__('Please select provider(s)'));
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__('Please select provider(s)'));
         }
         else
         {
@@ -145,7 +145,7 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
             {
                 foreach ($providersIds as $providerId)
                 {
-                    $provider = Mage::getModel('sponsorship/sponsorshipopeninviter')->load($providerId);
+                    $provider = Mage::getModel('auguria_sponsorship/sponsorshipopeninviter')->load($providerId);
                     $provider->delete();
                 }
                 Mage::getSingleton('adminhtml/session')->addSuccess(
@@ -175,7 +175,7 @@ class Auguria_Sponsorship_Adminhtml_OpeninviterController extends Mage_Adminhtml
             {
                 foreach ($providersIds as $providerId)
                 {
-                    $provider = Mage::getModel('sponsorship/sponsorshipopeninviter')->load($providerId)
+                    $provider = Mage::getModel('auguria_sponsorship/sponsorshipopeninviter')->load($providerId)
                         ->load($providerId)
                         ->setStatus($this->getRequest()->getParam('status'))
                         ->setIsMassupdate(true)

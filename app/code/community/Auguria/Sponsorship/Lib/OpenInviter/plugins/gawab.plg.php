@@ -1,9 +1,9 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Gawab',
-	'version'=>'1.0.4',
+	'version'=>'1.0.5',
 	'description'=>"Get the contacts from a Gawab account",
-	'base_version'=>'1.6.5',
+	'base_version'=>'1.8.0',
 	'type'=>'email',
 	'check_url'=>'http://www.gawab.com/default.php',
 	'requirement'=>'email',
@@ -110,7 +110,6 @@ class gawab extends openinviter_base
 			return false;	
 			}
 		
-		
 		$temp=$this->parseCSV($res);
 		$contacts=array();
 		foreach ($temp as $values)
@@ -150,8 +149,7 @@ class gawab extends openinviter_base
 											   );
 			}
 		foreach ($contacts as $email=>$name) if (!$this->isEmail($email)) unset($contacts[$email]);
-		return $this->returnContacts($contacts);
-					
+		return $this->returnContacts($contacts);				
 		}
 	
 	/**

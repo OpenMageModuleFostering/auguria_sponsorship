@@ -34,7 +34,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Edit extends Mage_Adminhtml_Blo
         ), 1);
                  
         $this->_objectId = 'id';
-        $this->_blockGroup = 'sponsorship';
+        $this->_blockGroup = 'auguria_sponsorship';
         $this->_controller = 'adminhtml_change';
         $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save'));
         $this->_updateButton('delete', 'label', Mage::helper('adminhtml')->__('Save'));
@@ -63,9 +63,9 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Edit extends Mage_Adminhtml_Blo
     public function getHeaderText()
     {
         if( Mage::registry('change_data') && Mage::registry('change_data')->getId() ) {
-            return Mage::helper('sponsorship')->__("Edition of the change '%s'", $this->htmlEscape(Mage::registry('change_data')->getId()));
+            return Mage::helper('auguria_sponsorship')->__("Edition of the change '%s'", $this->htmlEscape(Mage::registry('change_data')->getId()));
         } else {
-            return Mage::helper('sponsorship')->__('Add a change');
+            return Mage::helper('auguria_sponsorship')->__('Add a change');
         }
     }
 }

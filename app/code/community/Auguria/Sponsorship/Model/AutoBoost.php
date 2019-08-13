@@ -14,18 +14,19 @@ class Auguria_Sponsorship_Model_AutoBoost
          *  Suivant les paramètres de délai avant relance et de validité des invitations
          */
         $resource = Mage::getSingleton('core/resource');
-	$read = $resource->getConnection('core_read');
+		$read = $resource->getConnection('core_read');
+		$datetime = Mage::getModel('core/date')->gmtDate();
         $select = $read->select()
-		->from(Array("s"=>$resource->getTableName('sponsorship/sponsorship')),
+		->from(Array("s"=>$resource->getTableName('auguria_sponsorship/sponsorship')),
                             Array("*"=>"s.*"))
                 ->where('isnull(datetime_boost)')
-                ->where('TO_DAYS(NOW()) - TO_DAYS(datetime) >= ?', Mage::getStoreConfig('sponsorship/invitation_email/time_before_boost'))
-                ->where('TO_DAYS(NOW()) - TO_DAYS(datetime) <= ?', Mage::getStoreConfig('sponsorship/invitation_email/sponsor_invitation_validity'));
+                ->where('TO_DAYS("'.$datetime.'") - TO_DAYS(datetime) >= ?', Mage::getStoreConfig('auguria_sponsorship/invitation/time_before_boost'))
+                ->where('TO_DAYS("'.$datetime.'") - TO_DAYS(datetime) <= ?', Mage::getStoreConfig('auguria_sponsorship/invitation/sponsor_invitation_validity'));
 
         $resultats = $read->fetchAll($select);
         foreach ($resultats as $resultat)
         {
-            $mailHelper = mage::helper("sponsorship/mail");
+            $mailHelper = Mage::helper("auguria_sponsorship/mail");
             $mail["sponsorship_id"] = $resultat["sponsorship_id"];
             $mail["subject"] = $resultat["subject"];
             $mail["html_message"] = $resultat["message"];
@@ -42,20 +43,20 @@ class Auguria_Sponsorship_Model_AutoBoost
             $mail["recipient_email"] = $resultat["child_mail"];
             $mail["recipient_firstname"] = $resultat["child_firstname"];
             $mail["recipient_lastname"] = $resultat["child_lastname"];
-            $mail['datetime_boost'] = now();
+            $mail['datetime_boost'] = Mage::getModel('core/date')->gmtDate();
 
             if ($mailHelper->sendMail($mail))
             {
                 try
                 {
-                    $sponsorship = mage::getModel("sponsorship/sponsorship")->load($mail["sponsorship_id"]);
+                    $sponsorship = Mage::getModel("auguria_sponsorship/sponsorship")->load($mail["sponsorship_id"]);
                     $sponsorship->setDatetimeBoost($mail['datetime_boost']);
                     $sponsorship->save();
-                    mage::log("1 mail sent by autoboost");
+                    Mage::log(Mage::helper('auguria_sponsorship')->__("An email has been sent by autoboost"));
                 }
                 catch (Exception $e)
                 {
-                    mage::log($e);
+                    Mage::log(Mage::helper('auguria_sponsorship')->__("An error occured wile sending auto boost email %s",$e));
                 }
             }
         }

@@ -1,9 +1,9 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'NetLog',
-	'version'=>'1.0.6',
+	'version'=>'1.0.7',
 	'description'=>"Get the contacts from a NetLog account And Shout a message to your friends",
-	'base_version'=>'1.8.0',
+	'base_version'=>'1.8.3',
 	'type'=>'social',
 	'check_url'=>'http://en.netlog.com/m/login',
 	'requirement'=>'email',
@@ -23,6 +23,7 @@ class netlog extends openinviter_base
 	private $login_ok=false;
 	public $showContacts=true;
 	protected $timeout=30;
+	protected $userAgent='Mozilla/4.1 (compatible; MSIE 5.0; Symbian OS; Nokia 3650;424) Opera 6.10  [en]';
 		
 	public $debug_array=array(
 			  'initial_get'=>'target',

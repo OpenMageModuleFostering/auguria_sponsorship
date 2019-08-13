@@ -13,15 +13,15 @@ class Auguria_Sponsorship_Block_Adminhtml_Sponsorship_Edit_Tabs extends Mage_Adm
       parent::__construct();
       $this->setId('sponsorship_tabs');
       $this->setDestElementId('edit_form');
-      $this->setTitle(Mage::helper('sponsorship')->__('Invitation detail'));
+      $this->setTitle(Mage::helper('auguria_sponsorship')->__('Invitation detail'));
   }
 
   protected function _beforeToHtml()
   {
       $this->addTab('form_section', array(
-          'label'     => Mage::helper('sponsorship')->__('Invitation detail'),
-          'title'     => Mage::helper('sponsorship')->__('Invitation detail'),
-          'content'   => $this->getLayout()->createBlock('sponsorship/adminhtml_sponsorship_edit_tab_form')->toHtml(),
+          'label'     => Mage::helper('auguria_sponsorship')->__('Invitation detail'),
+          'title'     => Mage::helper('auguria_sponsorship')->__('Invitation detail'),
+          'content'   => $this->getLayout()->createBlock('auguria_sponsorship/adminhtml_sponsorship_edit_tab_form')->toHtml(),
       ));
      
       return parent::_beforeToHtml();

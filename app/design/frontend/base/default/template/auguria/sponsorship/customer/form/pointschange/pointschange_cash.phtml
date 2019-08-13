@@ -1,0 +1,75 @@
+<!-- 
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<?php
+	$change = $this->getChange();
+	$module = $change['module'];
+	$Module = ucfirst($module);
+	$type = $change['type'];
+	$Type = ucfirst($type);
+	
+	$getDispoPoints = 'get'.$Module.'Points';
+	$dPoints = $this->$getDispoPoints();
+	
+	$PointsToCash = $this->getPointsToCashConfig($Module);
+	
+	echo $this->__('You have %d points.',$dPoints);
+	
+	
+	
+?>
+<ul class="form-list">
+	<li>
+		<div class="input-box">
+	    	<label for="points" class="required"><em>*</em><?php echo $this->__('Points to exchange:') ?></label><br/>
+	        <input onChange="pointsToCash('points')" type="text" name="points" id="points" value="<?php echo $this->__('%d',$dPoints) ?>" title="<?php echo $this->__('Enter the points you want to convert.') ?>" class="required-entry input-text validate-number validate-greater-than-zero"/>
+	    </div>
+	</li>
+	<li>
+	    <div class="input-box">
+	    	<label for="cash" class="required"><em>*</em><?php echo $this->__('Cash :') ?></label><br/>
+	        <input onChange="pointsToCash('cash')" type="text" name="cash" id="cash" value="" title="<?php echo $this->__('Enter the cash you want.') ?>" class="required-entry input-text validate-number validate-greater-than-zero"/>
+	    </div>
+	</li>
+</ul>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate', true);
+	pointsToCash('points');
+    function pointsToCash(fieldId)
+    {
+    	var points = $('points');
+        var cash = $('cash');
+        var taux = <?php echo $PointsToCash ?>;
+        
+        if (!points.value.empty())
+        {
+            p = points.value.replace(",",".");
+			p = parseFloat(p);
+			points.value = p.toFixed(0);
+        }
+        if (!cash.value.empty())
+        {
+        	c = cash.value.replace(",",".");
+        	c = parseFloat(c);
+	        cash.value = c.toFixed(2);
+        }        
+        
+		if (fieldId == 'points')
+		{
+			var cashValue = points.value*taux;
+        	cash.value = cashValue.toFixed(2);
+		}
+		else if (fieldId == 'cash')
+		{
+			var pointsValue = cash.value/taux;
+        	points.value = pointsValue.round();
+        	var cashValue = pointsValue.round()*taux;
+        	cash.value = cashValue.toFixed(2);
+		}
+    }
+</script>

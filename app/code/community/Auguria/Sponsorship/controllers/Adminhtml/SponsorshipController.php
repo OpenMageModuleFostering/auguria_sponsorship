@@ -10,7 +10,7 @@ class Auguria_Sponsorship_Adminhtml_SponsorshipController extends Mage_Adminhtml
 
 	protected function _initAction() {
 		$this->loadLayout()
-			->_setActiveMenu('sponsorship/items')
+			->_setActiveMenu('auguria_sponsorship/items')
 			->_addBreadcrumb(Mage::helper('adminhtml')->__('Items Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 		
 		return $this;
@@ -23,7 +23,7 @@ class Auguria_Sponsorship_Adminhtml_SponsorshipController extends Mage_Adminhtml
 
 	public function editAction() {
 		$id     = $this->getRequest()->getParam('id');
-		$model  = Mage::getModel('sponsorship/sponsorship')->load($id);
+		$model  = Mage::getModel('auguria_sponsorship/sponsorship')->load($id);
 
 		if ($model->getId() || $id == 0) {
 			$data = Mage::getSingleton('adminhtml/session')->getFormData(true);
@@ -34,19 +34,19 @@ class Auguria_Sponsorship_Adminhtml_SponsorshipController extends Mage_Adminhtml
 			Mage::register('sponsorship_data', $model);
 
 			$this->loadLayout();
-			$this->_setActiveMenu('sponsorship/items');
+			$this->_setActiveMenu('auguria_sponsorship/items');
 
 			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('Item Manager'), Mage::helper('adminhtml')->__('Item Manager'));
 			$this->_addBreadcrumb(Mage::helper('adminhtml')->__('Item News'), Mage::helper('adminhtml')->__('Item News'));
 
 			$this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-			$this->_addContent($this->getLayout()->createBlock('sponsorship/adminhtml_sponsorship_edit'))
-				->_addLeft($this->getLayout()->createBlock('sponsorship/adminhtml_sponsorship_edit_tabs'));
+			$this->_addContent($this->getLayout()->createBlock('auguria_sponsorship/adminhtml_sponsorship_edit'))
+				->_addLeft($this->getLayout()->createBlock('auguria_sponsorship/adminhtml_sponsorship_edit_tabs'));
 
 			$this->renderLayout();
 		} else {
-			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__('Invitation does not exist'));
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__('Invitation does not exist'));
 			$this->_redirect('*/*/');
 		}
 	}
@@ -82,13 +82,13 @@ class Auguria_Sponsorship_Adminhtml_SponsorshipController extends Mage_Adminhtml
 			}
 	  			
 	  			
-			$model = Mage::getModel('sponsorship/sponsorship');		
+			$model = Mage::getModel('auguria_sponsorship/sponsorship');		
 			$model->setData($data)
 				->setId($this->getRequest()->getParam('id'));
 			
 			try {				
 				$model->save();
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sponsorship')->__('Invitation was successfully saved'));
+				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('auguria_sponsorship')->__('Invitation was successfully saved'));
 				Mage::getSingleton('adminhtml/session')->setFormData(false);
 
 				if ($this->getRequest()->getParam('back')) {
@@ -104,14 +104,14 @@ class Auguria_Sponsorship_Adminhtml_SponsorshipController extends Mage_Adminhtml
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__('Unable to find invitation to save'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__('Unable to find invitation to save'));
         $this->_redirect('*/*/');
 	}
   
     public function exportCsvAction()
     {
         $fileName   = 'sponsorship.csv';
-        $content    = $this->getLayout()->createBlock('sponsorship/adminhtml_sponsorship_grid')
+        $content    = $this->getLayout()->createBlock('auguria_sponsorship/adminhtml_sponsorship_grid')
             ->getCsv();
 
         $this->_sendUploadResponse($fileName, $content);
@@ -120,7 +120,7 @@ class Auguria_Sponsorship_Adminhtml_SponsorshipController extends Mage_Adminhtml
     public function exportXmlAction()
     {
         $fileName   = 'sponsorship.xml';
-        $content    = $this->getLayout()->createBlock('sponsorship/adminhtml_sponsorship_grid')
+        $content    = $this->getLayout()->createBlock('auguria_sponsorship/adminhtml_sponsorship_grid')
             ->getXml();
 
         $this->_sendUploadResponse($fileName, $content);

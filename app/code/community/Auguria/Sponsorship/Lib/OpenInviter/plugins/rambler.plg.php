@@ -1,9 +1,9 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Rambler',
-	'version'=>'1.1.6',
+	'version'=>'1.1.7',
 	'description'=>"Get the contacts from a Rambler account",
-	'base_version'=>'1.6.3',
+	'base_version'=>'1.8.3',
 	'type'=>'email',
 	'check_url'=>'http://www.rambler.ru',
 	'requirement'=>'email',
@@ -109,10 +109,10 @@ class rambler extends openinviter_base
 			return false;
 			}
 		$contacts=array();
-		$emailsArray=$this->getElementDOM($res,"//a[@class='email']");
-		$namesArray=$this->getElementDOM($res,"//td[@class='org ']");
+		$emailsArray=$this->getElementDOM($res,"//td[@class='mtbox-cell mtbox-email quiet']");
+		$namesArray=$this->getElementDOM($res,"//a[@class='mtbox-action mtbox-view']");		
 		if (!empty($emailsArray))
-			foreach($emailsArray as $key=>$emailValue) $contacts[$emailValue]=array('first_name'=>(isset($namesArray[$key])?$namesArray[$key]:false),'email_1'=>$emailValue);			
+			foreach($emailsArray as $key=>$emailValue) $contacts[trim($emailValue)]=array('first_name'=>(isset($namesArray[$key])?trim($namesArray[$key]):false),'email_1'=>trim($emailValue));			
 		foreach ($contacts as $email=>$name) if (!$this->isEmail($email)) unset($contacts[$email]);
 		return $this->returnContacts($contacts);
 		}

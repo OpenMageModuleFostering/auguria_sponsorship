@@ -42,9 +42,16 @@ class Auguria_Sponsorship_Block_Customer_Form_PointsChange extends Mage_Customer
 		return $cSP;
     }
     
+	public function getAccumulatedPoints()
+    {
+    	$customer = Mage::getModel("customer/customer")->load($this->getCustomerId());
+    	$cSP = $customer->getData('accumulated_points');
+		return $cSP;
+    }
+    
     public function getPointsToCashConfig ($Module)
     {
-    	$options = Mage::getBlockSingleton('sponsorship/customer_account_pointsDetail');
+    	$options = Mage::getBlockSingleton('auguria_sponsorship/customer_account_pointsDetail');
     	$PointsToCashFunction = 'get'.$Module.'PointsToCashConfig';
 		$PointsToCash = $options->$PointsToCashFunction();
 		return $PointsToCash;

@@ -11,25 +11,25 @@ class Auguria_Sponsorship_Block_Adminhtml_Sponsorship_Edit_Tab_Form extends Mage
   {
       $form = new Varien_Data_Form();
       $this->setForm($form);
-      $fieldset = $form->addFieldset('sponsorship_form', array('legend'=>Mage::helper('sponsorship')->__("Invitation information")));
+      $fieldset = $form->addFieldset('sponsorship_form', array('legend'=>Mage::helper('auguria_sponsorship')->__("Invitation information")));
      
       $fieldset->addField('parent_id', 'text', array(
-          'label'     => Mage::helper('sponsorship')->__('Related ID'),
+          'label'     => Mage::helper('auguria_sponsorship')->__('Related ID'),
           'class'     => 'required-entry',
           'required'  => true,
           'name'      => 'parent_id',
       ));
 
       $fieldset->addField('child_mail', 'text', array(
-          'label'     => Mage::helper('sponsorship')->__('Guest mail'),
+          'label'     => Mage::helper('auguria_sponsorship')->__('Guest mail'),
           'required'  => true,
           'name'      => 'child_mail',
 	  ));
 
 	  $fieldset->addField('datetime', 'date', array(
             'name'      => 'datetime',
-            'title'     => Mage::helper('sponsorship')->__("Date"),
-            'label'     => Mage::helper('sponsorship')->__("Date"),
+            'title'     => Mage::helper('auguria_sponsorship')->__("Date"),
+            'label'     => Mage::helper('auguria_sponsorship')->__("Date"),
             'required'  => true,
 	  		'image'  => Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN).'/adminhtml/default/default/images/grid-cal.gif',
             'input_format' => Mage::app()->getLocale()->getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT), 

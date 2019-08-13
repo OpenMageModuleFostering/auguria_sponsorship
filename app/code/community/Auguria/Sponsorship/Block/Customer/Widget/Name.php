@@ -12,7 +12,7 @@ class Auguria_Sponsorship_Block_Customer_Widget_Name extends Mage_Customer_Block
         Mage_Customer_Block_Widget_Abstract::_construct();
 
         // default template location
-        $this->setTemplate('sponsorship/customer/widget/name.phtml');
+        $this->setTemplate('auguria/sponsorship/customer/widget/name.phtml');
     }
     
     public function getInvit ($param)

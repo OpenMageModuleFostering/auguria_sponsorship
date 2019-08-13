@@ -1,11 +1,11 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'LinkedIn',
-	'version'=>'1.1.2',
+	'version'=>'1.1.4',
 	'description'=>"Get the contacts from a LinkedIn account",
 	'base_version'=>'1.8.0',
 	'type'=>'email',
-	'check_url'=>'http://www.linkedin.com',
+	'check_url'=>'http://m.linkedin.com/session/new',
 	'requirement'=>'email',
 	'allowed_domains'=>false,
 	);
@@ -25,10 +25,9 @@ class linkedin extends openinviter_base
 	protected $timeout=30;
 	
 	public $debug_array=array(
-				'initial_get'=>'session_password',
-				'login_post'=>'window.location.replace',
-				'js_page'=>'csrfToken',
-				'get_friends'=>'emailAddress',
+				'initial_get'=>'login',
+				'login_post'=>'contacts',				
+				'get_friends'=>'mailto',
 				);
 	
 	/**
@@ -49,24 +48,21 @@ class linkedin extends openinviter_base
 		$this->service_password=$pass;
 		if (!$this->init()) return false;
 		
-		$res=$this->get("https://www.linkedin.com/secure/login?trk=hb_signin");
+		$res=$this->get("http://m.linkedin.com/session/new");
 		if ($this->checkResponse("initial_get",$res))
-			$this->updateDebugBuffer('initial_get',"https://www.linkedin.com/secure/login?trk=hb_signin",'GET');
+			$this->updateDebugBuffer('initial_get',"http://m.linkedin.com/session/new",'GET');
 		else
 			{
-			$this->updateDebugBuffer('initial_get',"https://www.linkedin.com/secure/login?trk=hb_signin",'GET',false);
+			$this->updateDebugBuffer('initial_get',"http://m.linkedin.com/session/new",'GET',false);
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
 			}
-		$form_action="https://www.linkedin.com/secure/login";
-		$post_elements=array('csrfToken'=>'guest_token',
-							 'session_key'=>$user,
-							 'session_password'=>$pass,
-							 'session_login'=>'Sign In',
-							 'session_login'=>'',
-							 'session_rikey'=>''
-							); 
+		$form_action="https://m.linkedin.com/session";
+		$post_elements=array('login'=>$user,
+							 'authenticity_token'=>$this->getElementString($res,'name="authenticity_token" type="hidden" value="','"'),
+							 'password'=>$pass,							 
+							);
 		$res=$this->post($form_action,$post_elements,true);
 		if ($this->checkResponse("login_post",$res))
 			$this->updateDebugBuffer('login_post',"{$form_action}",'POST',true,$post_elements);
@@ -76,21 +72,8 @@ class linkedin extends openinviter_base
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
-			}
-			
-		$res=$this->get("http://www.linkedin.com/home",true);
-		if ($this->checkResponse("js_page",$res))
-			$this->updateDebugBuffer('js_page',"https://www.linkedin.com/secure/login?trk=hb_signin",'GET');
-		else
-			{
-			$this->updateDebugBuffer('js_page',"https://www.linkedin.com/secure/login?trk=hb_signin",'GET',false);
-			$this->debugRequest();
-			$this->stopPlugin();
-			return false;
-			}		
-		$this->ajaxSes=$this->getElementString($res,'name="csrfToken" value="','"');
-        $url_friends="http://www.linkedin.com/dwr/exec/ConnectionsBrowserService.getMyConnections.dwr";
-		$this->login_ok=$url_friends;
+			}					
+		$this->login_ok="https://m.linkedin.com/contacts";
 		return true;
 		}
 
@@ -110,42 +93,25 @@ class linkedin extends openinviter_base
 			$this->stopPlugin();
 			return false;
 			}
-		else $form_action=$this->login_ok;
-		$post_elements=array('callCount'=>'1',
-						'JSESSIONID'=>$this->ajaxSes,
-						'c0-scriptName'=>'ConnectionsBrowserService',
-						'c0-methodName'=>'getMyConnections',
-						'c0-param0'=>'string:0',
-						'c0-param1'=>'number:-1',
-						'c0-param2'=>'string:DONT_CARE',
-						'c0-param3'=>'number:10000',
-						'c0-param4'=>'boolean:false',
-						'c0-param5'=>'boolean:true',
-						'xml'=>'true',
-						);
-		$headers = array('Content-Type'=>'text/plain');
-		$res=$this->post($form_action,$post_elements,false,false,false,$headers);
+		else $url=$this->login_ok;
+		$res=$this->get($url,true);
 		if ($this->checkResponse("get_friends",$res))
-			$this->updateDebugBuffer('get_friends',"{$form_action}",'POST',true,$post_elements);
+			$this->updateDebugBuffer('get_friends',"{$url}",'GET');
 		else
 			{
-			$this->updateDebugBuffer('get_friends',"{$form_action}",'POST',false,$post_elements);
+			$this->updateDebugBuffer('get_friends',"{$url}",'GET',false);
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
 			}
-		
-		$cr = "/var s\\d+=\\{\\};(.*?)\\.profileLink=/ims";
-		$fr = "/var s\\d+=\"([^\"]*)\";s\\d+.firstName=s\\d+/ims";
-		$er = "/var s\\d+=\"([^\"]*)\";s\\d+.emailAddress=s\\d+/ims";
-		$lr = "/var s\\d+=\"([^\"]*)\";s\\d+.lastName=s\\d+/ims";
-		$ar = "/var s\\d+=\"([A-Z#])\";s\\d+\\[\\d+\\]=s\\d+;/ims";
-		$dr = "/;s\\d+\\['([A-Z#])'\\]=s\\d+;/ims";		
-		preg_match_all($cr, $res, $found, PREG_SET_ORDER);
-		foreach ($found as $val) 
-			{ $tempHtml= $val[0];if (preg_match($er,$tempHtml,$foundEmails)) { $email=$foundEmails[1];if ($this->isEmail($email)) { $first_name=preg_match($fr,$tempHtml,$foundEmails) ? $foundEmails[1] : ''; $last_name=preg_match($lr,$tempHtml,$foundEmails) ? $foundEmails[1] : '';$last_name;$contacts[$email]=array('first_name'=>isset($first_name)?$first_name:false,'last_name'=>isset($last_name)?$last_name:false,'email_1'=>$email); } } }			
+
+		$res=str_replace(PHP_EOL,"",$res);
+		preg_match_all("#mailto\:(.+)\"#U",$res,$emails);
+		preg_match_all("#252Fcontacts\"\>(.+)\<\/#U",$res,$names);		
+		$contacts=array();
+		if (!empty($emails[1])) foreach($emails[1] as $key=>$email) if (!empty($names[1][$key])) $contacts[$email]=$names[1][$key];				
 		foreach ($contacts as $email=>$name) if (!$this->isEmail($email)) unset($contacts[$email]);
-		return $this->returnContacts($contacts);
+		return $contacts;
 		}
 
 	/**
@@ -160,7 +126,7 @@ class linkedin extends openinviter_base
 	public function logout()
 		{
 		if (!$this->checkSession()) return false;
-		$res=$this->get("https://www.linkedin.com/secure/login?session_full_logout=&trk=hb_signout",true);
+		$res=$this->get("http://m.linkedin.com/session/logout",true);
 		$this->debugRequest();
 		$this->resetDebugger();
 		$this->stopPlugin();

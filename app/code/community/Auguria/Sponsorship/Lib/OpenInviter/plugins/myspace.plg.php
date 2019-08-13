@@ -1,7 +1,7 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'MySpace',
-	'version'=>'1.1.0',
+	'version'=>'1.1.1',
 	'description'=>"Get the contacts from a MySpace account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',

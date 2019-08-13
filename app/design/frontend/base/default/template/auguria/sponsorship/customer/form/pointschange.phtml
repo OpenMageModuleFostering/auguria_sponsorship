@@ -1,0 +1,35 @@
+<!-- 
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<?php
+	$change = $this->getChange();
+	$module = $change['module'];
+	$type = $change['type'];
+?>
+<div class="std">
+<div class="page-title">
+    <h1><?php echo $this->__('Exchange of your %s points into %s', $this->__($module), $this->__($type)) ?></h1>
+</div>
+<br/>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form action="<?php echo $this->getUrl('sponsorship/points/save') ?>" method="post" id="form-validate">
+<?php echo $this->getBlockHtml('formkey')?>
+	<input type="hidden" name="module" id="module" value="<?php echo $module ?>"/>
+	<input type="hidden" name="type" id="type" value="<?php echo $type ?>"/>
+<?php echo $this->getChildHtml($type) ?>
+    <div class="buttons-set">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <?php if($module=='sponsor'){$module='sponsorship';}?>
+        <p class="back-link"><a href="<?php echo Mage::getUrl('sponsorship/points/'.$module) ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button class="button" type="submit"><span><?php echo $this->__('Validate') ?></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate', true);
+</script>
+</div>

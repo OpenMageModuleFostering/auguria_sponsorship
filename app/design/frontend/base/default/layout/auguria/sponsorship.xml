@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<layout version="0.1.0">
+    <!-- Déclaration du template de l'index -->
+    <auguria_sponsorship_index_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="auguria_sponsorship/sponsorship" name="sponsorship" template="auguria/sponsorship/sponsorship.phtml" />
+        </reference>
+    </auguria_sponsorship_index_index>
+    
+    <!-- Déclaration du template OpenInviter -->    
+    <auguria_sponsorship_openinviter_index>
+    	<reference name="root">
+    		<action method="setTemplate"><template>page/empty.phtml</template></action>
+    	</reference>
+        <reference name="content">
+            <block type="auguria_sponsorship/openinviter" name="openinviter" template="auguria/sponsorship/openinviter.phtml" />
+        </reference>
+    </auguria_sponsorship_openinviter_index>
+    <auguria_sponsorship_openinviter_import>
+    	<reference name="root">
+    		<action method="setTemplate"><template>page/empty.phtml</template></action>
+    	</reference>
+        <reference name="content">
+            <block type="auguria_sponsorship/openinviter" name="openinviter" template="auguria/sponsorship/openinviterimport.phtml" />
+        </reference>
+    </auguria_sponsorship_openinviter_import>
+    
+    <!-- Déclaration du block détail des points fidelité -->
+    <auguria_sponsorship_points_fidelity>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="addCss">
+                <link>css/auguria/sponsorship/sorter.css</link>
+            </action>
+            <action method="addJs">
+                <link>auguria/sponsorship/sorter.js</link>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="auguria_sponsorship/customer_account_pointsDetail" name="fidelity_customer_pointsdetail" template="auguria/sponsorship/customer/account/fidelitypointsdetail.phtml"/>
+        </reference>
+    </auguria_sponsorship_points_fidelity>    
+    <!-- Déclaration du block détail des points parrainage -->
+    <auguria_sponsorship_points_sponsorship>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="addCss">
+                <link>css/auguria/sponsorship/sorter.css</link>
+            </action>
+            <action method="addJs">
+                <link>auguria/sponsorship/sorter.js</link>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="auguria_sponsorship/customer_account_pointsDetail" name="sponsorship_customer_pointsdetail" template="auguria/sponsorship/customer/account/sponsorpointsdetail.phtml"/>
+        </reference>
+    </auguria_sponsorship_points_sponsorship>    
+     <!-- Déclaration du block détail des points accumulated -->
+    <auguria_sponsorship_points_accumulated>
+        <update handle="customer_account"/>
+        <reference name="head">
+            <action method="addCss">
+                <link>css/auguria/sponsorship/sorter.css</link>
+            </action>
+            <action method="addJs">
+                <link>auguria/sponsorship/sorter.js</link>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="auguria_sponsorship/customer_account_pointsDetail" name="accumulated_customer_pointsdetail" template="auguria/sponsorship/customer/account/accumulatedpointsdetail.phtml"/>
+        </reference>
+    </auguria_sponsorship_points_accumulated>
+    
+    <!-- Déclaration du block pour la relance des filleuls -->
+    <auguria_sponsorship_boost_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="auguria_sponsorship/customer_form_boost" name="sponsorship_customer_boost" template="auguria/sponsorship/customer/form/boost.phtml"/>
+        </reference>
+    </auguria_sponsorship_boost_index>
+    
+    <!-- Déclaration du block d'échange des points -->
+    <auguria_sponsorship_points_change>
+        <update handle="customer_account"/>
+        <block type="auguria_sponsorship/customer_form_pointsChange" name="customer_pointschange_cash" template="auguria/sponsorship/customer/form/pointschange.phtml">
+        	<block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_cash" as="cash" template="auguria/sponsorship/customer/form/pointschange/pointschange_cash.phtml"/>
+        </block>>
+        <block type="auguria_sponsorship/customer_form_pointsChange" name="customer_pointschange_coupon" template="auguria/sponsorship/customer/form/pointschange.phtml">
+        	<block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_coupon" as="coupon" template="auguria/sponsorship/customer/form/pointschange/pointschange_coupon.phtml"/>
+        </block>>
+        <block type="auguria_sponsorship/customer_form_pointsChange" name="customer_pointschange_gift" template="auguria/sponsorship/customer/form/pointschange.phtml">
+        	<block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_gift" as="gift" template="auguria/sponsorship/customer/form/pointschange/pointschange_gift.phtml"/>
+        </block>>
+    </auguria_sponsorship_points_change>
+    
+    <!-- Add auguria sponsorship account point block into dashboard as info1 -->
+    <customer_account_index>
+		<reference name="customer_account_dashboard">
+			<block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_points" as="info1" template="auguria/sponsorship/customer/account/dashboard/points.phtml">
+				<block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_fidelity_points" as="customer_account_fidelity_points" template="auguria/sponsorship/customer/account/dashboard/fidelity_points.phtml"/>
+				<block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_sponsor_points" as="customer_account_sponsor_points" template="auguria/sponsorship/customer/account/dashboard/sponsor_points.phtml"/>
+				<block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_accumulated_points" as="customer_account_accumulated_points" template="auguria/sponsorship/customer/account/dashboard/accumulated_points.phtml"/>
+			</block>
+		</reference>
+	</customer_account_index>
+	
+	<!-- Remplacement de edit.phtml pour ajout champ Iban dans les informations du compte -->
+	<customer_account_edit>
+        <reference name="customer_edit">
+        	<action method="setTemplate">
+				<template>auguria/sponsorship/customer/form/edit.phtml</template>
+			</action>
+        </reference>
+    </customer_account_edit>
+    
+    <!-- Ajout d'un lien vers le détail des points -->
+	<customer_account>
+		<reference name="customer_account_navigation">
+                <action ifconfig="auguria_sponsorship/fidelity/fidelity_enabled" method="addLink" translate="label" module="auguria_sponsorship"><name>fidelity_points</name><path>auguria_sponsorship/points/fidelity</path><label>Fidelity points management</label></action>
+                <action ifconfig="auguria_sponsorship/sponsor/sponsor_enabled" method="addLink" translate="label" module="auguria_sponsorship"><name>sponsor_points</name><path>auguria_sponsorship/points/sponsorship</path><label>Sponsorship management</label></action>
+                <action ifconfig="auguria_sponsorship/accumulated/accumulated_enabled" method="addLink" translate="label" module="auguria_sponsorship"><name>accumulated_points</name><path>auguria_sponsorship/points/accumulated</path><label>Fidelity points and sponsorship management</label></action>
+        </reference>
+	</customer_account>
+	
+    <!-- Remplacement de register.phtml pour afficher email de la session -->
+	<customer_account_create>
+        <reference name="customer_form_register">
+        	<action method="setTemplate">
+				<template>auguria/sponsorship/customer/form/register.phtml</template>
+			</action>
+        </reference>
+    </customer_account_create>
+</layout> 

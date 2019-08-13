@@ -10,6 +10,6 @@ class Auguria_Sponsorship_Model_Mysql4_Sponsorshipopeninviter_Collection extends
     public function _construct()
     {
         parent::_construct();
-        $this->_init('sponsorship/sponsorshipopeninviter');
+        $this->_init('auguria_sponsorship/sponsorshipopeninviter');
     }
 }

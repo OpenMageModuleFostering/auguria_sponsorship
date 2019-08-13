@@ -4,7 +4,7 @@
  */
 $_pluginInfo=array(
 	'name'=>'Skyrock',
-	'version'=>'1.0.7',
+	'version'=>'1.0.8',
 	'description'=>"Get the contacts from a Skyrock account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',
@@ -31,7 +31,7 @@ class skyrock extends openinviter_base
 	public $debug_array=array(
 				'initial_get'=>'need_login_form_login',
 				'login_post'=>'logout',
-				'url_friends'=>'class="ecrire"',
+				'url_friends'=>'bouton edit',
 				'url_send_message'=>'id_dest',
 				'send_message'=>'confirmation'
 				);
@@ -121,7 +121,7 @@ class skyrock extends openinviter_base
 			{
 			$page++;$message_array=array();
 			$names_array=$this->getElementDOM($res,"//ul[@class='friends_list']/li",'title');
-			$message_array=$this->getElementDOM($res,"//a[@class='ecrire']",'href');
+			$message_array=$this->getElementDOM($res,"//a[@class='bouton edit']",'href');
 			if (empty($message_array)) $hasFriends=false;
 			if (!empty($names_array)) foreach($names_array as $key=>$value) $contacts[$message_array[$key]]=$value;
 			$url_next="http://www.skyrock.com/m/friends/?order=1&page={$page}";

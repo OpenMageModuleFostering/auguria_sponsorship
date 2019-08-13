@@ -10,6 +10,6 @@ class Auguria_Sponsorship_Model_Mysql4_Sponsorshipopeninviter extends Mage_Core_
     public function _construct()
     {    
         // Note that the sponsorship_openinviter_id refers to the key field in your database table.
-        $this->_init('sponsorship/sponsorshipopeninviter', 'sponsorship_openinviter_id');
+        $this->_init('auguria_sponsorship/sponsorshipopeninviter', 'sponsorship_openinviter_id');
     }
 }

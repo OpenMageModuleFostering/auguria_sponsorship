@@ -10,14 +10,12 @@ class Auguria_Sponsorship_Block_Customer_Widget_Virement extends Mage_Customer_B
     public function _construct()
     {
         parent::_construct();
-        $this->setTemplate('sponsorship/customer/widget/virement.phtml');
+        $this->setTemplate('auguria/sponsorship/customer/widget/virement.phtml');
     }
 
     public function isEnabled()
-    {	
-    	//Ajouter si module parrainage actif
-    	
-    	//iban et siret actifs si le client est parrain
+    {
+    	//iban et siret actifs si le client est parrain ou qu'il a des points de fidélité
 		$customer = Mage::getModel('customer/customer')
                 ->getCollection()
     			->addAttributeToFilter('sponsor', $this->getCustomer()->getId());
@@ -28,13 +26,7 @@ class Auguria_Sponsorship_Block_Customer_Widget_Virement extends Mage_Customer_B
     		return false;
     	}
     }
-
-/*
-    public function isRequired()
-    {
-        return 'req' == $this->getConfig('taxvat_show');
-    }
-*/
+    
     public function getCustomer()
     {
         return Mage::getSingleton('customer/session')->getCustomer();

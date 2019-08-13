@@ -1,0 +1,73 @@
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<?php
+    $change = $this->getChange();
+	$module = $change['module'];
+	$Module = ucfirst($module);
+	$type = $change['type'];
+	$Type = ucfirst($type);
+
+	$getDispoPoints = 'get'.$Module.'Points';
+	$dPoints = $this->$getDispoPoints();
+
+	$PointsToCash = $this->getPointsToCashConfig($Module);
+
+	echo $this->__('You have %d points.',$dPoints);
+?>
+ <ul class="form-list">
+	<li>
+		<div class="input-box">
+	    	<label for="points" class="required"><em>*</em><?php echo $this->__('Points to exchange:') ?></label><br/>
+	        <input onChange="pointsToCoupon('points')" type="text" name="points" id="points" value="<?php echo $this->__('%d',$dPoints) ?>" title="<?php echo $this->__('Enter the points you want to convert.') ?>" class="required-entry input-text validate-number validate-greater-than-zero"/>
+	    </div>
+	</li>
+	<li>
+	    <div class="input-box">
+	    	<label for="coupon" class="required"><em>*</em><?php echo $this->__('Vouchers:') ?></label><br/>
+	        <input onChange="pointsToCoupon('coupon')" type="text" name="coupon" id="coupon" value="" title="<?php echo $this->__('Indiquez la valeur du bon de réduction que vous souhaitez obtenir.') ?>" class="required-entry input-text validate-number validate-greater-than-zero"/>
+	    </div>
+	</li>
+</ul>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate', true);
+	pointsToCoupon('points');
+    function pointsToCoupon(fieldId)
+    {
+    	var points = $('points');
+        var coupon = $('coupon');
+        var taux = <?php echo $PointsToCash ?>;
+
+        if (!points.value.empty())
+        {
+            p = points.value.replace(",",".");
+			p = parseFloat(p);
+			points.value = p.toFixed(0);
+        }
+        
+        if (!coupon.value.empty())
+        {
+        	c = coupon.value.replace(",",".");
+        	c = parseFloat(c);
+        	coupon.value = c.toFixed(2);
+        }
+
+		if (fieldId == 'points')
+		{
+			var cashValue = points.value*taux;
+			coupon.value = cashValue.toFixed(2);
+		}
+		else if (fieldId == 'coupon')
+		{
+			var pointsValue = coupon.value/taux;
+            points.value = pointsValue.round();
+            var couponValue = pointsValue.round()*taux;
+            coupon.value = couponValue.toFixed(2);
+		}
+    }
+</script>

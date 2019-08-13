@@ -10,7 +10,7 @@ class Auguria_Sponsorship_Model_Mysql4_Sponsorship_Collection extends Mage_Core_
     public function _construct()
     {
         parent::_construct();
-        $this->_init('sponsorship/sponsorship');
+        $this->_init('auguria_sponsorship/sponsorship');
     }
     
 	public function addAttributeToFilter($nameField, $value)

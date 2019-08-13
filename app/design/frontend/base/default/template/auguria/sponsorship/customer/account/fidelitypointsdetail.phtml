@@ -1,0 +1,261 @@
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<div class="std">
+	<div class="page-title">
+    	<h1>
+        	<?php echo $this->__('Fidelity points'); ?>
+    	</h1>
+	</div>
+	<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+
+<?php
+	if ($this->getFidelityEnabledConfig ()):
+
+        //si il y eu des commandes
+        $_items = $this->getCommandes();
+        if ($_items):
+        	$tableId = 'lastOrdersTable';
+?>
+
+    <h2 class="title"><?php echo $this->__('Your lastest orders') ?></h2>
+
+    <table class="data-table" id="<?php echo $tableId; ?>">
+    	<thead>
+	    	<tr>
+	    		<th class="nosort"><span><?php echo $this->__("Identifier"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Date"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Amount"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Winning"); ?></span></th>
+	    	</tr>
+	    </thead>
+	    <tbody>
+<?php
+			$iterator = 0;
+			foreach ($_items as $_item):
+?>
+	    	<tr class="<?php if($iterator % 2 == 0): ?> odd<?php else: ?> even<?php endif; $iterator++; ?>">
+	    		<td><?php echo $_item['increment_id']; ?></td>
+	    		<td style="text-align: center"><?php echo $this->formatDate($_item['created_at'],Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM); ?></td>
+	    		<td style="text-align: center"><?php echo addslashes(Mage::app()->getStore()->formatPrice($_item['grand_total'])); ?></td>
+	    		<td style="text-align: center"><?php echo $this->__('%01.4f',$this->getOrderFidelityPoints($_item['entity_id'])); ?></td>
+	    	</tr>
+<?php
+			endforeach;
+?>
+    	</tbody>
+    </table>
+    <div class="sorter-pager">
+		<div class="entries">
+			<span><?php echo $this->__('Entries Per Page:'); ?></span>
+			<select onchange="<?php echo $tableId; ?>Sorter.size(this.value)">
+				<option value="5" selected="selected">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+			</select>
+		</div>
+
+		<div class="navigation">
+			<div class="first" onclick="<?php echo $tableId; ?>Sorter.move(-1,true)"><span><?php echo $this->__('First'); ?></span></div>
+			<div class="previous" onclick="<?php echo $tableId; ?>Sorter.move(-1)"><span><?php echo $this->__('Previous'); ?></span></div>
+		</div>
+		<div class="text">
+			<?php echo $this->__('Page'); ?>
+			<span id="<?php echo $tableId; ?>Currentpage"></span>
+			<?php echo $this->__('of'); ?>
+			<span id="<?php echo $tableId; ?>Pagelimit"></span>
+		</div>
+		<div class="navigation">
+			<div class="next" onclick="<?php echo $tableId; ?>Sorter.move(1)"><span><?php echo $this->__('Next'); ?></span></div>
+			<div class="last" onclick="<?php echo $tableId; ?>Sorter.move(1,true)"><span><?php echo $this->__('Last'); ?></span></div>
+		</div>
+	</div>
+<script type="text/javascript">
+//<![CDATA[
+	var <?php echo $tableId; ?>Sorter = new TINY.table.sorter("<?php echo $tableId; ?>Sorter");
+	<?php echo $tableId; ?>Sorter.even = "even";
+	<?php echo $tableId; ?>Sorter.odd = "odd";
+	<?php echo $tableId; ?>Sorter.evensel = "evenselected";
+	<?php echo $tableId; ?>Sorter.oddsel = "oddselected";
+	<?php echo $tableId; ?>Sorter.paginate = true;
+	<?php echo $tableId; ?>Sorter.currentid = "<?php echo $tableId; ?>Currentpage";
+	<?php echo $tableId; ?>Sorter.limitid = "<?php echo $tableId; ?>Pagelimit";
+	<?php echo $tableId; ?>Sorter.init("<?php echo $tableId; ?>");
+	<?php echo $tableId; ?>Sorter.size(5);
+
+	decorateTable('<?php echo $tableId; ?>', {'tbody tr' : ['first', 'last']});
+//]]>
+</script>
+	<div class="clearer"></div>
+<?php
+		endif; //fin de la vérification qu'il y a eu des commandes ?>
+
+    <h2 class="title"><?php echo $this->__('Use of your fidelity points') ?></h2>
+	<div>
+<?php
+		echo $this->__('Fidelity balance:');
+		$fPoints = floor($this->getFidelityPoints());
+		echo " ".$fPoints;
+?>
+	</div>
+<!--Liste des échanges réalisés-->
+
+<?php
+		if ($this->hasChange('fidelity')): //Début vérification qu'il y a eu des échanges'
+			$tableId = 'fidelityChangeTable';
+?>
+	<div>
+            <?php echo $this->__("Your points exchanges:") ?>
+	</div>
+	<table class="data-table" id="<?php echo $tableId; ?>">
+    	<thead>
+	    	<tr>
+	    		<th class="nosort"><span><?php echo $this->__("Type"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Date"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Points"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Value"); ?></span></th>
+	    	</tr>
+	    </thead>
+	    <tbody>
+<?php
+			$_items = $this->getChanges('fidelity');
+			$iterator = 0;
+			foreach ($_items as $_item):
+?>
+			<tr class="<?php if($iterator % 2 == 0): ?> odd<?php else: ?> even<?php endif; $iterator++; ?>">
+	    		<td><?php echo $this->__($_item->getType()); ?></td>
+	    		<td style="text-align: center"><?php echo $this->formatDate($_item->getDatetime(),Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM); ?></td>
+	    		<td style="text-align: center"><?php echo $this->__('%01.4f',$_item->getPoints()); ?></td>
+	    		<td style="text-align: center"><?php echo addslashes(Mage::app()->getStore()->formatPrice($_item->getValue())); ?></td>
+	    	</tr>
+<?php
+			endforeach;
+?>
+    	</tbody>
+    </table>
+    <div class="sorter-pager">
+		<div class="entries">
+			<span><?php echo $this->__('Entries Per Page:'); ?></span>
+			<select onchange="<?php echo $tableId; ?>Sorter.size(this.value)">
+				<option value="5" selected="selected">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+			</select>
+		</div>
+
+		<div class="navigation">
+			<div class="first" onclick="<?php echo $tableId; ?>Sorter.move(-1,true)"><span><?php echo $this->__('First'); ?></span></div>
+			<div class="previous" onclick="<?php echo $tableId; ?>Sorter.move(-1)"><span><?php echo $this->__('Previous'); ?></span></div>
+		</div>
+		<div class="text">
+			<?php echo $this->__('Page'); ?>
+			<span id="<?php echo $tableId; ?>Currentpage"></span>
+			<?php echo $this->__('of'); ?>
+			<span id="<?php echo $tableId; ?>Pagelimit"></span>
+		</div>
+		<div class="navigation">
+			<div class="next" onclick="<?php echo $tableId; ?>Sorter.move(1)"><span><?php echo $this->__('Next'); ?></span></div>
+			<div class="last" onclick="<?php echo $tableId; ?>Sorter.move(1,true)"><span><?php echo $this->__('Last'); ?></span></div>
+		</div>
+	</div>
+<script type="text/javascript">
+//<![CDATA[
+	var <?php echo $tableId; ?>Sorter = new TINY.table.sorter("<?php echo $tableId; ?>Sorter");
+	<?php echo $tableId; ?>Sorter.even = "even";
+	<?php echo $tableId; ?>Sorter.odd = "odd";
+	<?php echo $tableId; ?>Sorter.evensel = "evenselected";
+	<?php echo $tableId; ?>Sorter.oddsel = "oddselected";
+	<?php echo $tableId; ?>Sorter.paginate = true;
+	<?php echo $tableId; ?>Sorter.currentid = "<?php echo $tableId; ?>Currentpage";
+	<?php echo $tableId; ?>Sorter.limitid = "<?php echo $tableId; ?>Pagelimit";
+	<?php echo $tableId; ?>Sorter.init("<?php echo $tableId; ?>");
+	<?php echo $tableId; ?>Sorter.size(5);
+
+	decorateTable('<?php echo $tableId; ?>', {'tbody tr' : ['first', 'last']});
+//]]>
+</script>
+<?php
+		endif; //fin de vérification qu'il y a eu des échanges fidélité
+        //Liste des échanges réalisés
+        if ($fPoints>0): // si le solde de points fidélité est >0
+            if ($this->isFidelityChangeEnabled()):
+?>
+	<div>
+				<?php echo $this->__('Change your points into:');?>
+    	<ul class="disc">
+<?php
+				if ($this->getFidelityCashConfig()):
+?>
+        	<li>
+                <a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'fidelity','type'=>'cash')) ?>"><?php echo $this->__('Cash') ?></a>
+        	</li>
+<?php
+				endif;
+				if ($this->getFidelityCouponConfig()):
+?>
+        	<li>
+                <a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'fidelity','type'=>'coupon')) ?>"><?php echo $this->__('Vouchers') ?></a>
+                <?php echo $this->__(':You will receive an email with the discount code you can use on your next order.') ?>
+        	</li>
+<?php
+				endif;
+				if ($this->getFidelityGiftConfig()):
+?>
+			<li>
+                <a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'fidelity','type'=>'gift')) ?>"><?php echo $this->__('Gifts') ?></a>
+        	</li>
+<?php
+				endif;
+?>
+    	</ul>
+	</div>
+<?php
+			endif; //change actif
+		else: //si le solde des poinst n'est pas supérieur à 0
+			if ($this->isFidelityChangeEnabled()):
+?>
+	<div>
+		<?php echo $this->__('Once you will have points, you can change them into:');?>
+    	<ul class="disc">
+<?php
+				if ($this->getFidelityCashConfig()):
+?>
+        	<li>
+                    <?php echo $this->__('Cash') ?>
+        	</li>
+<?php
+				endif;
+				if ($this->getFidelityCouponConfig()):
+?>
+        	<li>
+                    <?php echo $this->__('Vouchers') ?>
+                    <?php echo $this->__(':You will receive an email with the discount code you can use on your next order.') ?>
+        	</li>
+<?php
+				endif;
+				if ($this->getFidelityGiftConfig()):
+?>
+        	<li>
+                    <?php echo $this->__('Gifts') ?>
+        	</li>
+<?php
+				endif;
+?>
+    	</ul>
+	</div>
+<?php
+			endif;//fidelity change enable
+		endif; //fin de la vérification du solde des points fidélité
+	endif;
+?>
+	<div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    </div>
+ </div>

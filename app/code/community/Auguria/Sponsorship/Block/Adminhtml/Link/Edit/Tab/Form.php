@@ -11,17 +11,17 @@ class Auguria_Sponsorship_Block_Adminhtml_Link_Edit_Tab_Form extends Mage_Adminh
   {
       $form = new Varien_Data_Form();
       $this->setForm($form);
-      $fieldset = $form->addFieldset('link_form', array('legend'=>Mage::helper('sponsorship')->__('Sponsorship information')));
+      $fieldset = $form->addFieldset('link_form', array('legend'=>Mage::helper('auguria_sponsorship')->__('Sponsorship information')));
      
       $fieldset->addField('entity_id', 'text', array(
-          'label'     => Mage::helper('sponsorship')->__('Godson'),
+          'label'     => Mage::helper('auguria_sponsorship')->__('Godson'),
           'class'     => 'required-entry',
           'required'  => true,
           'name'      => 'entity_id',
       ))->setReadonly(true);
 
       $fieldset->addField('sponsor', 'text', array(
-          'label'     => Mage::helper('sponsorship')->__('Sponsor'),
+          'label'     => Mage::helper('auguria_sponsorship')->__('Sponsor'),
           'name'      => 'sponsor',
       ));
 

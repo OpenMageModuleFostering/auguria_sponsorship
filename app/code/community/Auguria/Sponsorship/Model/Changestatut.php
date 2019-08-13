@@ -15,10 +15,10 @@ class Auguria_Sponsorship_Model_Changestatut extends Varien_Object
     static public function getOptionArray()
     {
         return array(
-            self::STATUS_WAITING    => Mage::helper('sponsorship')->__('Waiting'),
-            self::STATUS_EXPORTED   => Mage::helper('sponsorship')->__('Exported'),
-            self::STATUS_SOLVED     => Mage::helper('sponsorship')->__('Solved'),
-            self::STATUS_CANCELED   => Mage::helper('sponsorship')->__('Canceled')
+            self::STATUS_WAITING    => Mage::helper('auguria_sponsorship')->__('Waiting'),
+            self::STATUS_EXPORTED   => Mage::helper('auguria_sponsorship')->__('Exported'),
+            self::STATUS_SOLVED     => Mage::helper('auguria_sponsorship')->__('Solved'),
+            self::STATUS_CANCELED   => Mage::helper('auguria_sponsorship')->__('Canceled')
         );
     }
 }

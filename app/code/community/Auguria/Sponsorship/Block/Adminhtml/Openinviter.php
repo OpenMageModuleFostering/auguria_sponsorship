@@ -10,7 +10,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Openinviter extends Mage_Adminhtml_Blo
   public function __construct()
   {
   	$this->_controller = 'adminhtml_openinviter';
-    $this->_blockGroup = 'sponsorship';
+    $this->_blockGroup = 'auguria_sponsorship';
     $this->_headerText = $this->__('Open inviter providers');
     $this->_addButtonLabel = $this->__('Add a provider');
     parent::__construct();

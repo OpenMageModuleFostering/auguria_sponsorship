@@ -64,6 +64,7 @@ class Auguria_Sponsorship_Model_Mysql4_Rule extends Mage_CatalogRule_Model_Mysql
 	            );
 
 	            $dayPrices  = array();
+	            
 	            $dayFidelityPoints = array();
 	            $daySponsorPoints = array();
 	            $stopFlags  = array();
@@ -314,7 +315,7 @@ class Auguria_Sponsorship_Model_Mysql4_Rule extends Mage_CatalogRule_Model_Mysql
         if (empty($arrData)) {
             return $this;
         }
-        $header = 'replace into '.$this->getTable('sponsorship/catalog'.$type.'point').' (
+        $header = 'replace into '.$this->getTable('auguria_sponsorship/catalog'.$type.'point').' (
                 rule_date,
                 website_id,
                 customer_group_id,
@@ -363,24 +364,25 @@ class Auguria_Sponsorship_Model_Mysql4_Rule extends Mage_CatalogRule_Model_Mysql
         $write->delete($this->getTable('catalogrule/rule_product_price'), $conds);
         
         $selectFidelityPoint = $this->_getWriteAdapter()->select()
-            ->from($this->getTable('sponsorship/catalogfidelitypoint'), 'product_id')
+            ->from($this->getTable('auguria_sponsorship/catalogfidelitypoint'), 'product_id')
             ->where(implode(' AND ', $conds));
         $insertQuery = 'REPLACE INTO ' . $this->getTable('catalogrule/affected_product') . ' (product_id)' .$selectFidelityPoint->__toString();
         $this->_getWriteAdapter()->query($insertQuery);
-        $write->delete($this->getTable('sponsorship/catalogfidelitypoint'), $conds);
+        $write->delete($this->getTable('auguria_sponsorship/catalogfidelitypoint'), $conds);
         
         $selectSponsorPoint = $this->_getWriteAdapter()->select()
-            ->from($this->getTable('sponsorship/catalogsponsorpoint'), 'product_id')
+            ->from($this->getTable('auguria_sponsorship/catalogsponsorpoint'), 'product_id')
             ->where(implode(' AND ', $conds));
         $insertQuery = 'REPLACE INTO ' . $this->getTable('catalogrule/affected_product') . ' (product_id)' .$selectSponsorPoint->__toString();
         $this->_getWriteAdapter()->query($insertQuery);
-        $write->delete($this->getTable('sponsorship/catalogsponsorpoint'), $conds);
+        $write->delete($this->getTable('auguria_sponsorship/catalogsponsorpoint'), $conds);
         
         return $this;
     }
     
 	public function deleteOldData($date, $productId=null)
     {
+    	/*@TODO add sponsorship/catalogsponsopoint delete ?*/
         $write = $this->_getWriteAdapter();
         $conds = array();
         $conds[] = $write->quoteInto('rule_date<?', $this->formatDate($date));
@@ -388,7 +390,7 @@ class Auguria_Sponsorship_Model_Mysql4_Rule extends Mage_CatalogRule_Model_Mysql
             $conds[] = $write->quoteInto('product_id=?', $productId);
         }
         $write->delete($this->getTable('catalogrule/rule_product_price'), $conds);
-        $write->delete($this->getTable('sponsorship/catalogfidelitypoint'), $conds);
+        $write->delete($this->getTable('auguria_sponsorship/catalogfidelitypoint'), $conds);
         return $this;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Canoe',
-	'version'=>'1.0.3',
+	'version'=>'1.0.4',
 	'description'=>"Get the contacts from a Canoe account",
 	'base_version'=>'1.6.5',
 	'type'=>'email',
@@ -120,7 +120,7 @@ class canoe extends openinviter_base
 		foreach ($temp as $values)
 			{
 			if (!empty($values[4]))
-				$$contacts[$values[4]]=array('first_name'=>(!empty($values[0])?$values[0]:false),
+				$contacts[$values[4]]=array('first_name'=>(!empty($values[0])?$values[0]:false),
 												'middle_name'=>(!empty($values[2])?$values[2]:false),
 												'last_name'=>(!empty($values[1])?$values[1]:false),
 												'nickname'=>false,

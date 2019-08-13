@@ -1,0 +1,109 @@
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+ <?php
+ if (Mage::getStoreConfig('auguria_sponsorship/open_inviter/open_inviter_enabled')==true):
+ ?>
+<div id="messages_openinviter"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>	
+<form action="" id="openinviterimport" method="post" onsubmit="addContacts(); return false;">
+    <div class="fieldset open_inviter_options">
+        <h2 class="legend"><?php echo $this->__('Select recipients from your address book:') ?></h2>
+        <?php
+        		$step = $this->getOpenInviterStep();
+	        	if ($step=='send_invites'):
+					$contacts = $this->getOpenInviterContacts();
+					if (count($contacts)):
+						$counter = 0;
+		?>		
+		<div class="buttons-set">
+			<p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+			<button class="button" type="submit"><span><?php echo $this->__('Import selected contacts') ?></span></button>
+			<input type='hidden' name='step' value='get_contacts' />
+		</div>
+		<div class="clear">&nbsp;</div>
+		<ul class="form-list" id="open_inviter_options">
+			<li>
+				<input name='check_all' id='check_all' type='checkbox' checked="checked">
+				<span class='bold'><?php echo $this->__("Check or uncheck all"); ?></span>
+			</li>
+			<li>&nbsp;</li>
+							<?php foreach ($contacts as $email=>$name):
+								$counter++;
+							?>
+			<li>    
+				<input name='check' id='check_<?php echo $counter; ?>' value='<?php echo $counter; ?>' type='checkbox' checked="checked">
+				<span><?php echo $name.' &lt;'.$email.'&gt;'; ?></span>				
+				<input type='hidden' name='email_<?php echo $counter; ?>' id='email_<?php echo $counter; ?>' value='<?php echo $email; ?>'>
+				<input type='hidden' name='name_<?php echo $counter; ?>' id='name_<?php echo $counter; ?>' value='<?php echo $name; ?>'>
+			</li>
+							<?php endforeach; ?>
+		</ul>		
+		<div class="buttons-set">
+			<p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+			<button class="button" type="submit"><span><?php echo $this->__('Import selected contacts') ?></span></button>
+			<input type='hidden' name='step' value='get_contacts' />
+		</div>
+				<?php endif; ?>
+			<?php endif; ?>
+    </div>
+</form>
+<?php endif; ?>
+<script type="text/javascript">
+	var openinviter = new VarienForm('openinviterimport', true);
+	Event.observe('check_all', 'click', function(event) {
+		if (document.getElementById('check_all').checked)
+		{
+			checkAll();
+		}
+		else
+		{
+			uncheckAll();
+		}
+	});
+		
+	function checkAll()
+	{
+		var contacts = openinviter.form.elements;
+		for (i = 0; i < contacts.length; i++)
+		{
+			var contact = contacts[i];
+			if (contact.name == 'check')
+			{
+		  		contact.checked = 1;
+			}
+		}
+	}
+	function uncheckAll()
+	{
+		var contacts = openinviter.form.elements;
+		for (i = 0; i < contacts.length; i++)
+		{
+			var contact = contacts[i];
+			if (contact.name == 'check')
+			{
+		  		contact.checked = 0;
+			}
+		}
+	}
+	
+	function addContacts()
+	{
+		var contacts = openinviter.form.elements;
+		for (i = 0; i < contacts.length; i++)
+		{
+			var contact = contacts[i];
+			if (contact.name == 'check' && contact.checked)
+			{
+		  		var name = document.getElementById('name_'+contact.value).value;
+		  		var email = document.getElementById('email_'+contact.value).value;
+				opener.add_recipient('', name, email);
+			}
+		}
+		self.close();	    
+	}
+</script> 

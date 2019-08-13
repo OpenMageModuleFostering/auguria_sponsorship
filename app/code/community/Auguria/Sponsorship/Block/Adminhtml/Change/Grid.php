@@ -18,11 +18,11 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Grid extends Mage_Adminhtml_Blo
 
   protected function _prepareCollection()
   {
-      $collection = Mage::getResourceModel('sponsorship/change_collection')
+      $collection = Mage::getResourceModel('auguria_sponsorship/change_collection')
                             ->addNameToSelect()
       ;
       /*
-      $collection = Mage::getModel('sponsorship/change')->getCollection();
+      $collection = Mage::getModel('auguria_sponsorship/change')->getCollection();
       foreach ($collection as $change)
       {
           $customer = mage::getModel("customer/customer")->load($change->getCustomerId());
@@ -37,21 +37,21 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Grid extends Mage_Adminhtml_Blo
   protected function _prepareColumns()
   {
       $this->addColumn('sponsorship_change_id', array(
-          'header'    => Mage::helper('sponsorship')->__('ID'),
+          'header'    => Mage::helper('auguria_sponsorship')->__('ID'),
           'align'     =>'right',
           'width'     => '20px',
           'index'     => 'sponsorship_change_id',
       ));
 
       $this->addColumn('customer_id', array(
-          'header'    => Mage::helper('sponsorship')->__('Customer ID'),
+          'header'    => Mage::helper('auguria_sponsorship')->__('Customer ID'),
           'align'     =>'right',
       	  'width'     => '20px',
           'index'     => 'customer_id',
       ));
 
       $this->addColumn('customer_name', array(
-          'header'    => Mage::helper('sponsorship')->__('Customer name'),
+          'header'    => Mage::helper('auguria_sponsorship')->__('Customer name'),
           'align'     =>'left',
           'filter'  => false,
           'index'     => 'customer_name',
@@ -59,40 +59,42 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Grid extends Mage_Adminhtml_Blo
 
 	  
       $this->addColumn('type', array(
-			'header'    => Mage::helper('sponsorship')->__('Type'),
+			'header'    => Mage::helper('auguria_sponsorship')->__('Type'),
 			'index'     => 'type',
       		'type'      => 'options',
           	'options'   => array(
-              'cash' => 'Cash',
-              'gift' => 'Cadeaux',
-      		  'coupon' => 'Bons de réductions',
+              'cash' => Mage::helper('auguria_sponsorship')->__('Cash'),
+              'gift' => Mage::helper('auguria_sponsorship')->__('Gift'),
+      		  'coupon' => Mage::helper('auguria_sponsorship')->__('Coupon code'),
+      		  'cart' => Mage::helper('auguria_sponsorship')->__('Cart'),
           ),
       ));
       
       $this->addColumn('module', array(
-			'header'    => Mage::helper('sponsorship')->__('Module'),
+			'header'    => Mage::helper('auguria_sponsorship')->__('Module'),
 			'index'     => 'module',
       		'type'      => 'options',
           	'options'   => array(
-              'fidelity' => 'Fidélité',
-              'sponsor' => 'Parrainage',
+              'fidelity' => Mage::helper('auguria_sponsorship')->__('Fidelity'),
+              'sponsor' => Mage::helper('auguria_sponsorship')->__('Sponsorship'),
+              'accumulated' => Mage::helper('auguria_sponsorship')->__('Fidelité et parrainage'),
       	),
       ));
       
       $this->addColumn('points', array(
-			'header'    => Mage::helper('sponsorship')->__('Points'),
+			'header'    => Mage::helper('auguria_sponsorship')->__('Points'),
                         'align'     =>'right',
 			'index'     => 'points',
       ));
       
       $this->addColumn('value', array(
-			'header'    => Mage::helper('sponsorship')->__('Value'),
+			'header'    => Mage::helper('auguria_sponsorship')->__('Value'),
                         'align'     =>'right',
 			'index'     => 'value',
       ));
 	  
       $this->addColumn('datetime', array(
-          'header'    => Mage::helper('sponsorship')->__('Date'),
+          'header'    => Mage::helper('auguria_sponsorship')->__('Date'),
           'align'     =>'right',
           'index'     => 'datetime',
       	  'type'	  => 'datetime',
@@ -100,7 +102,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Grid extends Mage_Adminhtml_Blo
       ));
       
       $this->addColumn('statut', array(
-          'header'    => Mage::helper('sponsorship')->__('Status'),
+          'header'    => Mage::helper('auguria_sponsorship')->__('Status'),
           'align'     => 'left',
           'index'     => 'statut',
           'type'      => 'options',
@@ -114,13 +116,13 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Grid extends Mage_Adminhtml_Blo
 	  
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('sponsorship')->__('Action'),
+                'header'    =>  Mage::helper('auguria_sponsorship')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('sponsorship')->__('Edit'),
+                        'caption'   => Mage::helper('auguria_sponsorship')->__('Edit'),
                         'url'       => array('base'=> '*/*/edit'),
                         'field'     => 'id'
                     )
@@ -131,8 +133,8 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Grid extends Mage_Adminhtml_Blo
                 'is_system' => true,
         ));
 		
-		$this->addExportType('*/*/exportCsv', Mage::helper('sponsorship')->__('CSV'));
-		$this->addExportType('*/*/exportXml', Mage::helper('sponsorship')->__('XML'));
+		$this->addExportType('*/*/exportCsv', Mage::helper('auguria_sponsorship')->__('CSV'));
+		$this->addExportType('*/*/exportXml', Mage::helper('auguria_sponsorship')->__('XML'));
 	  
       return parent::_prepareColumns();
   }
@@ -143,24 +145,24 @@ class Auguria_Sponsorship_Block_Adminhtml_Change_Grid extends Mage_Adminhtml_Blo
         $this->getMassactionBlock()->setFormFieldName('change');
 
   //      $this->getMassactionBlock()->addItem('delete', array(
-    //         'label'    => Mage::helper('sponsorship')->__('Delete'),
+    //         'label'    => Mage::helper('auguria_sponsorship')->__('Delete'),
      //        'url'      => $this->getUrl('*/*/massDelete'),
-    //         'confirm'  => Mage::helper('sponsorship')->__('Are you sure?')
+    //         'confirm'  => Mage::helper('auguria_sponsorship')->__('Are you sure?')
      //   ));
         
-        $statuses = Mage::getSingleton('sponsorship/changestatut')->getOptionArray();
+        $statuses = Mage::getSingleton('auguria_sponsorship/changestatut')->getOptionArray();
 
         array_unshift($statuses, array('label'=>'', 'value'=>''));
         $this->getMassactionBlock()->addItem('statut', array(
-             'label'=> Mage::helper('sponsorship')->__('Update status'),
+             'label'=> Mage::helper('auguria_sponsorship')->__('Update status'),
              'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
-             'confirm'  => Mage::helper('sponsorship')->__('Are you sure to process mass action?'),
+             'confirm'  => Mage::helper('auguria_sponsorship')->__('Are you sure to process mass action?'),
              'additional' => array(
                     'visibility' => array(
                          'name' => 'statut',
                          'type' => 'select',
                          'class' => 'required-entry',
-                         'label' => Mage::helper('sponsorship')->__('Status'),
+                         'label' => Mage::helper('auguria_sponsorship')->__('Status'),
                          'values' => $statuses
                      )
              )

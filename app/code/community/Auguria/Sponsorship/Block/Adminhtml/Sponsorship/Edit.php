@@ -34,7 +34,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Sponsorship_Edit extends Mage_Adminhtm
         ), 1);
                  
         $this->_objectId = 'id';
-        $this->_blockGroup = 'sponsorship';
+        $this->_blockGroup = 'auguria_sponsorship';
         $this->_controller = 'adminhtml_sponsorship';
         
         $this->_updateButton('save', 'label', Mage::helper('adminhtml')->__('Save'));
@@ -64,9 +64,9 @@ class Auguria_Sponsorship_Block_Adminhtml_Sponsorship_Edit extends Mage_Adminhtm
     public function getHeaderText()
     {
         if( Mage::registry('sponsorship_data') && Mage::registry('sponsorship_data')->getId() ) {
-            return Mage::helper('sponsorship')->__("Edition of the invitation '%s'", $this->htmlEscape(Mage::registry('sponsorship_data')->getId()));
+            return Mage::helper('auguria_sponsorship')->__("Edition of the invitation '%s'", $this->htmlEscape(Mage::registry('sponsorship_data')->getId()));
         } else {
-            return Mage::helper('sponsorship')->__('Add an invitation');
+            return Mage::helper('auguria_sponsorship')->__('Add an invitation');
         }
     }
 }

@@ -1,0 +1,224 @@
+<?php
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<div class="entry-edit">
+	<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend">
+			<?php echo $this->__('Fidelity and Sponsorship'); ?>
+		</h4>
+	</div>
+	<div id="_sponsorship_fieldset" class="fieldset">
+		<div class="hor-scroll">
+			<table class="form-list" cellspacing="0">
+				<tbody>
+					<tr>
+						<td class="label">
+							<?php echo $this->__('Sponsor'); ?>
+						</td>
+						<td class="value"><input id="sponsorship_sponsor"
+							class=" input-text" type="text"
+							value="<?php echo $this->getCustomer()->getSponsor(); ?>"
+							name="sponsorship[sponsor]"/>
+							<p class="note">
+								<span><?php echo $this->__('This is customer id of sponsor.')?>
+								</span>
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<td class="label"><?php echo $this->__('Special rate'); ?>
+						</td>
+						<td class="value"><input id="sponsorship_special_rate"
+							class=" input-text" type="text"
+							value="<?php echo $this->getCustomer()->getSpecialRate(); ?>"
+							name="sponsorship[special_rate]"/>
+							<p class="note">
+								<span><?php echo $this->__('If special rate is indicated, sponsor points will be calculated with it. But customer will gain points only on direct sponsorship.')?>
+								</span>
+							</p>
+						</td>
+					</tr>
+			
+			<?php 
+				if (Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='fidelity'
+					|| Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='separated'
+				):
+			?>
+					<tr>
+						<td class="label"><?php echo $this->__('Fidelity points'); ?>
+						</td>
+						<td class="value"><input id="sponsorship_fidelity_points"
+							class=" input-text" type="text"
+							value="<?php echo $this->getCustomer()->getFidelityPoints(); ?>"
+							name="sponsorship[fidelity_points]"/>
+							<p class="note">
+								<span><?php echo $this->__('Sold fidelity points.')?> </span>
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<?php echo $this->__('Validity fidelity points'); ?>
+						</td>
+						<td class="value">
+							<input id="sponsorship_fidelity_points_validity"
+								class=" input-text" type="date"
+								value="<?php echo $this->formatDate($this->getCustomer()->getFidelityPointsValidity()); ?>"
+								name="sponsorship[fidelity_points_validity]"
+								style="width:5em"/>
+							<img
+								title="<?php echo $this->__('Select date'); ?>" alt=""
+								src="<?php echo $this->getSkinUrl('images/fam_calendar.gif'); ?>"
+								id="sponsorship_fidelity_points_validity_trig">
+						</td>
+					</tr>
+			<?php
+				endif;
+				if (Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='sponsorship'
+					|| Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='separated'
+				):
+			?>
+					<tr>
+						<td class="label"><?php echo $this->__('Sponsor points'); ?>
+						</td>
+						<td class="value">
+							<input id="sponsorship_sponsor_points"
+								class=" input-text" type="text"
+								value="<?php echo $this->getCustomer()->getSponsorPoints(); ?>"
+								name="sponsorship[sponsor_points]"/>
+							<p class="note">
+								<span><?php echo $this->__('Sold sponsor points.')?> </span>
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<?php echo $this->__('Validity sponsorship points'); ?>
+						</td>
+						<td class="value">
+							<input id="sponsorship_sponsorship_points_validity"
+								class=" input-text" type="date"
+								value="<?php echo $this->formatDate($this->getCustomer()->getSponsorshipPointsValidity()); ?>"
+								name="sponsorship[sponsorship_points_validity]"
+								style="width:5em"/>
+							<img
+								title="<?php echo $this->__('Select date'); ?>" alt=""
+								src="<?php echo $this->getSkinUrl('images/fam_calendar.gif'); ?>"
+								id="sponsorship_sponsorship_points_validity_trig">
+						</td>
+					</tr>
+			<?php
+				endif;
+				if (Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='accumulated'):
+			?>
+					<tr>
+						<td class="label"><?php echo $this->__('Points'); ?>
+						</td>
+						<td class="value">
+							<input id="sponsorship_accumulated_points"
+								class=" input-text" type="text"
+								value="<?php echo $this->getCustomer()->getAccumulatedPoints(); ?>"
+								name="sponsorship[accumulated_points]"/>
+							<p class="note">
+								<span><?php echo $this->__('Sold points.')?> </span>
+							</p>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<?php echo $this->__('Validity points'); ?>
+						</td>
+						<td class="value">
+							<input id="sponsorship_points_validity"
+								class=" input-text" type="date"
+								value="<?php echo $this->formatDate($this->getCustomer()->getPointsValidity()); ?>"
+								name="sponsorship[points_validity]"
+								style="width:5em"/>
+							<img
+								title="<?php echo $this->__('Select date'); ?>" alt=""
+								src="<?php echo $this->getSkinUrl('images/fam_calendar.gif'); ?>"
+								id="sponsorship_points_validity_trig">
+						</td>
+					</tr>
+			<?php
+				endif;
+			?>
+					<tr>
+						<td class="label"><?php echo $this->__('IBAN'); ?>
+						</td>
+						<td class="value">
+							<input id="sponsorship_iban" class=" input-text"
+								type="text"
+								value="<?php echo $this->getCustomer()->getIban(); ?>"
+								name="sponsorship[iban]"/>
+						</td>
+						<td class="scope-label"><span class="nobr"></span>
+						</td>
+					</tr>
+					<tr>
+						<td class="label"><?php echo $this->__('SIRET'); ?>
+						</td>
+						<td class="value">
+							<input id="sponsorship_siret"
+								class=" input-text" type="text"
+								value="<?php echo $this->getCustomer()->getSiret(); ?>"
+								name="sponsorship[siret]"/>
+						</td>
+						<td class="scope-label"><span class="nobr"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script type="text/javascript">
+//<![CDATA[
+<?php
+	if (Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='fidelity'
+		|| Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='separated'
+	):
+?>
+	Calendar.setup({
+		inputField: "sponsorship_fidelity_points_validity",
+		ifFormat: "<?php echo Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT); ?>",
+		showsTime: false,
+		button: "sponsorship_fidelity_points_validity_trig",
+		align: "B1",
+		singleClick: true
+	});
+<?php
+	endif;
+	if (Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='sponsorship'
+		|| Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='separated'
+	):
+?>
+
+	Calendar.setup({
+		inputField: "sponsorship_sponsorship_points_validity",
+		ifFormat: "<?php echo Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT); ?>",
+		showsTime: false,
+		button: "sponsorship_sponsorship_points_validity_trig",
+		align: "B1",
+		singleClick: true
+	});
+<?php
+	endif;
+	if (Mage::getStoreConfig('auguria_sponsorship/general/module_mode')=='accumulated'):
+?>
+	Calendar.setup({
+		inputField: "sponsorship_points_validity",
+		ifFormat: "<?php echo Mage::app()->getLocale()->getDateStrFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT); ?>",
+		showsTime: false,
+		button: "sponsorship_points_validity_trig",
+		align: "B1",
+		singleClick: true
+	});
+<?php endif; ?>
+//]]>
+</script>
+</div>

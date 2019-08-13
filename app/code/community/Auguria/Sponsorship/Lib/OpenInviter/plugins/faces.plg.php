@@ -4,7 +4,7 @@
  */
 $_pluginInfo=array(
 	'name'=>'Faces',
-	'version'=>'1.0.5',
+	'version'=>'1.0.6',
 	'description'=>"Get the contacts from a Faces account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',

@@ -4,7 +4,7 @@
  */
 $_pluginInfo=array(
 	'name'=>'Facebook',
-	'version'=>'1.2.4',
+	'version'=>'1.2.7',
 	'description'=>"Get the contacts from a Facebook account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',
@@ -31,7 +31,7 @@ class facebook extends openinviter_base
 	
 	public $debug_array=array(
 				'initial_get'=>'pass',
-				'login_post'=>'javascripts',
+				'login_post'=>'javascript',
 				'get_user_id'=>'profile.php?id=',				
 				'url_friends'=>'fb_dtsg:"',								
 				'message_elements'=>'composer_id',
@@ -65,8 +65,7 @@ class facebook extends openinviter_base
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
-			}
-			
+			}		
 		$form_action="https://login.facebook.com/login.php?login_attempt=1";
 		$post_elements=array('email'=>$user,
 							 'pass'=>$pass,
@@ -88,7 +87,7 @@ class facebook extends openinviter_base
 			return false;
 			}
 		
-		$res=$this->get('http://facebook.com/',true);
+		$res=$this->get('http://facebook.com/',true);		
 		if ($this->checkResponse("get_user_id",$res))
 			$this->updateDebugBuffer('get_user_id',"http://facebook.com/",'GET');
 		else
@@ -97,8 +96,8 @@ class facebook extends openinviter_base
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
-			}		
-		$this->userId=$this->getElementString($res,"www.facebook.com\/profile.php?id=",'\"');
+			}						
+		$this->userId=$this->getElementString($res,"{user:",',');						
 		if (empty($this->userId)) $this->login_ok=false;
 		else $this->login_ok="http://www.facebook.com/ajax/social_graph/fetch.php?__a=1";
 		return true;
@@ -113,7 +112,7 @@ class facebook extends openinviter_base
 	 * @return mixed The array if contacts if importing was successful, FALSE otherwise.
 	 */	
 	public function getMyContacts()
-		{
+		{				
 		if (!$this->login_ok)
 			{
 			$this->debugRequest();
@@ -122,7 +121,12 @@ class facebook extends openinviter_base
 			}
 		else $url=$this->login_ok;
 		
-		$res=$this->get("http://www.facebook.com/profile.php?id={$this->userId}&ref=profile",true);
+		$res=$this->get("http://www.facebook.com/profile.php?id={$this->userId}",true);
+		if (strpos($res,'window.location.replace("')!==FALSE)
+			{
+			$url_redirect=stripslashes($this->getElementString($res,'window.location.replace("','"'));
+			if (!empty($url_redirect)) $res=$this->get($url_redirect,true);	
+			}		
 		if ($this->checkResponse("url_friends",$res))
 			$this->updateDebugBuffer('url_friends',"http://www.facebook.com/profile.php?id={$this->userId}&ref=profile",'GET');
 		else
@@ -146,8 +150,7 @@ class facebook extends openinviter_base
 							 'post_form_id_source'=>'AsyncReques',
 							);							
 		$res=$this->post($form_action,$post_elements,true);	
-		//!!!
-		
+		//!!!		
 		$contacts=array();
 		while(preg_match_all("#\{\"id\"\:(.+)\,\"title\"\:\"(.+)\"#U",$res,$matches))
 			{
@@ -202,35 +205,36 @@ class facebook extends openinviter_base
 		$form_action="http://www.facebook.com/ajax/gigaboxx/endpoint/MessageComposerEndpoint.php?__a=1";
 		$post_elements=array();
 		foreach($contacts as $fbId=>$name)
-			{			
-			$post_elements["ids_{$composerId}[$countMessages]"]=$fbId;
-			$post_elements["ids[$countMessages]"]=$fbId;
+			{						
 			$countMessages++;
-			if ($countMessages>$this->maxMessages) break;
-			}
-		$post_elements+=array('subject'=>$message['subject'],
-							  'status'=>$message['body'],
-							  'action'=>'send_new',
-							  'home_tab_id'=>1,
-							  'profile_id'=>$userId,
-							  'target_id'=>0,							  
-							  'composer_id'=>$composerId,
-							  'hey_kid_im_a_composer'=>'true',							  
-							  'post_form_id'=>$postFormId,
-							  'fb_dtsg'=>$fbDtsg,
-							  '_log_action'=>'send_new',							 
-							  'ajax_log'=>1,
-							  'post_form_id_source'=>'AsyncRequest'								  
-							  );				
-		$res=$this->post($form_action,$post_elements);	
-		if ($this->checkResponse("send_message",$res))
-			$this->updateDebugBuffer('send_message',"{$form_action}",'POST',true,$post_elements);
-		else
-			{
-			$this->updateDebugBuffer('send_message',"{$form_action}",'POST',false,$post_elements);
-			$this->debugRequest();
-			$this->stopPlugin();
-			return false;
+			if ($countMessages>$this->maxMessages) break;			
+			$post_elements=array("ids_{$composerId}[0]"=>$fbId,
+								  "ids[0]"=>$fbId,
+								  'subject'=>$message['subject'],
+								  'status'=>$message['body'],
+								  'action'=>'send_new',
+								  'home_tab_id'=>1,
+								  'profile_id'=>$userId,
+								  'target_id'=>0,							  
+								  'composer_id'=>$composerId,
+								  'hey_kid_im_a_composer'=>'true',							  
+								  'post_form_id'=>$postFormId,
+								  'fb_dtsg'=>$fbDtsg,
+								  '_log_action'=>'send_new',							 
+								  'ajax_log'=>1,
+								  'post_form_id_source'=>'AsyncRequest'								  
+								  );				
+			$res=$this->post($form_action,$post_elements);	
+			if ($this->checkResponse("send_message",$res))
+				$this->updateDebugBuffer('send_message',"{$form_action}",'POST',true,$post_elements);
+			else
+				{
+				$this->updateDebugBuffer('send_message',"{$form_action}",'POST',false,$post_elements);
+				$this->debugRequest();
+				$this->stopPlugin();
+				return false;
+				}
+			sleep($this->messageDelay);
 			}						
 		}
 

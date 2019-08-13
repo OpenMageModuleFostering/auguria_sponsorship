@@ -1,7 +1,7 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Twitter',
-	'version'=>'1.0.8',
+	'version'=>'1.1.1',
 	'description'=>"Get the contacts from a Twitter account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',
@@ -18,18 +18,22 @@ $_pluginInfo=array(
  * @author OpenInviter
  * @version 1.0.3
  */
-class twitter extends openinviter_base
+class twitter extends OpenInviter_Base
 	{
 	private $login_ok=false;
 	public $showContacts=true;
+	public $requirement='user';
 	public $internalError=false;
+	public $allowed_domains=false;
 	protected $timeout=30;
+	protected $maxUsers=100;
 	
 	public $debug_array=array(
-				'responce_ok'=>'screen_name',
-				'responce_ok_followers'=>'screen_name',
-				'responce_ok_status'=>'status',
-				'url_direct_message'=>'direct_message'
+				'initial_get'=>'username',
+				'login_post'=>'inbox',
+				'friends_url'=>'list-tweet',
+				'wall_message'=>'latest_text',
+				'send_message'=>'inbox'
 				);
 	
 	/**
@@ -49,17 +53,30 @@ class twitter extends openinviter_base
 		$this->service_user=$user;
 		$this->service_pass=$pass;
 		if (!$this->init()) return false;
-		$res=$this->get("http://{$user}:{$pass}@twitter.com/account/verify_credentials.xml",true);
-		if ($this->checkResponse('responce_ok',$res))
-			$this->updateDebugBuffer('responce_ok',"http://user:pass@twitter.com/account/verify_credentials.xml",'GET');
+		$res=$this->get("https://mobile.twitter.com/session/new",true);
+		if ($this->checkResponse('initial_get',$res))
+			$this->updateDebugBuffer('initial_get',"https://mobile.twitter.com/session/new",'GET');
 		else 
 			{
-			$this->updateDebugBuffer('responce_ok',"http://user:pass@twitter.com/account/verify_credentials.xml",'GET',false);
+			$this->updateDebugBuffer('initial_get',"https://mobile.twitter.com/session/new",'GET',false);
 			$this->debugRequest();
-			$this->stopPlugin();
-			return false;	
+			$this->stopPlugin();	
+			return false;
 			}
-		file_put_contents($this->getLogoutPath(),"{$user}/{$pass}");
+		
+		$form_action="https://mobile.twitter.com/session";
+		$post_elements=array('authenticity_token'=>$this->getElementString($res,'name="authenticity_token" type="hidden" value="','"'),'username'=>$user,'password'=>$pass);
+		$res=$this->post($form_action,$post_elements,true);
+		if ($this->checkResponse('login_post',$res))
+			$this->updateDebugBuffer('login_post',"{$form_action}",'POST',true,$post_elements);
+		else 
+			{
+			$this->updateDebugBuffer('login_post',"{$form_action}",'POST',false,$post_elements);
+			$this->debugRequest();
+			$this->stopPlugin();	
+			return false;
+			}				
+		$this->login_ok="http://mobile.twitter.com/{$user}/followers";
 		return true;
 		}
 
@@ -73,20 +90,41 @@ class twitter extends openinviter_base
 	 */	
 	public function getMyContacts()
 		{
-		if (file_exists($this->getLogoutPath())) 
-			{$auth=explode("/",file_get_contents($this->getLogoutPath()));$user=$auth[0];$pass=$auth[1];}
-		else return false;
-		$res=$this->get("http://{$user}:{$pass}@twitter.com/statuses/followers.xml",true);
-		if ($this->checkResponse('responce_ok_followers',$res))
-			$this->updateDebugBuffer('responce_ok_followers',"http://user:pass@twitter.com/statuses/followers.xml",'GET');
-		else 
+		if (!$this->login_ok)
 			{
-			$this->updateDebugBuffer('responce_ok_followers',"http://user:pass@twitter.com/statuses/followers.xml",'GET',false);
 			$this->debugRequest();
 			$this->stopPlugin();
-			return false;	
+			return false;
 			}
-		$contacts=$this->getElementDOM($res,'//screen_name');
+		else $url=$this->login_ok;
+		$res=$this->get($url);
+		if ($this->checkResponse('friends_url',$res))
+			$this->updateDebugBuffer('friends_url',"{$url}",'GET');
+		else 
+			{
+			$this->updateDebugBuffer('friends_url',"{$url}",'GET',false);
+			$this->debugRequest();
+			$this->stopPlugin();	
+			return false;
+			}	
+		$contacts=array();$countUsers=0;		
+		do
+			{			
+			$nextPage=false;
+			$doc=new DOMDocument();libxml_use_internal_errors(true);if (!empty($res)) $doc->loadHTML($res);libxml_use_internal_errors(false);
+			$xpath=new DOMXPath($doc);
+			$query="//a[@name]";$data=$xpath->query($query);
+			foreach ($data as $node)
+				{
+				$user=(string)$node->getAttribute("name");
+				if (!empty($user)) {$contacts[$countUsers]=$user; $countUsers++; }									
+				}			
+			$query="//div[@class='list-more']/a";$data=$xpath->query($query);
+			foreach($data as $node) { $nextPage=$node->getAttribute("href");break; }					
+			if ($countUsers>$this->maxUsers) break; 
+			if (!empty($nextPage)) $res=$this->get('http://mobile.twitter.com'.$nextPage);			
+			}
+		while ($nextPage);			
 		return $contacts;	
 		}
 
@@ -103,35 +141,26 @@ class twitter extends openinviter_base
 	 */
 	public function sendMessage($session_id,$message,$contacts)
 		{
-		if (file_exists($this->getLogoutPath())) 
-			{$auth=explode("/",file_get_contents($this->getLogoutPath()));$user=$auth[0];$pass=$auth[1];}
-		else return false;
-		$post_elements=array('status'=>$message['body']);
-		$res=$this->post("http://{$user}:{$pass}@twitter.com/statuses/update.xml",$post_elements,true);
-		if ($this->checkResponse('responce_ok_status',$res))
-			$this->updateDebugBuffer('responce_ok_status',"http://user:pass@twitter.com/statuses/update.xml",'POST',true,$post_elements);
-		else 
+		$countMessages=0;$res=$this->get("http://mobile.twitter.com");$auth=$this->getElementString($res,'name="authenticity_token" type="hidden" value="','"');
+		
+		$form_action="http://mobile.twitter.com";
+		$post_elements=array("authenticity_token"=>$auth,'tweet[text]'=>$message['body'],'tweet[in_reply_to_status_id]'=>false,'tweet[lat]'=>false,'tweet[long]'=>false,'tweet[place_id]'=>false,'tweet[display_coordinates]'=>false);		
+		$res=$this->post($form_action,$post_elements,true);					
+		
+		foreach($contacts as $screen_name)
 			{
-			$this->updateDebugBuffer('responce_ok_status',"http://user:pass@twitter.com/statuses/update.xml",'POST',false,$post_elements);
-			$this->debugRequest();
-			$this->stopPlugin();
-			return false;	
-			}
-		$countMessages=0;
-		foreach($contacts as $key=>$screen_name)
-			{
-			$countMessages++;
-			$post_elements=array('user'=>$screen_name,'text'=>$message['body']);
-			$res=$this->post("http://{$user}:{$pass}@twitter.com/direct_messages/new.xml",$post_elements);
-			if ($this->checkResponse('url_direct_message',$res))
-				$this->updateDebugBuffer('url_direct_message',"http://user:pass@twitter.com/direct_messages/new.xml",'POST',true,$post_elements);
+			$countMessages++;$form_action='http://mobile.twitter.com/inbox';						
+			$post_elements=array('authenticity_token'=>$auth,'message[text]'=>$message['body'],'message[recipient_screen_name]'=>$screen_name,'return_to'=>false,);
+			$res=$this->post($form_action,$post_elements,true);	
+			if ($this->checkResponse('send_message',$res))
+				$this->updateDebugBuffer('send_message',"{$form_action}",'POST',true,$post_elements);
 			else 
 				{
-				$this->updateDebugBuffer('url_direct_message',"http://user:pass@twitter.com/direct_messages/new.xml",'POST',false,$post_elements);
+				$this->updateDebugBuffer('send_message',"{$form_action}",'POST',false,$post_elements);
 				$this->debugRequest();
-				$this->stopPlugin();
-				return false;	
-				}
+				$this->stopPlugin();	
+				return false;
+				}											
 			sleep($this->messageDelay);
 			if ($countMessages>$this->maxMessages) {$this->debugRequest();$this->resetDebugger();$this->stopPlugin();break;}
 			}
@@ -150,6 +179,7 @@ class twitter extends openinviter_base
 	public function logout()
 		{
 		if (!$this->checkSession()) return false;
+		$this->get("http://twitter.com/logout");
 		$this->debugRequest();
 		$this->resetDebugger();
 		$this->stopPlugin();

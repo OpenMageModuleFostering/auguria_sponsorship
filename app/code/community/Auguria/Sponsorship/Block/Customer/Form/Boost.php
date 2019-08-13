@@ -17,7 +17,7 @@ class Auguria_Sponsorship_Block_Customer_Form_Boost extends Mage_Customer_Block_
         $param = $this->getRequest()->get("sponsorship_id");
         if ( $param )
         {
-            $invit = mage::getModel("sponsorship/sponsorship")->load($param);
+            $invit = mage::getModel("auguria_sponsorship/sponsorship")->load($param);
             if ($invit->getParentId() == Mage::getSingleton('customer/session')->getId())
             {
                 return $invit;

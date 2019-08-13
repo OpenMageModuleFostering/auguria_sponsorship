@@ -18,7 +18,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Openinviter_Grid extends Mage_Adminhtm
 
   	protected function _prepareCollection()
   	{
-      	$collection = Mage::getResourceModel('sponsorship/sponsorshipopeninviter_collection')
+      	$collection = Mage::getResourceModel('auguria_sponsorship/sponsorshipopeninviter_collection')
                 ;
       	$this->setCollection($collection);
       	return parent::_prepareCollection();
@@ -27,48 +27,48 @@ class Auguria_Sponsorship_Block_Adminhtml_Openinviter_Grid extends Mage_Adminhtm
   	protected function _prepareColumns()
   	{
       	$this->addColumn('sponsorship_openinviter_id', array(
-          'header'    => Mage::helper('sponsorship')->__('ID'),
+          'header'    => Mage::helper('auguria_sponsorship')->__('ID'),
           'align'     =>'right',
           'index'     => 'sponsorship_openinviter_id',
       	));
 		
       	$this->addColumn('code', array(
-			'header'    => Mage::helper('sponsorship')->__('Code'),
+			'header'    => Mage::helper('auguria_sponsorship')->__('Code'),
 			'index'     => 'code',
       	));
 		
       	$this->addColumn('name', array(
-			'header'    => Mage::helper('sponsorship')->__('Name'),
+			'header'    => Mage::helper('auguria_sponsorship')->__('Name'),
 			'index'     => 'name',
       	));
 		
       	$this->addColumn('image', array(
-			'header'    => Mage::helper('sponsorship')->__('Image'),
+			'header'    => Mage::helper('auguria_sponsorship')->__('Image'),
       		'align'     =>'center',
 			'width'     => '50px',
 			'filter'    => false,
 			'sortable'  => false,
-			'renderer'  => 'sponsorship/adminhtml_widget_grid_renderer',
+			'renderer'  => 'auguria_sponsorship/adminhtml_widget_grid_renderer',
       	));
 	  	
       	$this->addColumn('status', array(
-			'header'    => Mage::helper('sponsorship')->__('Status'),
+			'header'    => Mage::helper('auguria_sponsorship')->__('Status'),
 			'index'     => 'status',
 			'type'      => 'options',
 			'options'   => array(
-			  1 => Mage::helper('sponsorship')->__('Enabled'),
-			  2 => Mage::helper('sponsorship')->__('Disabled'),
+			  1 => Mage::helper('auguria_sponsorship')->__('Enabled'),
+			  2 => Mage::helper('auguria_sponsorship')->__('Disabled'),
 			),
 		));
 		
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('sponsorship')->__('Action'),
+                'header'    =>  Mage::helper('auguria_sponsorship')->__('Action'),
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('sponsorship')->__('Edit'),
+                        'caption'   => Mage::helper('auguria_sponsorship')->__('Edit'),
                         'url'       => array('base'=> '*/*/edit'),
                         'field'     => 'id'
                     )
@@ -88,23 +88,23 @@ class Auguria_Sponsorship_Block_Adminhtml_Openinviter_Grid extends Mage_Adminhtm
 		$this->getMassactionBlock()->setFormFieldName('openinviter');
 		
 		$this->getMassactionBlock()->addItem('delete', array(
-			'label'    => Mage::helper('sponsorship')->__('Delete'),
+			'label'    => Mage::helper('auguria_sponsorship')->__('Delete'),
 			'url'      => $this->getUrl('*/*/massDelete'),
-			'confirm'  => Mage::helper('sponsorship')->__('Are you sure?')
+			'confirm'  => Mage::helper('auguria_sponsorship')->__('Are you sure?')
 		));
 		
-		$statuses = Mage::getSingleton('sponsorship/status')->getOptionArray();
+		$statuses = Mage::getSingleton('auguria_sponsorship/status')->getOptionArray();
 		
 		array_unshift($statuses, array('label'=>'', 'value'=>''));
 		$this->getMassactionBlock()->addItem('status', array(
-			'label'=> Mage::helper('sponsorship')->__('Change status'),
+			'label'=> Mage::helper('auguria_sponsorship')->__('Change status'),
 			'url'  => $this->getUrl('*/*/massStatus', array('_current'=>true)),
 			'additional' => array(
 				'visibility' => array(
 					'name' => 'status',
 					'type' => 'select',
 					'class' => 'required-entry',
-					'label' => Mage::helper('sponsorship')->__('Status'),
+					'label' => Mage::helper('auguria_sponsorship')->__('Status'),
 					'values' => $statuses
 				 )
 			)

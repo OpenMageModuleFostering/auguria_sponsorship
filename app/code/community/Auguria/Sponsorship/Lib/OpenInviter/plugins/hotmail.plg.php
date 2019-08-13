@@ -1,9 +1,9 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Live/Hotmail',
-	'version'=>'1.6.3',
+	'version'=>'1.6.6',
 	'description'=>"Get the contacts from a Windows Live/Hotmail account",
-	'base_version'=>'1.6.3',
+	'base_version'=>'1.8.0',
 	'type'=>'email',
 	'check_url'=>'http://login.live.com/login.srf?id=2',
 	'requirement'=>'email',
@@ -66,7 +66,7 @@ class hotmail extends openinviter_base
 		if (strlen($pass) > 16) $pass=substr($pass, 0, 16);
 		$post_action=$this->getElementString($res,'method="POST" target="_top" action="','"');
 		$post_elements=$this->getHiddenElements($res);$post_elements["LoginOptions"]=3;$post_elements["login"]=$user;$post_elements["passwd"]=$pass;
-		$res=$this->post($post_action,$post_elements,true);
+		$res=$this->post($post_action,$post_elements,true);		
 		if ($this->checkResponse("login_post",$res))
 			$this->updateDebugBuffer('login_post',"{$post_action}",'POST',true,$post_elements);
 		else
@@ -88,13 +88,10 @@ class hotmail extends openinviter_base
 			$this->stopPlugin();
 			return false;	
 			}
-	
-		if(strpos($res,"self.location.href = '")!==false)
-			{
-			$url_redirect=urldecode(str_replace('\x', '%',$this->getElementString($res,"self.location.href = '","'")));
-			$base_url="http://".$this->getElementString($url_redirect,'http://','mail/');
-			$res=$this->get($url_redirect,true);
-			}
+			
+		$url_redirect=$this->getElementString($res,'rurl:"','"');
+		$base_url="http://".$this->getElementString($res,'burl:"','"');
+		$res=$this->get($url_redirect,true);
 			
 		if (strpos($res,'MessageAtLoginForm')!==false)
 			{
@@ -146,7 +143,7 @@ class hotmail extends openinviter_base
 			return false;
 			}
 		else $base_url=$this->login_ok;
-		$res=$this->get("{$base_url}mail/EditMessageLight.aspx?n=");
+		$res=$this->get("{$base_url}/mail/EditMessageLight.aspx?n=");				
 		if ($this->checkResponse('url_sent_to',$res))
 			$this->updateDebugBuffer('url_sent_to',"{$base_url}mail/EditMessageLight.aspx?n=",'GET');
 			else 
@@ -157,7 +154,7 @@ class hotmail extends openinviter_base
 				return false;	
 				}
 	
-		$urlContacts="{$base_url}mail/ContactList.aspx".$this->getElementString($res,'ContactList.aspx','"');
+		$urlContacts="{$base_url}/mail/ContactList.aspx".$this->getElementString($res,'ContactList.aspx','"');
 		$res=$this->get($urlContacts);
 		if ($this->checkResponse('get_contacts',$res))
 			$this->updateDebugBuffer('get_contacts',"{$urlContacts}",'GET');
@@ -168,31 +165,14 @@ class hotmail extends openinviter_base
 			$this->stopPlugin();
 			return false;	
 			}
-		
-		$contacts=array();
-		$bulkStringArray=explode("['",$res);unset($bulkStringArray[0]);unset($bulkStringArray[count($bulkStringArray)]);
-		foreach($bulkStringArray as $stringValue)
+		$res=html_entity_decode(urldecode(str_replace('\x', '%', $res)),ENT_QUOTES, "UTF-8");		
+		$contacts=array();					
+		if (preg_match_all("#\'\,\[\'(.+)\@(.+)\'#U",$res,$matches))
 			{
-			$stringValue=str_replace(array("']],","'"),'',$stringValue);
-			if (strpos($stringValue,'0,0,0,')!==false) 
-				{
-				$tempStringArray=explode(',',$stringValue);
-				if (!empty($tempStringArray[2])) $name=html_entity_decode(urldecode(str_replace('\x', '%', $tempStringArray[2])),ENT_QUOTES, "UTF-8");
-				}
-			else
-				{
-				$emailsArray=array();$emailsArray=explode('\x26\x2364\x3b',$stringValue);
-				if (count($emailsArray)>0) 
-					{
-					//get all emails
-					$bulkEmails=explode(',',$stringValue);
-					if (!empty($bulkEmails)) foreach($bulkEmails as $valueEmail)
-						{ $email=html_entity_decode(urldecode(str_replace('\x', '%', $valueEmail))); if(!empty($email)) { $contacts[$email]=array('first_name'=>(!empty($name)?$name:false),'email_1'=>$email);$email=false; } }
-					$name=false;	
-					}	
-				}
-			}
-		if (!empty($contacts[$this->service_user])) unset($contacts[$this->service_user]);
+			if (!empty($matches[1][0]) AND (!empty($matches[2][0]))) { unset($matches[1][0]); unset($matches[2][0]); }			
+			foreach($matches[1] as $key=>$value)
+				if (!empty($matches[2][$key])) $contacts["{$value}@{$matches[2][$key]}"]=array("first_name"=>"","email_1"=>"{$value}@{$matches[2][$key]}");				
+			}									
 		foreach ($contacts as $email=>$name) if (!$this->isEmail($email)) unset($contacts[$email]);
 		return $this->returnContacts($contacts);
 		}

@@ -4,7 +4,7 @@
  */
 $_pluginInfo=array(
 	'name'=>'Multiply',
-	'version'=>'1.0.4',
+	'version'=>'1.0.5',
 	'description'=>"Get the contacts from a Multiply account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',
@@ -29,7 +29,7 @@ class multiply extends openinviter_base
 	protected $timeout=30;
 	
 	public $debug_array=array(
-				'initial_get'=>'signin::id',
+				'initial_get'=>'splashcontainer',
 				'login_post'=>'logout',
 				'get_friends'=>'contactbox',
 				'url_send_message'=>'form::subject',
@@ -54,7 +54,7 @@ class multiply extends openinviter_base
 		$this->service_password=$pass;	
 		if (!$this->init()) return false;
 		
-		$res=$this->get("http://multiply.com/",true);
+		$res=$this->get("http://multiply.com/",true);		
 		if ($this->checkResponse("initial_get",$res))
 			$this->updateDebugBuffer('initial_get',"http://www.multiply.com/en/",'GET');
 		else
@@ -66,8 +66,8 @@ class multiply extends openinviter_base
 			}
 			
 		$form_action="http://multiply.com/user/signin";
-		$post_elements=$this->getHiddenElements($res);$post_elements['signin::id']=$user;$post_elements['signin::password']=$pass;$post_elements['signin::remember']='on';$post_elements['omniture_submission']='submitted';
-		$res=$this->post($form_action,$post_elements,true);		
+		$post_elements=$this->getHiddenElements($res);$post_elements['signin::signin_id']=$user;$post_elements['signin::password']=$pass;$post_elements['signin::remember']='on';$post_elements['omniture_submission']='submitted';
+		$res=$this->post($form_action,$post_elements,true);				
 		if ($this->checkResponse("login_post",$res))
 			$this->updateDebugBuffer('login_post',"{$form_action}",'POST',true,$post_elements);
 		else
@@ -77,7 +77,7 @@ class multiply extends openinviter_base
 			$this->stopPlugin();
 			return false;
 			}
-			
+		
 		$url_contacts="http://{$user}.multiply.com/contacts";
 		$this->login_ok=$url_contacts;
 		return true;

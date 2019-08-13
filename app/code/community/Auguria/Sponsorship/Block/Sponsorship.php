@@ -23,7 +23,7 @@ class Auguria_Sponsorship_Block_Sponsorship extends Mage_Core_Block_Template
     
     public function getMaxRecipients()
     {
-        return Mage::getStoreConfig('sponsorship/invitation_email/max_recipients');
+        return Mage::getStoreConfig('auguria_sponsorship/invitation/max_recipients');
     }
 
     public function getUserName()
@@ -72,7 +72,7 @@ class Auguria_Sponsorship_Block_Sponsorship extends Mage_Core_Block_Template
         if (isset($form['message']['subject']))
         	return $form['message']['subject'];
         else
-        	return Mage::helper('sponsorship/mail')->getSubject();
+        	return Mage::helper('auguria_sponsorship/mail')->getSubject();
     }
     
 	public function getBodyMessage()
@@ -84,12 +84,12 @@ class Auguria_Sponsorship_Block_Sponsorship extends Mage_Core_Block_Template
         if (isset($form['message']['body']))
         	return $form['message']['body'];
         else
-        	return Mage::helper('sponsorship/mail')->getMessage();
+        	return Mage::helper('auguria_sponsorship/mail')->getMessage();
     }
     
     public function getFooterMessage()
     {
-        return Mage::helper('sponsorship/mail')->getFooterMessage ($this->getCustomerId());
+        return Mage::helper('auguria_sponsorship/mail')->getFooterMessage ($this->getCustomerId());
     }
 
     public function getBackUrl()
@@ -100,7 +100,7 @@ class Auguria_Sponsorship_Block_Sponsorship extends Mage_Core_Block_Template
     
     public function getActiveProviders()
     {
-    	$providers = Mage::getResourceModel('sponsorship/sponsorshipopeninviter_collection')
+    	$providers = Mage::getResourceModel('auguria_sponsorship/sponsorshipopeninviter_collection')
     					->addFieldToFilter('status', 1)
     					;    	
     	return $providers->getItems();

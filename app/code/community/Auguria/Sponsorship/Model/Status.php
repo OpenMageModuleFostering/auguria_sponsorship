@@ -13,8 +13,8 @@ class Auguria_Sponsorship_Model_Status extends Varien_Object
     static public function getOptionArray()
     {
         return array(
-            self::STATUS_ENABLED    => Mage::helper('sponsorship')->__('Enabled'),
-            self::STATUS_DISABLED   => Mage::helper('sponsorship')->__('Disabled')
+            self::STATUS_ENABLED    => Mage::helper('auguria_sponsorship')->__('Enabled'),
+            self::STATUS_DISABLED   => Mage::helper('auguria_sponsorship')->__('Disabled')
         );
     }
 }

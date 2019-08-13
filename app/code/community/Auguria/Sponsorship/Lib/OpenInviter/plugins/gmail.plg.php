@@ -98,8 +98,7 @@ class gmail extends openinviter_base
 			}
 		
 		$contacts=array();
-		$doc=new DOMDocument();
-		libxml_use_internal_errors(true);if (!empty($res)) $doc->loadHTML($res);libxml_use_internal_errors(false);
+		$doc=new DOMDocument();libxml_use_internal_errors(true);if (!empty($res)) $doc->loadHTML($res);libxml_use_internal_errors(false);
 		$xpath=new DOMXPath($doc);$query="//entry";$data=$xpath->query($query);
 		foreach ($data as $node) 
 			{
@@ -110,7 +109,7 @@ class gmail extends openinviter_base
 				$domNodesName=$child->nodeName;
 				switch($domNodesName)
 					{
-					case 'title' : { $tempArray['first_name']=mb_convert_encoding($child->nodeValue, 'ISO-8859-15', 'UTF-8'); } break;
+					case 'title' : { $tempArray['first_name']=$child->nodeValue; } break;
 					case 'organization': { $tempArray['organization']=$child->nodeValue; } break;
 					case 'email' : 
 						{ 

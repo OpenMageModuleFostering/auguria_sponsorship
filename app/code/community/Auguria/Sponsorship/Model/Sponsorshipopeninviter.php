@@ -10,6 +10,6 @@ class Auguria_Sponsorship_Model_Sponsorshipopeninviter extends Mage_Core_Model_A
     public function _construct()
     {
         parent::_construct();
-        $this->_init('sponsorship/sponsorshipopeninviter');
+        $this->_init('auguria_sponsorship/sponsorshipopeninviter');
     }
 }

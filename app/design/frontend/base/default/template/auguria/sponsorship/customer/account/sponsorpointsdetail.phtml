@@ -1,0 +1,387 @@
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<div class="std">
+	<div class="page-title">
+	    <h1>
+	        <?php echo $this->__('Sponsorship'); ?>
+	    </h1>
+	</div>
+	<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php
+	if ($this->getSponsorEnabledConfig ())://si le module parrainage est actif : affichage
+?>
+	<p>
+    	<a href="<?php echo $this->getUrl('sponsorship_info') ?>"><?php echo $this->__('Principles of Sponsorship')?></a>
+	</p>
+	<p>
+		<a href="<?php echo $this->getUrl('sponsorship') ?>"><?php echo $this->__('Sponsor friends')?></a>
+	</p>
+<?php
+/**
+ *
+ * Invitations
+ *
+ */
+?>
+	<div class="clearer"></div>
+	<h2 class="title"><?php echo $this->__('Your invitations') ?></h2>
+<?php //si l'utilisateur a des invitations en cours
+		$_items = $this->getInvits();
+        if ($_items):
+        	$tableId = 'invitsTable';
+?>
+	<table class="data-table" id="<?php echo $tableId; ?>">
+    	<thead>
+	    	<tr>
+	    		<th class="nosort"><span><?php echo $this->__("Guest name"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Guest mail"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Date first invitation"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Date last mail"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Recall"); ?></span></th>
+	    	</tr>
+	    </thead>
+	    <tbody>
+<?php
+			$iterator = 0;
+			foreach ($_items as $_item):
+?>
+	    	<tr class="<?php if($iterator % 2 == 0): ?> odd<?php else: ?> even<?php endif; $iterator++; ?>">
+	    		<td><?php echo htmlentities($_item["child_firstname"])." ".htmlentities($_item["child_lastname"]); ?></td>
+	    		<td><?php echo $_item["child_mail"]; ?></td>
+	    		<td style="text-align: center"><?php echo $this->formatDate($_item["datetime"],Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM); ?></td>
+	    		<td style="text-align: center"><?php if ($_item["datetime_boost"]) { echo $this->formatDate($_item["datetime_boost"],Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM); } else { echo $this->formatDate($_item["datetime"],Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM); } ?></td>
+	    		<td style="text-align: center"><a href="<?php echo $this->getUrl("sponsorship/boost",array("sponsorship_id"=>$_item["sponsorship_id"])); ?>"><?php echo $this->__("Recall"); ?></a></td>
+	    	</tr>
+<?php
+			endforeach;
+?>
+    	</tbody>
+    </table>
+    <div class="sorter-pager">
+		<div class="entries">
+			<span><?php echo $this->__('Entries Per Page:'); ?></span>
+			<select onchange="<?php echo $tableId; ?>Sorter.size(this.value)">
+				<option value="5" selected="selected">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+			</select>
+		</div>
+
+		<div class="navigation">
+			<div class="first" onclick="<?php echo $tableId; ?>Sorter.move(-1,true)"><span><?php echo $this->__('First'); ?></span></div>
+			<div class="previous" onclick="<?php echo $tableId; ?>Sorter.move(-1)"><span><?php echo $this->__('Previous'); ?></span></div>
+		</div>
+		<div class="text">
+			<?php echo $this->__('Page'); ?>
+			<span id="<?php echo $tableId; ?>Currentpage"></span>
+			<?php echo $this->__('of'); ?>
+			<span id="<?php echo $tableId; ?>Pagelimit"></span>
+		</div>
+		<div class="navigation">
+			<div class="next" onclick="<?php echo $tableId; ?>Sorter.move(1)"><span><?php echo $this->__('Next'); ?></span></div>
+			<div class="last" onclick="<?php echo $tableId; ?>Sorter.move(1,true)"><span><?php echo $this->__('Last'); ?></span></div>
+		</div>
+	</div>
+<script type="text/javascript">
+//<![CDATA[
+	var <?php echo $tableId; ?>Sorter = new TINY.table.sorter("<?php echo $tableId; ?>Sorter");
+	<?php echo $tableId; ?>Sorter.even = "even";
+	<?php echo $tableId; ?>Sorter.odd = "odd";
+	<?php echo $tableId; ?>Sorter.evensel = "evenselected";
+	<?php echo $tableId; ?>Sorter.oddsel = "oddselected";
+	<?php echo $tableId; ?>Sorter.paginate = true;
+	<?php echo $tableId; ?>Sorter.currentid = "<?php echo $tableId; ?>Currentpage";
+	<?php echo $tableId; ?>Sorter.limitid = "<?php echo $tableId; ?>Pagelimit";
+	<?php echo $tableId; ?>Sorter.init("<?php echo $tableId; ?>");
+	<?php echo $tableId; ?>Sorter.size(5);
+
+	decorateTable('<?php echo $tableId; ?>', {'tbody tr' : ['first', 'last']});
+//]]>
+</script>
+	<div class="clearer"></div>
+<?php
+		else:
+?>
+	<div>
+		<?php echo $this->__("You do not have yet send invit."); ?>
+	</div>
+<?php
+		endif; //fin de vérifivcation invitations en cours
+/**
+ *
+ * Filleuls
+ *
+ */
+?>
+    <h2 class="title"><?php echo $this->__('Your godsons') ?></h2>
+<?php
+		$_items = $this->getParrainages();
+	    if ($_items): //si l'utilisateur a déjà parrainé
+	    	$tableId = 'godsonTable';
+?>
+	<table class="data-table" id="<?php echo $tableId; ?>">
+    	<thead>
+	    	<tr>
+	    		<th class="nosort"><span><?php echo $this->__("Godson name"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Sponsorship date"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Last order date"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Winning"); ?></span></th>
+	    		<th class="nosort"><span><?php echo $this->__("Number of sponsorships"); ?></span></th>
+	    	</tr>
+	    </thead>
+	    <tbody>
+<?php
+			$iterator = 0;
+			foreach ($_items as $_item):
+				$dateFDC ="";
+				if ($dateDernCde = $this->getDateDernCde ($_item['entity_id'])) {
+					$dateFDC = $this->formatDate($dateDernCde,Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+				}
+				else {
+					$dateFDC = "-";
+				}
+
+?>
+	    	<tr class="<?php if($iterator % 2 == 0): ?> odd<?php else: ?> even<?php endif; $iterator++; ?>">
+	    		<td><?php echo htmlentities($_item['name']); ?></td>
+	    		<td style="text-align: center"><?php echo $this->formatDate($_item['created_at'],Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM); ?></td>
+	    		<td style="text-align: center"><?php echo $dateFDC; ?></td>
+	    		<td style="text-align: center"><?php echo $this->__('%01.4f',$this->getBranchPoints($_item['entity_id'])); ?></td>
+	    		<td style="text-align: center"><?php echo $this->getNbParrainages($_item['entity_id']); ?></td>
+	    	</tr>
+<?php
+			endforeach;
+?>
+    	</tbody>
+    </table>
+    <div class="sorter-pager">
+		<div class="entries">
+			<span><?php echo $this->__('Entries Per Page:'); ?></span>
+			<select onchange="<?php echo $tableId; ?>Sorter.size(this.value)">
+				<option value="5" selected="selected">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+			</select>
+		</div>
+
+		<div class="navigation">
+			<div class="first" onclick="<?php echo $tableId; ?>Sorter.move(-1,true)"><span><?php echo $this->__('First'); ?></span></div>
+			<div class="previous" onclick="<?php echo $tableId; ?>Sorter.move(-1)"><span><?php echo $this->__('Previous'); ?></span></div>
+		</div>
+		<div class="text">
+			<?php echo $this->__('Page'); ?>
+			<span id="<?php echo $tableId; ?>Currentpage"></span>
+			<?php echo $this->__('of'); ?>
+			<span id="<?php echo $tableId; ?>Pagelimit"></span>
+		</div>
+		<div class="navigation">
+			<div class="next" onclick="<?php echo $tableId; ?>Sorter.move(1)"><span><?php echo $this->__('Next'); ?></span></div>
+			<div class="last" onclick="<?php echo $tableId; ?>Sorter.move(1,true)"><span><?php echo $this->__('Last'); ?></span></div>
+		</div>
+	</div>
+<script type="text/javascript">
+//<![CDATA[
+	var <?php echo $tableId; ?>Sorter = new TINY.table.sorter("<?php echo $tableId; ?>Sorter");
+	<?php echo $tableId; ?>Sorter.even = "even";
+	<?php echo $tableId; ?>Sorter.odd = "odd";
+	<?php echo $tableId; ?>Sorter.evensel = "evenselected";
+	<?php echo $tableId; ?>Sorter.oddsel = "oddselected";
+	<?php echo $tableId; ?>Sorter.paginate = true;
+	<?php echo $tableId; ?>Sorter.currentid = "<?php echo $tableId; ?>Currentpage";
+	<?php echo $tableId; ?>Sorter.limitid = "<?php echo $tableId; ?>Pagelimit";
+	<?php echo $tableId; ?>Sorter.init("<?php echo $tableId; ?>");
+	<?php echo $tableId; ?>Sorter.size(5);
+
+	decorateTable('<?php echo $tableId; ?>', {'tbody tr' : ['first', 'last']});
+//]]>
+</script>
+	<div class="clearer"></div>
+<?php
+		else: //si il n'a jamais parrainé déjà parrainé
+?>
+	<div>
+		<?php echo $this->__("You do not have active godson."); ?>
+	</div>
+<?php
+		endif; //fin verification si il a parrainé
+/**
+ *
+ * Points
+ *
+ */
+?>
+	<h2>
+		<?php echo $this->__('Use of your sponsorship points') ?>
+	</h2>
+	<div>
+<?php
+		echo $this->__('Sponsorship balance:');
+        $sPoints = floor($this->getSponsorPoints());
+        echo " ".$sPoints
+?>
+	</div>
+	<div>
+<?php
+/*Liste des échanges réalisés*/
+		if ($this->hasChange('sponsor')):
+			echo $this->__("Your points exchanges:");
+            $_items = $this->getChanges('sponsor');
+            $tableId = 'changeTable';
+?>
+		<table class="data-table" id="<?php echo $tableId; ?>">
+	    	<thead>
+		    	<tr>
+		    		<th class="nosort"><span><?php echo $this->__("Type"); ?></span></th>
+		    		<th class="nosort"><span><?php echo $this->__("Date"); ?></span></th>
+		    		<th class="nosort"><span><?php echo $this->__("Points"); ?></span></th>
+		    		<th class="nosort"><span><?php echo $this->__("Value"); ?></span></th>
+		    	</tr>
+		    </thead>
+		    <tbody>
+<?php
+			$iterator = 0;
+			foreach ($_items as $_item):
+?>
+		    	<tr class="<?php if($iterator % 2 == 0): ?> odd<?php else: ?> even<?php endif; $iterator++; ?>">
+		    		<td style="text-align: center"><?php echo $this->__($_item->getType()); ?></td>
+		    		<td style="text-align: center"><?php echo $this->formatDate($_item->getDatetime(),Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM); ?></td>
+		    		<td style="text-align: center"><?php echo $this->__('%01.4f',$_item->getPoints()); ?></td>
+		    		<td style="text-align: center"><?php echo addslashes(Mage::app()->getStore()->formatPrice($_item->getValue())); ?></td>
+		    	</tr>
+<?php
+			endforeach;
+?>
+	    	</tbody>
+	    </table>
+	    <div class="sorter-pager">
+			<div class="entries">
+				<span><?php echo $this->__('Entries Per Page:'); ?></span>
+				<select onchange="<?php echo $tableId; ?>Sorter.size(this.value)">
+					<option value="5" selected="selected">5</option>
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+				</select>
+			</div>
+
+			<div class="navigation">
+				<div class="first" onclick="<?php echo $tableId; ?>Sorter.move(-1,true)"><span><?php echo $this->__('First'); ?></span></div>
+				<div class="previous" onclick="<?php echo $tableId; ?>Sorter.move(-1)"><span><?php echo $this->__('Previous'); ?></span></div>
+			</div>
+			<div class="text">
+				<?php echo $this->__('Page'); ?>
+				<span id="<?php echo $tableId; ?>Currentpage"></span>
+				<?php echo $this->__('of'); ?>
+				<span id="<?php echo $tableId; ?>Pagelimit"></span>
+			</div>
+			<div class="navigation">
+				<div class="next" onclick="<?php echo $tableId; ?>Sorter.move(1)"><span><?php echo $this->__('Next'); ?></span></div>
+				<div class="last" onclick="<?php echo $tableId; ?>Sorter.move(1,true)"><span><?php echo $this->__('Last'); ?></span></div>
+			</div>
+		</div>
+<script type="text/javascript">
+//<![CDATA[
+	var <?php echo $tableId; ?>Sorter = new TINY.table.sorter("<?php echo $tableId; ?>Sorter");
+	<?php echo $tableId; ?>Sorter.even = "even";
+	<?php echo $tableId; ?>Sorter.odd = "odd";
+	<?php echo $tableId; ?>Sorter.evensel = "evenselected";
+	<?php echo $tableId; ?>Sorter.oddsel = "oddselected";
+	<?php echo $tableId; ?>Sorter.paginate = true;
+	<?php echo $tableId; ?>Sorter.currentid = "<?php echo $tableId; ?>Currentpage";
+	<?php echo $tableId; ?>Sorter.limitid = "<?php echo $tableId; ?>Pagelimit";
+	<?php echo $tableId; ?>Sorter.init("<?php echo $tableId; ?>");
+	<?php echo $tableId; ?>Sorter.size(5);
+
+	decorateTable('<?php echo $tableId; ?>', {'tbody tr' : ['first', 'last']});
+//]]>
+</script>
+		<div class="clearer"></div>
+<?php
+/*End Liste des échanges réalisés*/
+		endif;
+?>
+	</div>
+<?php
+		if ($sPoints>0): //vérification du solde des points
+			if ($this->isSponsorChangeEnabled()): //verification change actif
+?>
+	<div>
+		<?php echo $this->__('Change your points into:');?>
+		<ul class="disc">
+<?php
+				if ($this->getSponsorCashConfig()):
+?>
+			<li>
+				<a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'sponsor','type'=>'cash')) ?>"><?php echo $this->__('Cash') ?></a>
+			</li>
+<?php
+				endif;
+				if ($this->getSponsorCouponConfig()):
+?>
+			<li>
+				<a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'sponsor','type'=>'coupon')) ?>"><?php echo $this->__('Vouchers') ?></a>
+                			<?php echo $this->__(':You will receive an email with the discount code you can use on your next order.') ?>
+			</li>
+<?php
+				endif;
+				if ($this->getSponsorGiftConfig()):
+?>
+			<li>
+				<a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'sponsor','type'=>'gift')) ?>"><?php echo $this->__('Gifts') ?></a>
+			</li>
+<?php
+				endif;
+?>
+		</ul>
+	</div>
+<?php
+			endif; //change actif
+			else: //si il n'a pas de points
+				if ($this->isSponsorChangeEnabled())://Change enable
+?>
+	<div>
+		<?php echo $this->__('Once you will have points, you can change them into:'); ?>
+	</div>
+	<ul class="disc">
+<?php
+					if ($this->getSponsorCashConfig()):
+?>
+		<li>
+			<?php echo $this->__('Cash') ?>
+	    </li>
+<?php
+					endif;
+					if ($this->getSponsorCouponConfig()):
+?>
+		<li>
+			<?php echo $this->__('Vouchers'); ?>
+			<?php echo $this->__(':You will receive an email with the discount code you can use on your next order.'); ?>
+		</li>
+<?php
+					endif;
+					if ($this->getSponsorGiftConfig()):
+?>
+		<li>
+			<?php echo $this->__('Gifts'); ?>
+		</li>
+<?php
+					endif;
+?>
+	</ul>
+<?php
+				endif;//change enable
+			endif; //fin de vérification solde des points
+		endif; //fin module parrainage enable
+?>
+	<div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    </div>
+ </div>

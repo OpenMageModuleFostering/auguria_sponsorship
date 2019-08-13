@@ -1,0 +1,76 @@
+/* Pager */
+div.sorter-pager {
+	margin: 5px 0 40px 0;
+}
+div.sorter-pager div.navigation,
+div.sorter-pager div.text,
+div.sorter-pager div.entries {
+	float: left;
+	margin: 0 0 0 5px;
+}
+
+div.sorter-pager div.entries {
+	float: left;
+	margin: 0 200px 0 0;
+}
+div.sorter-pager div.navigation div{
+	float: left;
+	height: 7px;
+	margin: 7px 2px;
+	cursor: pointer;
+}
+div.sorter-pager div.navigation div.first {
+	background-image:url('../../../images/auguria/sponsorship/sorter/first.gif');
+	width: 7px;
+}
+div.sorter-pager div.navigation div.previous {
+	background-image:url('../../../images/auguria/sponsorship/sorter/previous.gif');
+	width: 6px;
+}
+div.sorter-pager div.navigation div.next {
+	background-image:url('../../../images/auguria/sponsorship/sorter/next.gif');
+	width: 6px;
+}
+div.sorter-pager div.navigation div.last {
+	background-image:url('../../../images/auguria/sponsorship/sorter/last.gif');
+	width: 7px;
+}
+div.sorter-pager div.navigation div span {
+	display: none;
+}
+
+/* Table */
+table.data-table thead tr th.sortable,
+table.data-table thead tr th.asc,
+table.data-table thead tr th.desc,
+table.data-table thead tr th.nosort {
+	text-align: center;
+}
+
+table.data-table thead tr th.sortable span,
+table.data-table thead tr th.asc span,
+table.data-table thead tr th.desc span,
+table.data-table thead tr th.nosort span {
+	text-align: center;
+	white-space: normal;
+	display: inline-block;
+}
+
+table.data-table thead tr th.sortable span,
+table.data-table thead tr th.asc span,
+table.data-table thead tr th.desc span {
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: right ;
+	padding-right: 25px;
+}
+table.data-table thead tr th.sortable span {
+	background-image: url('../../../images/auguria/sponsorship/sorter/sorter.gif');
+}
+table.data-table thead tr th.asc span {
+	background-image: url('../../../images/auguria/sponsorship/sorter/asc.gif');
+	
+}
+table.data-table thead tr th.desc span {
+	background-image: url('../../../images/auguria/sponsorship/sorter/desc.gif');
+}

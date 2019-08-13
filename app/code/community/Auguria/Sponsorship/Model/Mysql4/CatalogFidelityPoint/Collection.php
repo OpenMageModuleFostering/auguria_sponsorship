@@ -10,6 +10,6 @@ class Auguria_Sponsorship_Model_Mysql4_CatalogFidelityPoint_Collection extends M
     public function _construct()
     {
         parent::_construct();
-        $this->_init('sponsorship/catalogfidelitypoint');
+        $this->_init('auguria_sponsorship/catalogfidelitypoint');
     }
 }

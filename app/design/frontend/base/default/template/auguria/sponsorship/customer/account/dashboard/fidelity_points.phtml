@@ -1,0 +1,27 @@
+<!-- 
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<?php
+$mode = Mage::helper('auguria_sponsorship/config')->getModuleMode();
+if ($mode=='fidelity'
+|| $mode=='separated'):
+?>
+<div class="box-account box-fidelity">
+	<div class="box-head">
+		<h2><?php echo $this->__('Fidelity'); ?></h2>
+		<a href="<?php echo $this->getUrl('sponsorship/points/fidelity') ?>"><?php echo $this->__('Details')?></a>
+	</div>
+	<?php
+		$customerId = $this->getUserId();
+		$customer = Mage::getModel('customer/customer')->load($customerId);
+	?>
+	<div class="col1-set">
+		<?php echo $this->__('Fidelity points:') ?> <?php echo floor($customer->getFidelityPoints()); ?>
+	</div>
+</div>
+<?php endif;?>

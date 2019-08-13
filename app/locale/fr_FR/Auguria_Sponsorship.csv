@@ -1,212 +1,280 @@
-"Action","Action"
-"'%s' is not a valid number.","'%s' n'est pas un nombre valide."
-"'%s' is not an integer.","'%s' n'est pas un entier."
-"'%s' is not greater than 0.","'%s' n'est pas supérieur à 0."
-"%s is already an email to our customers","%s est déjà l'email d'un de nos clients"
-"%s points exchange for customer (%s)","Échange de points %s pour le client (%s)"
-"%s vouchers points exchange","%s échange de points en bon de réduction"
-"<a href='%s'>%s</a>","<a href='%s'>%s</a>"
-"A value is required.","Une valeur est requise."
-"Active godsons:","Filleuls actifs :"
-"Add a change","Ajouter un échange"
-"Add a sponsorship","Ajouter un parrainage"
-"Add an invitation","Ajouter une invitation"
-"Allow to send invitations to customers who have never ordered","Autoriser l'envoie d'invitations aux clients n'ayant jamais commandé"
-"An error occurred while saving your request.","Une erreur est survenue lors de l'enregistrement de votre demande."
-"An error occurred while sending mail.","Une erreur est survenue lors de l'envoi du mail."
+Action,Action
+:You will receive an email with the discount code you can use on your next order.,: Vous recevrez un mail avec le code de réduction que vous pourrez utiliser lors de votre prochaine commande.
+'%s' is not a valid number.,'%s' n'est pas un nombre valide.
+'%s' is not an integer.,'%s' n'est pas un entier.
+'%s' is not greater than 0.,'%s' n'est pas supérieur à 0.
+* Required Fields,* Champs obligatoires
+%s is already an email to our customers,%s est déjà l'email d'un de nos clients
+%s points,%s points
+%s points exchange for customer (%s),Échange de points %s pour le client (%s)
+%s sponsor points,Points de parrainage %s
+%s vouchers points exchange,%s échange de points en bon de réduction
+<a href='%s'>%s</a>,<a href='%s'>%s</a>
+A value is required.,Une valeur est requise.
+Accumulated mode options,Options du mode fidélité et parrainage accumulé
+Activated,Activé
+Active godsons:,Filleuls actifs :
+Add a change,Ajouter un échange
+Add a provider,Ajouter un fournisseur
+Add a sponsorship,Ajouter un parrainage
+Add an invitation,Ajouter une invitation
+Add Recipient,Ajouter un destinataire
+Add recipients,Ajoutez les destinataires.
+Add recipients.,Ajoutez les destinataires.
+Address book provider:,Fournisseur de carnet d'adresse :
+Allow customers who have never ordered to send invitations,Autoriser les clients n'ayant jamais commandé à envoyer des invitations
+Allow customers who have never ordered to send sponsorship invitations,Autoriser les clients n'ayant jamais commandé à envoyer des invitations
+Allow to sponsor registred customers (but never ordered),Autoriser le parainage de clients déjà enregistrés (mais n'ayant jamais commandé)
+"Allows customers to import addressbook/contacts from different email providers like Yahoo, Gmail, Hotmail, Live etc. using different CMS software like Drupal, Joomla etc. or forum software like PHPBB, SMF etc. Learn more on <a href='http://openinviter.com'>openinviter.com</a>","Permet aux clients d'importer leur carnet d'adresse depuis plusieurs fournisseurs comme Yahoo, Gmail, Hotmail, Live etc. Plus de sétails sur <a href='http://openinviter.com'>openinviter.com</a>"
+Amount,Montant
+Amount of winning points for first order,Montant des points gagnés pour une première commande
+Amount of winning points for the first godson order,Montant des points gagnés lors de la première commande d'un filleul
+Amount of winning points when subscribe to newsletter on account creation,Montant des points gagnés si le client s'abonne à la newletter lors de son inscription
+An error occured while sending sponsor notification email.,Une erreur est survenue lors de l'envoi du mail de notification au parrain
+An error occurred while saving your request.,Une erreur est survenue lors de l'enregistrement de votre demande.
+An error occurred while sending mail.,Une erreur est survenue lors de l'envoi du mail.
 "An error occurred, the mail to %s could not be delivred.","Une erreur est survenue, le mail destiné à %s n'a pas pu être délivré."
-"And it ends as follows:","Et il se terminera comme suit :"
-"Are you sure to process mass action?","Êtes vous sure de vouloir procéder à une action de masse ?"
-"But it could not be saved.","Mais il n'a pas pu être enregistré."
-"Calculation period of the maximum allowed for an individual (days)","Période de calcul du maximum autorisé pour un particulier (jours)"
-"Campany number","SIRET"
-"Canceled","Annulé"
-"Cash","Cash"
-"cash","cash"
-"Cash exchange enabled","Échange en cash activé"
-"Change information","Information sur l'échange"
-"Change your points into:","Changez vos points en :"
-"Conversion rate of points in currency","Taux de conversion des points en monnaie"
-"coupon","bon de réduction"
-"Creation date","Date de création"
-"Customer","Client"
-"Customer ID","ID Client"
-"Customer name","Nom client"
-"Date","Date"
-"Date first invitation","Date de la première invitation"
-"Date last mail","Date du dernier email"
+An exception occured !,Une exception s'est produite !
+And it ends as follows:,Et il se terminera comme suit :
+Are you sure to process mass action?,Êtes vous sure de vouloir procéder à une action de masse ?
+Automatic discount in cart,Remise automatique dans le panier
+Back,Retour
+But it could not be saved.,Mais il n'a pas pu être enregistré.
+Buying,Achat
+Buying cancellation,Annulation d'achat
+Calculation period of the maximum allowed for an individual (days),Période de calcul du maximum autorisé pour un particulier (jours)
+Campany number,SIRET
+Cancel earned points on credit memo creation,Annuler les points gagnés lors de la création d'un avoir
+Cancel the use of points on credit memo creation,Annuler l'utilisation des points lors de la création d'un avoir
+Canceled,Annulé
+Cart exchange,Échange panier
+Cash,Cash
+cash,cash
+Cash exchange,Échange en cash
+Cash exchange,Échange de cash
+Cash exchange cancellation,Annulation échange de cash
+Cash exchange enabled,Échange en cash activé
+Change information,Information sur l'échange
+Change your points into:,Cliquez sur un des liens suivants pour changer vos points :
+Check or uncheck all,Tout sélectionner ou tout de-sélectionner
+Choose your provider,Choisissez votre fournisseur
+Conversion rate of points in currency,Taux de conversion des points en monnaie
+coupon,bon de réduction
+Coupon Email Template,Gabarit du mail d'envoi du bon de réduction
+Coupon exchange,Échange en bons de réductions
+Coupon exchange,Échange en bon de réduction
+Coupon exchange cancellation,Annulation échange en bon de réduction
+Creation date,Date de création
+Customer,Client
+Customer ID,ID Client
+Customer name,Nom client
+Date,Date
+Date first invitation,Date de la première invitation
+Date last mail,Date du dernier email
 "Dear %s %s,","Bonjour %s %s,"
-"Details","Détails"
-"Edit","Éditer"
-"Edition of the change '%s'","Édition de l'échange '%s'"
-"Edition of the invitation '%s'","Édition de l'invitation '%s'"
-"Edition of the sponsorship '%s'","Édition du parrainage '%s'"
-"emptyResults","Aucun résultat"
-"Enter the cash you want.","Indiquez le cash que vous souhaitez obtenir."
-"Enter the points you want to convert.","Indiquez les points que vous voulez convertir."
-"errorData","Erreur de données"
-"errorURL","Erreur URL"
-"Exchange detail","Détail échange"
-"Exchange of your %s points into %s","Échange de vos points %s en %s"
-"Exported","Exporté"
-"Fidelity","Fidélité"
-"fidelity","fidélité"
-"Fidelity and Sponsorship","Fidélité et Parrainage"
-"Fidelity balance:","Solde fidélité :"
-"Fidelity module activated","Module de fidélité activé"
-"Fidelity options","Options de fidélité"
-"Fidelity points","Points fidélité"
-"Fidelity points by fixed amount","Points de fidélité en montant fixe"
-"Fidelity points by fixed amount for whole cart","Points de fidélités fixe sur tout le panier"
-"Fidelity points by percentage of the original price","Points de fidélité en pourcentage du prix"
-"Fidelity points:","Points fidélité :"
-"filterLabel","Filtrer la colonne :"
-"First name","Prénom"
-"First name:","Prénom :"
-"gift","cadeau"
-"Gift exchange enabled","Échange en cadeaux activé"
-"Gifts","Cadeaux"
-"Godson","Filleul"
-"Godson ID","ID Filleul"
-"Godson name","Nom filleul"
-"Guest first name","Prénom invité"
-"Guest last name","Nom invité"
-"Guest mail","Email invité"
-"Guest name","Nom invité"
-"IBAN","IBAN"
-"ID","ID"
-"Inactivity time before removal of the sponsorship link (days)","Temps d'inactivité avant suppression du lien de parrainage (jours)"
+Details,Détails
+Edit,Éditer
+Edition of the change '%s',Édition de l'échange '%s'
+Edition of the invitation '%s',Édition de l'invitation '%s'
+Edition of the Open inviter provider '%s',Edition du fournisseur Open inviter '%s'
+Edition of the sponsorship '%s',Édition du parrainage '%s'
+Email Address:,Email :
+Email missing !,Il manque l'email !
+Email Providers,Fournisseurs de mails
+Email:,Email :
+Enter the cash you want.,Indiquez le cash que vous souhaitez obtenir.
+Enter the points you want to convert.,Indiquez les points que vous voulez convertir.
+Entries Per Page:,Nombre par page :
+Exchange detail,Détail échange
+Exchange of your %s points into %s,Échange de vos points %s en %s
+Expiry,Fin de validité
+Exported,Exporté
+Fidelity,Fidélité
+fidelity,fidélité
+Fidelity and separated mode options,Options du mode fidélité et séparé
+Fidelity and Sponsorship,Fidélité et Parrainage
+Fidelity and Sponsorship (accumulated),Fidélité et parrainage (accumulé)
+Fidelity and Sponsorship (separated),Fidélité et parrainage (séparé)
+Fidelity balance:,Solde fidélité :
+Fidelity module activated,Module de fidélité activé
+Fidelity options,Options de fidélité
+Fidelity points,Points fidélité
+Fidelity points and sponsorship management,Points de fidélité et gestion du parrainage
+Fidelity points by fixed amount,Points de fidélité en montant fixe
+Fidelity points by fixed amount for whole cart,Points de fidélités fixe sur tout le panier
+Fidelity points by percentage of the original price,Points de fidélité en pourcentage du prix
+Fidelity points management,Gestion des points de fidélité
+Fidelity points:,Points fidélité :
+First,Premier
+First name,Prénom
+First name:,Prénom :
+First order,Première commande
+gift,cadeau
+Gift exchange,Échange en cadeaux
+Gift exchange,Échange cadeau
+Gift exchange cancellation,Annulation échange cadeau
+Gift exchange enabled,Échange en cadeaux activé
+Gifts,Cadeaux
+Godchild first order,Première commande d'un filleul
+Godson,Filleul
+Godson ID,ID Filleul
+Godson name,Nom filleul
+Guest first name,Prénom invité
+Guest last name,Nom invité
+Guest mail,Email invité
+Guest name,Nom invité
+IBAN,IBAN
+ID,ID
+Import Contacts,Importer contacts
+Import selected contacts,Importer les contacts sélectionnés
+Inactivity time before removal of the sponsorship link (days),Temps d'inactivité avant suppression du lien de parrainage (jours)
 "Invalid IBAN code ""%s""","Le code IBAN ""%s"" est invalide"
-"Invitation detail","Détail de l'invitation"
-"Invitation does not exist","L'invitation n'existe pas"
-"Invitation information","Information sur l'invitation"
-"Invitation to %s","Invitation %s"
-"Invitation was successfully saved","L'invitation a bien été enregistrée"
-"Invitations list","Liste des invitations"
-"Last name","Nom"
-"Last name:","Nom :"
-"Last order date","Date dernière commande"
-"Listing date","Date inscription"
-"loading","chargement"
-"Max invitations","Nombre max d'invitations"
-"Maximum amount permitted without company number","Montant maximum autorisé sans SIRET"
-"Maximum levels of sponsorship","Nombre maximum de niveaux de parrainage"
-"Message","Message"
-"Module","Module"
-"Number of sponsorships","Nombre de parrainages"
+Invitation detail,Détail de l'invitation
+Invitation does not exist,L'invitation n'existe pas
+Invitation Email Template,Gabarit du mail d'invitation
+Invitation information,Information sur l'invitation
+Invitation to %s,Invitation %s
+Invitation was successfully saved,L'invitation a bien été enregistrée
+Invitations list,Liste des invitations
+Last,Dernier
+Last name,Nom
+Last name:,Nom :
+Last order date,Date dernière commande
+Listing date,Date inscription
+loading,chargement
+Login failed. Please check the email and password you have provided and try again later !,L'authentification a échouée. Merci de vérifier votre identifiant et votre mot de passe.
+Manual changes,Modification manuelle
+Max invitations,Nombre max d'invitations
+Maximum amount permitted without company number,Montant maximum autorisé sans SIRET
+Maximum levels of sponsorship,Nombre maximum de niveaux de parrainage
+Message,Message
+Mode of the module,Mode du module
+Module,Module
+Movement,Mouvement
+My fidelity points,Mes points de fidélité
+My sponsor points,Mes points de parrainage
+Name:,Nom :
+Newsletter subscription,Abonnement à la newsletter
+Next,Suivant
+Notification Email Template,Gabarit du mail de notification
+Number of sponsorships,Nombre de parrainages
+of,sur
 "Once you will have points, you can change them into:","Lorsque vous aurez des points, vous pourrez les changer en :"
-"paginationFirst","Première"
-"paginationLast","Dernière"
-"paginationNext","Suivante"
-"paginationOf"," de "
-"paginationPages","page(s)"
-"paginationPrev","Précédente"
-"Please check the form fields.","Veuillez vérifier les champs du formulaire."
-"Please select changes","Merci de sélectionner des échanges"
-"Points","Points"
-"Points exchanges list","Liste des échanges de points"
-"Points to exchange:","Points à échanger :"
-"Principles of Sponsorship","Principes du parrainage"
-"Ratio applied from level 2 to calculate the points of the sponsor (in percentage)","Ratio appliqué à partir du niveau 2, pour le calcul des points du parrain (en pourcentage)"
-"Recall","Relancer"
-"Recall %s %s","Relance de %s %s"
-"Recipients:","Destinataires :"
-"Recovery date","Date de relance"
-"Related ID","ID parent"
-"Related mail","Email parent"
-"Related name","Nom parent"
-"searchLabel","Recherche"
-"Solved","Réglé"
-"Special Rate","Taux spécial"
-"Sponsor","Parrain"
-"sponsor","parrainage"
-"Sponsor friends","Parrainez des amis"
-"Sponsor ID","ID parrain"
-"Sponsorship","Parrainage"
-"Sponsorship balance:","Solde parrainage :"
-"Sponsorship coupon","Bon de réduction parrainage"
-"Sponsorship date","Date de parrainage"
-"Sponsorship detail","Détail parrainage"
-"Sponsorship information","Information sur le parrainage"
-"Sponsorship invitation","Invitation parrainage"
-"Sponsorship mail options","Options des mails de parrainage"
-"Sponsorship module activated","Module de parrainage activé"
-"Sponsorship options","Options de parrainage"
-"Sponsorship points","Points parrainage"
-"Sponsorship points by fixed amount","Points de parrainage en montant fixe"
-"Sponsorship points by fixed amount for whole cart","Points de parrainage fixe sur tout le panier"
-"Sponsorship points by percentage of the original price","Points de parrainage en pourcentage du prix"
-"Sponsorship points:","Points parrainage :"
-"Sponsorship was successfully saved","Le parrainage a bien été mis à jour"
-"Sponsorships list","Liste des parrainages"
-"Status","Statut"
-"Subject:","Sujet :"
-"The change has been successfully recorded","L'échange a bien été enregistré"
-"The exchange of %s points in %s is disabled.","Le change des points %s en %s est désactivé."
-"The gifts exchange is not yet implemented.","L'échange en cadeaux n'est pas encore disponible."
-"This change doesn't exist","L'échange n'existe pas"
-"This sponsorship doesn't exist","Ce parrainage n'existe pas"
-"Time to send it automatically (days)","Temps avant la relance automatique (jours)"
-"Time validity invitations (days)","Temps de validité des invitations (jours)"
+Open inviter providers,Fournisseurs Open Inviter
+Or add recipient manually.,Ou ajoutez vos destinataires manuellement.
+Order,Commande
+Page,Page
+Password missing !,Il manque le mot de passe !
+Please check the form fields.,Veuillez vérifier les champs du formulaire.
+"Please enter the full email, not just the username","Merci d'indiquer votre email, et pas seulement votre nom d'utilisateur."
+Please select changes,Merci de sélectionner des échanges
+Points,Points
+Points balance:,Solde de vos points :
+Points calculation,Calcul des points
+Points exchanges list,Liste des échanges de points
+Points to exchange:,Points à échanger :
+Points validity in days(0 for unlimited),Validité des points en jours (0 pour illimité)
+Previous,Précèdent
+Principles of Sponsorship,Principes du parrainage
+Provider detail,Détail du fournisseur
+Provider missing !,Il manque le fournisseur !
+Provider was successfully deleted,Le fournisseur a bien été effacé
+Provider was successfully saved,Le fournisseur a bien été sauvegardé
+Ratio applied from level 2 to calculate the points of the sponsor (in percentage),"Ratio appliqué à partir du niveau 2, pour le calcul des points du parrain (en pourcentage)"
+Recall,Relancer
+Recall %s %s,Relance de %s %s
+Recipient:,Destinataire :
+Recipients:,Destinataires :
+Recovery date,Date de relance
+Related ID,ID parent
+Related mail,Email parent
+Related name,Nom parent
+Remove Recipient,Supprimer le destinataire
+Required Fields,Champs obligatoires
+Select recipients from your address book:,Sélectionnez les destinataires dans votre carnet d'adresses :
+Select recipients from your address book.,Sélectionnez les destinataires à partir de votre carnet d'adresses.
+Select your provider and sign in:,Sélectionnez votre fournisseur et identifiez vous :
+Send email,Envoyer l'email
+Send notification to sponsor when godchild make him earn points,Envoyer une notification au parrain lorsqu'un filleul lui fait gagner des points
+Sender:,Expéditeur :
+Social Networks,Réseaux sociaux
+Solved,Réglé
+Special Rate,Taux spécial
+Special rate,Taux spécial
+Sponsor,Parrain
+sponsor,parrainage
+Sponsor friends,Parrainez des amis
+Sponsor ID,ID parrain
+Sponsor points ,Points parrainage
+Sponsorship,Parrainage
+Sponsorship and separated mode options,Options du mode parrainage et séparé
+Sponsorship balance:,Solde parrainage :
+Sponsorship coupon,Bon de réduction parrainage
+Sponsorship date,Date de parrainage
+Sponsorship detail,Détail parrainage
+Sponsorship information,Information sur le parrainage
+Sponsorship invitation,Invitation parrainage
+Sponsorship mail options,Options des mails de parrainage
+Sponsorship management,Gestion du parrainage
+Sponsorship module activated,Module de parrainage activé
+Sponsorship notification,Notification du parrain
+Sponsorship options,Options de parrainage
+Sponsorship points,Points parrainage
+Sponsorship points by fixed amount,Points de parrainage en montant fixe
+Sponsorship points by fixed amount for whole cart,Points de parrainage fixe sur tout le panier
+Sponsorship points by percentage of the original price,Points de parrainage en pourcentage du prix
+Sponsorship points:,Points parrainage :
+Sponsorship was successfully saved,Le parrainage a bien été mis à jour
+Sponsorships list,Liste des parrainages
+Status,Statut
+Subject:,Sujet :
+The change has been successfully recorded,L'échange a bien été enregistré
+The exchange of %s points in %s is disabled.,Le change des points %s en %s est désactivé.
+The gifts exchange is not yet implemented.,L'échange en cadeaux n'est pas encore disponible.
+This change doesn't exist,L'échange n'existe pas
+This sponsorship doesn't exist,Ce parrainage n'existe pas
+Time to send it automatically (days),Temps avant la relance automatique (jours)
+Time validity invitations (days),Temps de validité des invitations (jours)
 "To change more cash, you must specify a company number.","Pour changer plus de cash, vous devez indiquer un numéro SIRET."
 "To change your points into cash, you must indicate your IBAN.","Pour changer vos points en cash, vous devez indiquer votre code IBAN."
-"Type","Type"
-"Unable to find change to save","Impossible de trouver l'échange à enregistrer"
-"Unable to find invitation to save","Impossible de trouver l'invitation à enregistrer"
-"Unable to find sponsorship to save","Impossible de trouver le parrainage à enregistrer"
-"Update status","Modifier le statut"
-"Use of your fidelity points","Utilisation de vos points fidélité"
-"Use of your sponsorship points","Utilisation de vos points parrainage"
-"Validate","Valider"
-"Value","Valeur"
-"Voucher exchange enabled","Échange en bons de réductions activé"
-"Voucher exchange mail options","Options des mails d'échange de points en bon de réduction"
-"Vouchers","Bons de réduction"
-"Vouchers:","Bons de réduction :"
-"Waiting","En attente"
-"Winning","Points gagnés"
-"You do not have active godson.","Vous n'avez pas de filleul actif."
-"You do not have as many points.","Vous ne disposez pas d'autant de points."
-"You have %d points.","Vous disposez de %d points."
-"You must already have purchased to sponsor.","Vous devez déjà avoir commandé pour parrainer."
-"You should visit this website. It offers interesting products.","Tu devrais aller sur ce site. Ils ont des produits intéressants."
-"Your email has been successfully sent.","Votre email a bien été envoyé."
-"Your godsons","Vos filleuls"
-"Your invitations","Vos invitations"
-"Your lastest orders","Vos dernières commandes"
+Type,Type
+Unable to find change to save,Impossible de trouver l'échange à enregistrer
+Unable to find invitation to save,Impossible de trouver l'invitation à enregistrer
+Unable to find sponsorship to save,Impossible de trouver le parrainage à enregistrer
+Unable to get contacts !,Impossible de récupérer les contacts !
+Update status,Modifier le statut
+Use of your fidelity points,Utilisation de vos points fidélité
+Use of your points,Utilisation de vos points
+Use of your sponsorship points,Utilisation de vos points parrainage
+Validate,Valider
+Validity fidelity points ,Validité des points de fidélité
+Validity points,Validité des points
+Validity sponsorship points ,Validité des points de parrainage
+Value,Valeur
+Voucher exchange enabled,Échange en bons de réductions activé
+Voucher exchange mail options,Options des mails d'échange de points en bon de réduction
+Vouchers,Bons de réduction
+Vouchers:,Bons de réduction :
+Waiting,En attente
+Winning,Points gagnés
+worth %s,soit %s
+You can't send an invitation to yourself,Vous ne pouvez pas vous envoyer une invitation à vous même.
+You do not have active godson.,Vous n'avez pas de filleul actif.
+You do not have as many points.,Vous ne disposez pas d'autant de points.
+You do not have yet send invit.,Vous n'avez pas encore envoyé d'invitation.
+You have %d points.,Vous disposez de %d points.
+You must already have purchased to sponsor.,Vous devez déjà avoir commandé pour parrainer.
+You should visit this website. It offers interesting products.,Tu devrais aller sur ce site. Ils ont des produits intéressants.
+Your email has been successfully sent.,Votre email a bien été envoyé.
+Your godsons,Vos filleuls
+Your invitations,Vos invitations
+Your lastest orders,Vos dernières commandes
+Your login:,Votre identifiant :
 "Your mail has not been sent, please try again later.","Votre mail n'a pas pu être délivré, veuillez essayer plus tard."
-"Your message","Votre message"
-"Your message will be preceded by:","Votre message sera précédé de :"
-"Your message will ends as follows:","Votre message se terminera comme suit :"
-"Your message:","Votre message :"
-"Your points exchanges:","Vos échanges de points :"
+Your message,Votre message
+Your message will be preceded by:,Votre message sera précédé de :
+Your message will ends as follows:,Votre message se terminera comme suit :
+Your message:,Votre message :
+Your points are valid until the %s,Vos points sont valables jusqu’au %s
+Your points exchanges:,Vos échanges de points :
 "Your request has been submitted, you will soon receive an email confirmation.","Votre demande a bien été transmise, vous recevrez bientôt un mail de confirmation."
-"You do not have yet send invit.","Vous n'avez pas encore envoyé d'invitation."
-"Select recipients from your address book.","Sélectionnez les destinataires à partir de votre carnet d'adresses."
-"Or add recipient manually.","Ou ajoutez vos destinataires manuellement."
-"Select your provider and sign in:","Sélectionnez votre fournisseur et identifiez vous :"
-"Your login:","Votre identifiant :"
-"Address book provider:","Fournisseur de carnet d'adresse :"
-"Import Contacts","Importer contacts"
-"Login failed. Please check the email and password you have provided and try again later !","L'authentification a échouée. Merci de vérifier votre identifiant et votre mot de passe."
-"Please enter the full email, not just the username","Merci d'indiquer votre email, et pas seulement votre nom d'utilisateur."
-"Select recipients from your address book:","Sélectionnez les destinataires dans votre carnet d'adresses :"
-"Import selected contacts","Importer les contacts sélectionnés"
-"Check or uncheck all","Tout sélectionner ou tout de-sélectionner"
-"Email missing !","Il manque l'email !"
-"Password missing !","Il manque le mot de passe !"
-"Provider missing !","Il manque le fournisseur !"
-"Unable to get contacts !","Impossible de récupérer les contacts !"
-"An exception occured !","Une exception s'est produite !"
-"Allows customers to import addressbook/contacts from different email providers like Yahoo, Gmail, Hotmail, Live etc. using different CMS software like Drupal, Joomla etc. or forum software like PHPBB, SMF etc. Learn more on <a href='http://openinviter.com'>openinviter.com</a>","Permet aux clients d'importer leur carnet d'adresse depuis plusieurs fournisseurs comme Yahoo, Gmail, Hotmail, Live etc. Plus de sétails sur <a href='http://openinviter.com'>openinviter.com</a>"
-"Activated","Activé"
-"Choose your provider","Choisissez votre fournisseur"
-"Email Providers","Fournisseurs de mails"
-"Social Networks","Réseaux sociaux"
-"Add recipients","Ajoutez les destinataires."
-"Open inviter providers","Fournisseurs Open Inviter"
-"Edition of the Open inviter provider '%s'","Edition du fournisseur Open inviter '%s'"
-"Provider detail","Détail du fournisseur"
-"Provider was successfully saved","Le fournisseur a bien été sauvegardé"
-"Add a provider","Ajouter un fournisseur"
-"Provider was successfully deleted","Le fournisseur a bien été effacé"

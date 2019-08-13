@@ -10,6 +10,6 @@ class Auguria_Sponsorship_Model_Mysql4_CatalogSponsorPoint extends Mage_Core_Mod
     public function _construct()
     {    
         // Note that the sponsorship_id refers to the key field in your database table.
-        $this->_init('sponsorship/catalogsponsorpoint', 'rule_product_sponsor_point_id');
+        $this->_init('auguria_sponsorship/catalogsponsorpoint', 'rule_product_sponsor_point_id');
     }
 }

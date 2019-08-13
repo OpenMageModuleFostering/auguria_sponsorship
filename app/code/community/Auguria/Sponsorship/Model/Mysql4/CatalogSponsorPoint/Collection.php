@@ -10,6 +10,6 @@ class Auguria_Sponsorship_Model_Mysql4_CatalogSponsorPoint_Collection extends Ma
     public function _construct()
     {
         parent::_construct();
-        $this->_init('sponsorship/catalogsponsorpoint');
+        $this->_init('auguria_sponsorship/catalogsponsorpoint');
     }
 }

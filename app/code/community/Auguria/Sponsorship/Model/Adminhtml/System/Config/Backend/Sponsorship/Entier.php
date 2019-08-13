@@ -11,14 +11,14 @@ class Auguria_Sponsorship_Model_Adminhtml_System_Config_Backend_Sponsorship_Enti
     {
         $value = $this->getValue();        
     	if (!Zend_Validate::is($value, 'NotEmpty')) {
-    		Mage::throwException(Mage::helper('sponsorship')->__("A value is required."));
+    		Mage::throwException(Mage::helper('auguria_sponsorship')->__("A value is required."));
         }
         if (!Zend_Validate::is($value, 'Digits')) {
-        	Mage::throwException(Mage::helper('sponsorship')->__("'%s' is not an integer.", $value));
+        	Mage::throwException(Mage::helper('auguria_sponsorship')->__("'%s' is not an integer.", $value));
         }
         $validator = new Zend_Validate_GreaterThan(0);
 		if (!$validator->isValid($value)) {
-        	Mage::throwException(Mage::helper('sponsorship')->__("'%s' is not greater than 0.", $value));
+        	Mage::throwException(Mage::helper('auguria_sponsorship')->__("'%s' is not greater than 0.", $value));
         }
         return $this;
     }

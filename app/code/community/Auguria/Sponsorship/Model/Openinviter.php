@@ -55,6 +55,8 @@ class Auguria_Sponsorship_Model_Openinviter
     	$plugins = $this->getOpenIniviterPlugins();
     	$array = Array();
     	if (count($plugins))
+    	{
+    		/* With social networks
     		foreach ($plugins as $type)
     		{
     			if (count($type))
@@ -63,9 +65,20 @@ class Auguria_Sponsorship_Model_Openinviter
 		    			$name = $code;
 		    			if (isset($plugin['name']))
 		    				$name = $plugin['name'];
-		    			$array[] = array('value'=>$code, 'label'=>Mage::helper('sponsorship')->__($name));
+		    			$array[] = array('value'=>$code, 'label'=>Mage::helper('auguria_sponsorship')->__($name));
 		    		}
     		}
+    		*/
+    		//Without social networks
+    		if (isset($plugins['email']))
+    			foreach ($plugins['email'] as $code=>$plugin)
+	    		{
+	    			$name = $code;
+	    			if (isset($plugin['name']))
+	    				$name = $plugin['name'];
+	    			$array[] = array('value'=>$code, 'label'=>Mage::helper('auguria_sponsorship')->__($name));
+	    		}
+    	}
     	return $array;
     }
 }

@@ -10,6 +10,6 @@ class Auguria_Sponsorship_Model_Mysql4_Sponsorship extends Mage_Core_Model_Mysql
     public function _construct()
     {    
         // Note that the sponsorship_id refers to the key field in your database table.
-        $this->_init('sponsorship/sponsorship', 'sponsorship_id');
+        $this->_init('auguria_sponsorship/sponsorship', 'sponsorship_id');
     }
 }

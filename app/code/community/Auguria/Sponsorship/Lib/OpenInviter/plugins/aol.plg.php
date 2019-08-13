@@ -1,7 +1,7 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'AOL',
-	'version'=>'1.5.3',
+	'version'=>'1.5.4',
 	'description'=>"Get the contacts from an AOL account",
 	'base_version'=>'1.9.0',
 	'type'=>'email',
@@ -28,9 +28,9 @@ class aol extends openinviter_base
 	public $debug_array=array(
 			 'initial_get'=>'pwderr',
 	    	 'login_post'=>'loginForm',
-	    	 'url_redirect'=>'var gSuccessPath',
+	    	 'url_redirect'=>'var gSuccessURL',
 	    	 'inbox'=>'aol.wsl.afExternalRunAtLoad = []',
-	    	 'print_contacts'=>'window\x27s'
+	    	 'print_contacts'=>'Email1'
 	    	);
 	
 	/**
@@ -65,7 +65,7 @@ class aol extends openinviter_base
 			}  
 			
 		$post_elements=$this->getHiddenElements($res);$post_elements['loginId']=$user;$post_elements['password']=$pass;
-		$res=$this->post("https://my.screenname.aol.com/_cqr/login/login.psp",$post_elements,true);
+		$res=$this->post("https://my.screenname.aol.com/_cqr/login/login.psp",$post_elements,true);		
 		if ($this->checkResponse('login_post',$res))
 			$this->updateDebugBuffer('login_post',"https://my.screenname.aol.com/_cqr/login/login.psp",'POST',true,$post_elements);
 		else
@@ -78,7 +78,7 @@ class aol extends openinviter_base
 		
 		
 		$url_redirect=$this->getElementString($res,"'loginForm', 'false', '","')");
-		$res=$this->get($url_redirect,true);
+		$res=$this->get($url_redirect);
 		if ($this->checkResponse('url_redirect',$res))
 			$this->updateDebugBuffer('url_redirect',"{$url_redirect}",'GET');
 		else 
@@ -87,12 +87,10 @@ class aol extends openinviter_base
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
-			}
-		
-		
-		$url_redirect="http://webmail.aol.com".htmlspecialchars_decode($this->getElementString($res,'var gSuccessPath = "','"',$res));
-		$url_redirect=str_replace("Suite.aspx","Lite/Today.aspx",$url_redirect);
-		$res=$this->get($url_redirect,true);
+			}			
+		$url_redirect="http://mail.aol.com".$this->getElementString($res,'var gSuccessURL = "','"',$res);			
+		$url_redirect=str_replace("Suite.aspx","Lite/Today.aspx",$url_redirect);		
+		$res=$this->get($url_redirect,true);;
 		if ($this->checkResponse('inbox',$res))
 			$this->updateDebugBuffer('inbox',"{$url_redirect}",'GET');
 		else 
@@ -125,52 +123,61 @@ class aol extends openinviter_base
 			$this->stopPlugin();
 			return false;
 			}
-		else
-			$url=$this->login_ok;
-		//go to url inbox
-		$res=$this->get($url,true);
-
-		
-		$url_temp=$this->getElementString($res,"command.','','","'");
-		$version=$this->getElementString($url_temp,'http://webmail.aol.com/','/');
-		$url_print=str_replace("');","",str_replace("PrintContacts.aspx","addresslist-print.aspx?command=all&sort=FirstLastNick&sortDir=Ascending&nameFormat=FirstLastNick&version={$version}:webmail.aol.com&user=",$url_temp));
-		$url_print.=$this->getElementString($res,"addresslist-print.aspx','","'");
-		
-
-	 	$res=$this->get($url_print,true);
-	
+		else $url=$this->login_ok;
+		$res=$this->get($url,true);		
+		$url_temp=$this->getElementString($res,"command.','','","'");		
+		$version=$this->getElementString($url_temp,'http://mail.aol.com/','/');				
+		$urlEx="http://mail.aol.com/{$version}/aol-6/en-us/AB/ABExport.aspx?command=all&format=csv&user=".$this->getElementString($res,"addresslist-print.aspx','","'");				
+	 	$res=$this->get($urlEx);	 		 		
 		$contacts=array();
-		if ($this->checkResponse("print_contacts",$res))
-			{
-			$doc=new DOMDocument();libxml_use_internal_errors(true);if (!empty($res)) $doc->loadHTML($res);libxml_use_internal_errors(false);
-			$nodes=$doc->getElementsByTagName("span");$name=false;$flag_name=false;$flag_email=false;
-			$temp=array();
-			$descriptionArrayFlag=array('Screen Name:'=>'nickname','Email 1:'=>'email_1','Email 2:'=>'email_2','Mobile: '=>'phone_mobile','Home: '=>'phone_home','Work: '=>'phone_work','Pager: '=>'pager','Fax: '=>'fax_work','Family Names:'=>'last_name');
-			$xpath=new DOMXPath($doc);$query="//span";$data=$xpath->query($query);
-			foreach($data as $node)
-				{
-				if ($node->getAttribute("class")=="fullName") { $nameD=$node->nodeValue;$temp=array(); }
-				if (end($temp)!==false)
-					{
-					$key=key($temp);
-					if ($key=='Email 1:') $keyDescription=$node->nodeValue;
-					if (!empty($keyDescription))
-						{
-						if (empty($contacts[$keyDescription]['first_name'])) $contacts[$keyDescription]['full_name']=!empty($nameD)?$nameD:false;
-						$contacts[$keyDescription][$descriptionArrayFlag[$key]]=!empty($node->nodeValue)?$node->nodeValue:false; $temp[$key]=false;
-						}
-					}
-				if (isset($descriptionArrayFlag[$node->nodeValue])) $temp[$node->nodeValue]=true;
-				}
-			$this->updateDebugBuffer('print_contacts',"{$url_print}",'GET');
-			}
+		if ($this->checkResponse("print_contacts",$res)) 
+			$this->updateDebugBuffer('print_contacts',"{$urlEx}",'GET');			
 		else
 			{ 
-			$this->updateDebugBuffer('print_contacts',"{$url_print}",'GET',false);
+			$this->updateDebugBuffer('print_contacts',"{$urlEx}",'GET',false);
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
 			}
+		$contacts=array();
+		$temp=$this->parseCSV($res);		
+		$contacts=array();
+		foreach ($temp as $values)
+			{
+			if (!empty($values[4]))
+				$contacts[$values[4]]=array('first_name'=>(!empty($values[0])?$values[0]:false),
+												'middle_name'=>(!empty($values[2])?$values[2]:false),
+												'last_name'=>(!empty($values[1])?$values[1]:false),
+												'nickname'=>false,
+												'email_1'=>(!empty($values[4])?$values[4]:false),
+												'email_2'=>false,
+												'email_3'=>false,
+												'organization'=>false,
+												'phone_mobile'=>(!empty($values[11])?$values[11]:false),
+												'phone_home'=>(!empty($values[9])?$values[9]:false),			
+												'pager'=>false,
+												'address_home'=>false,
+												'address_city'=>(!empty($values[5])?$values[5]:false),
+												'address_state'=>(!empty($values[7])?$values[7]:false),
+												'address_country'=>(!empty($values[8])?$values[8]:false),
+												'postcode_home'=>(!empty($values[6])?$values[6]:false),
+												'company_work'=>(!empty($values[14])?$values[14]:false),
+												'address_work'=>false,
+												'address_work_city'=>(!empty($values[16])?$values[16]:false),
+												'address_work_country'=>(!empty($values[19])?$values[19]:false),
+												'address_work_state'=>(!empty($values[17])?$values[17]:false),
+												'address_work_postcode'=>(!empty($values[18])?$values[18]:false),
+												'fax_work'=>(!empty($values[21])?$values[21]:false),
+												'phone_work'=>(!empty($values[20])?$values[20]:false),
+												'website'=>(!empty($values[12])?$values[12]:false),
+												'isq_messenger'=>false,
+												'skype_essenger'=>false,
+												'yahoo_essenger'=>false,
+												'msn_messenger'=>false,
+												'aol_messenger'=>false,
+												'other_messenger'=>false,
+											   );
+			}				
 		foreach ($contacts as $email=>$name) if (!$this->isEmail($email)) unset($contacts[$email]);
 		return $this->returnContacts($contacts);
 		}

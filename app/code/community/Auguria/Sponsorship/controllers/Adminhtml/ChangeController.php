@@ -23,7 +23,7 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
 
 	public function editAction() {
 		$id     = $this->getRequest()->getParam('id');
-		$model  = Mage::getModel('sponsorship/change')->load($id);
+		$model  = Mage::getModel('auguria_sponsorship/change')->load($id);
 
 		if ($model->getId() || $id == 0) {
 			$data = Mage::getSingleton('adminhtml/session')->getFormData(true);
@@ -40,12 +40,12 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
 
 			$this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-			$this->_addContent($this->getLayout()->createBlock('sponsorship/adminhtml_change_edit'))
-				->_addLeft($this->getLayout()->createBlock('sponsorship/adminhtml_change_edit_tabs'));
+			$this->_addContent($this->getLayout()->createBlock('auguria_sponsorship/adminhtml_change_edit'))
+				->_addLeft($this->getLayout()->createBlock('auguria_sponsorship/adminhtml_change_edit_tabs'));
 
 			$this->renderLayout();
 		} else {
-			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__("This change doesn't exist"));
+			Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__("This change doesn't exist"));
 			$this->_redirect('*/*/');
 		}
 	}
@@ -87,13 +87,13 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
 				$this->statusCanceled ($changeId,$cdata['statut']);
 				
 				//Enregistrement dans la table "change"
-				$model = Mage::getModel('sponsorship/change');
+				$model = Mage::getModel('auguria_sponsorship/change');
 				$model->setData($cdata)
 					->setId($this->getRequest()->getParam('id'));				
 				$model->save();
 				
 				
-				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('sponsorship')->__("The change has been successfully recorded"));
+				Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('auguria_sponsorship')->__("The change has been successfully recorded"));
 				Mage::getSingleton('adminhtml/session')->setFormData(false);
 
 				if ($this->getRequest()->getParam('back')) {
@@ -109,7 +109,7 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
                 return;
             }
         }
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__("Unable to find change to save"));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__("Unable to find change to save"));
         $this->_redirect('*/*/');
 	}
 	
@@ -117,7 +117,7 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
     {
         $sponsorshipIds = $this->getRequest()->getParam('change');
         if(!is_array($sponsorshipIds)) {
-            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('sponsorship')->__("Please select changes"));
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('auguria_sponsorship')->__("Please select changes"));
         } else {
             try {
                 foreach ($sponsorshipIds as $sponsorshipId) {
@@ -126,7 +126,7 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
 					$this->statusCanceled ($sponsorshipId,$this->getRequest()->getParam('statut'));
 					
 					//Enregistrements dans change
-                    $sponsorship = Mage::getSingleton('sponsorship/change')
+                    $sponsorship = Mage::getSingleton('auguria_sponsorship/change')
                         ->load($sponsorshipId)
                         ->setStatut($this->getRequest()->getParam('statut'))
                         ->setIsMassupdate(true)
@@ -145,7 +145,7 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
     public function exportCsvAction()
     {
         $fileName   = 'sponsorshipChange.csv';
-        $content    = $this->getLayout()->createBlock('sponsorship/adminhtml_change_grid')
+        $content    = $this->getLayout()->createBlock('auguria_sponsorship/adminhtml_change_grid')
             ->getCsv();
         $this->_sendUploadResponse($fileName, $content);
     }
@@ -153,7 +153,7 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
     public function exportXmlAction()
     {
         $fileName   = 'sponsorshipChange.xml';
-        $content    = $this->getLayout()->createBlock('sponsorship/adminhtml_change_grid')
+        $content    = $this->getLayout()->createBlock('auguria_sponsorship/adminhtml_change_grid')
             ->getXml();
 
         $this->_sendUploadResponse($fileName, $content);
@@ -177,7 +177,7 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
     
     protected function statusCanceled ($changeId, $statut)
     {
-    	$model = Mage::getSingleton('sponsorship/change');
+    	$model = Mage::getSingleton('auguria_sponsorship/change');
 		$model->load($changeId);
 		
 		//si statut passe à annulé
@@ -200,29 +200,16 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
 			$customer->save();
 			
 			//Mise à jour des logs
-			$log = Mage::getModel('sponsorship/'.$module.'log');
-			$dateTime = Mage::getModel('core/date')->date();			
-    		if ($module == 'fidelity')
-    		{
-    			$data = array(
+			$log = Mage::getModel('auguria_sponsorship/log');
+			$dateTime = Mage::getModel('core/date')->gmtDate();
+			
+			$data = array(
 			    'customer_id' => $cId,
 			    'record_id' => $changeId,
 			    'record_type' => 'admin',
 			    'datetime' => $dateTime,
 			    'points' => $points
-    			);
-    		}
-    		elseif ($module == 'sponsor')
-    		{
-    			$data = array(
-			    'godson_id' => $cId,
-    			'sponsor_id' => $cId,
-			    'record_id' => $changeId,
-			    'record_type' => 'admin',
-			    'datetime' => $dateTime,
-			    'points' => $points
-    			);
-    		}
+    		);
 			$log->setData($data);
 			$log->save();
 			
@@ -248,29 +235,15 @@ class Auguria_Sponsorship_Adminhtml_ChangeController extends Mage_Adminhtml_Cont
 			$customer->save();
 			
 			//Mise à jour des logs
-			$log = Mage::getModel('sponsorship/'.$module.'log');
-			$dateTime = Mage::getModel('core/date')->date();			
-    		if ($module == 'fidelity')
-    		{
-    			$data = array(
+			$log = Mage::getModel('auguria_sponsorship/log');
+			$dateTime = Mage::getModel('core/date')->gmtDate();			
+    		$data = array(
 			    'customer_id' => $cId,
 			    'record_id' => $changeId,
 			    'record_type' => 'admin',
 			    'datetime' => $dateTime,
 			    'points' => -$points
-    			);
-    		}
-    		elseif ($module == 'sponsor')
-    		{
-    			$data = array(
-			    'godson_id' => $cId,
-    			'sponsor_id' => $cId,
-			    'record_id' => $changeId,
-			    'record_type' => 'admin',
-			    'datetime' => $dateTime,
-			    'points' => -$points
-    			);
-    		}
+    		);
 			$log->setData($data);
 			$log->save();
 		}

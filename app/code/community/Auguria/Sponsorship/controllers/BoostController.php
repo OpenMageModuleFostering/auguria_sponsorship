@@ -31,7 +31,7 @@ class Auguria_Sponsorship_BoostController extends Mage_Core_Controller_Front_Act
         {
             $translate = Mage::getSingleton('core/translate');
             $translate->setTranslateInline(false);
-            $mail = Mage::helper('sponsorship/mail');
+            $mail = Mage::helper('auguria_sponsorship/mail');
             $mails = $mail->processMail($post);
             $validation = $mail->validateMail($mails);
 
@@ -42,18 +42,18 @@ class Auguria_Sponsorship_BoostController extends Mage_Core_Controller_Front_Act
                 if ($isCustomer == true)
                 {
                     Mage::getSingleton('customer/session')->addError($this->__("%s is already an email to our customers",$mails[0]["recipient_email"]));
-                    $this->_redirect("*/sponsorpoints/");
+                    $this->_redirect("*/points/");
                 }
                 else
                 {
                     if ($mail->sendMail($mails[0]))
                     {
-                        Mage::getSingleton('customer/session')->addSuccess(Mage::helper('sponsorship')->__("Your email has been successfully sent."));
+                        Mage::getSingleton('customer/session')->addSuccess(Mage::helper('auguria_sponsorship')->__("Your email has been successfully sent."));
                         if (!$mail->saveMail($mails[0]))
                         {
                             Mage::getSingleton('customer/session')->addError($this->__("But it could not be saved."));
                         }
-                        $this->_redirect("*/sponsorpoints/");
+                        $this->_redirect("*/points/");
                     }
                     else
                     {
@@ -72,7 +72,7 @@ class Auguria_Sponsorship_BoostController extends Mage_Core_Controller_Front_Act
         }
         else
         {
-                $this->_redirect("*/sponsorpoints/");
+                $this->_redirect("*/points/");
         }
     }
 }

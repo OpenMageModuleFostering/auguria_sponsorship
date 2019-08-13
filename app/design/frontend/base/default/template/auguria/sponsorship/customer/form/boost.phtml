@@ -1,0 +1,86 @@
+<!-- 
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<?php
+        if ($invit = $this->getInvit()):
+?>
+<div class="std">
+<div class="page-title">
+    <h1><?php echo $this->__('Recall %s %s', $invit->getChildFirstname(), $invit->getChildLastname()) ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<form action="<?php echo $this->getUrl('sponsorship/boost/post') ?>" method="post" id="boost">
+<?php echo $this->getBlockHtml('formkey')?>
+    <div class="fieldset sender_options">
+        <h2 class="legend"><?php echo $this->__('Sender:') ?></h2>
+        <ul class="form-list" id="sender_options">
+            <li>
+                <div class="left">
+                    <label for="sender_name" class="required"><em>*</em><?php echo $this->__('Name:') ?></label><br/>
+                    <div style="width:250px"><input name="sender[name]" value="<?php echo $this->__($invit->getParentName()) ?>" title="<?php echo $this->__('Name') ?>" id="sender_name" type="text" class="input-text required-entry" style="width:250px;" /></div>
+                        <input name="sender[id]" value="<?php echo $this->__($invit->getParentId()); ?>" id="sender_id" type="hidden"/>
+                        <input name="sponsorship_id" value="<?php echo $this->__($invit->getSponsorshipId()); ?>" id="sponsorship_id" type="hidden"/>
+                </div>
+                <div class="right">
+                   <label for="sender_email" class="required"><em>*</em><?php echo $this->__('Email Address:') ?></label><br/>
+                   <div style="width:250px"><input name="sender[email]" value="<?php echo $this->__($this->getParentEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" id="sender_email" type="text" class="input-text required-entry validate-email" style="width:250px;" /></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset recipient_options">
+        <h2 class="legend"><?php echo $this->__('Recipient:') ?></h2>
+        <ul class="form-list" id="recipient_options">
+            <li>
+                <div class="left">
+                    <label for="recipient_email" class="required"><em>*</em><?php echo $this->__('Email Address:') ?></label><br/>
+                    <div style="width:250px"><input name="recipient[email][]" value="<?php echo $this->__($invit->getChildMail()) ?>" title="<?php echo $this->__('Email Address') ?>" id="recipients_email" type="text" class="input-text required-entry validate-email" style="width:250px;" /></div>
+                    <input name="recipient[firstname][]" value="<?php echo $this->__($invit->getChildFirstname()) ?>" id="recipient_firstname" type="hidden"/>
+                    <input name="recipient[lastname][]" value="<?php echo $this->__($invit->getChildLastname()) ?>" id="recipient_lastname" type="hidden"/>
+
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset message_options">
+        <h2 class="legend"><?php echo $this->__('Message:') ?></h2>
+        <ul class="form-list" id="message_options">
+            <li>
+                <div class="left">
+                    <label for="message_subject" class="required"><em>*</em><?php echo $this->__('Subject:') ?></label><br/>
+                    <div style="width:250px"><input name="message[subject]" value="<?php echo $this->__($invit->getSubject()) ?>" title="<?php echo $this->__('Subject') ?>" id="message_subject" type="text" class="input-text required-entry" style="width:250px;" /></div>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <label for="message_body" class="required"><em>*</em><?php echo $this->__('Message:') ?></label>
+                    <textarea name="message[body]" class="input-text required-entry" id="message_body" cols="3" rows="8" style="width:100%;height:180px"><?php
+                        echo $this->__($invit->getMessage())
+                     ?></textarea>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <label class="required"><em>*</em><?php echo $this->__("Your message will ends as follows:"); ?></label>
+                    <br/>
+                    <?php echo Mage::helper('auguria_sponsorship/mail')->getFooterMessage($invit->getParentId(),$invit->getChildFirstname(), $invit->getChildLastname(), $invit->getChildMail()); ?>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <p class="back-link"><a href="<?php echo $this->getUrl('sponsorship/points/sponsorship') ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button class="button" type="submit"><span><?php echo $this->__('Send email') ?></span></button>
+    </div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('boost', true);
+</script>
+</div>
+ <?php endif; //fin verification qu'un filleul est envoyé par post ?>

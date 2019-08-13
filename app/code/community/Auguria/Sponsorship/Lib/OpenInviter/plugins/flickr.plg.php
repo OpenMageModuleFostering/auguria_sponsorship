@@ -4,7 +4,7 @@
  */
 $_pluginInfo=array(
 	'name'=>'Flickr',
-	'version'=>'1.0.6',
+	'version'=>'1.0.8',
 	'description'=>"Get the contacts from a Flickr account",
 	'base_version'=>'1.8.0',
 	'type'=>'social',
@@ -29,7 +29,7 @@ class flickr extends openinviter_base
 	protected $timeout=30;
 	
 	public $debug_array=array(
-				'initial_get'=>'login.yahoo',
+				'ini_get'=>'login.yahoo',
 				'login_post'=>'window.location.replace(',
 				'redirect_cookie'=>'magic_cookie',
 				'frinds_page'=>'Who',
@@ -55,11 +55,11 @@ class flickr extends openinviter_base
 		if (!$this->init()) return false;
 		
 		$res=$this->get("http://www.flickr.com/signin/",true);
-		if ($this->checkResponse("initial_get",$res))
-			$this->updateDebugBuffer('initial_get',"http://www.flickr.com/signin/",'GET');
+		if ($this->checkResponse("ini_get",$res))
+			$this->updateDebugBuffer('ini_get',"http://www.flickr.com/signin/",'GET');
 		else
 			{
-			$this->updateDebugBuffer('initial_get',"http://www.flickr.com/signin/",'GET',false);
+			$this->updateDebugBuffer('ini_get',"http://www.flickr.com/signin/",'GET',false);
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;

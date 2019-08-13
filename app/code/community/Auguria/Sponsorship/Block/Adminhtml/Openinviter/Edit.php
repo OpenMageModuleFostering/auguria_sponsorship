@@ -12,7 +12,7 @@ class Auguria_Sponsorship_Block_Adminhtml_Openinviter_Edit extends Mage_Adminhtm
         parent::__construct();
         
         $this->_objectId = 'id';
-        $this->_blockGroup = 'sponsorship';
+        $this->_blockGroup = 'auguria_sponsorship';
         $this->_controller = 'adminhtml_openinviter';
 
         $this->_addButton('back', array(
@@ -21,17 +21,17 @@ class Auguria_Sponsorship_Block_Adminhtml_Openinviter_Edit extends Mage_Adminhtm
             'class'     => 'back',
         ), -1);
         
-        $this->_updateButton('save', 'label', Mage::helper('sponsorship')->__('Save'));
-		$this->_updateButton('delete', 'label', Mage::helper('sponsorship')->__('Delete'));
+        $this->_updateButton('save', 'label', Mage::helper('auguria_sponsorship')->__('Save'));
+		$this->_updateButton('delete', 'label', Mage::helper('auguria_sponsorship')->__('Delete'));
 		
     }
 
     public function getHeaderText()
     {
         if( Mage::registry('openinviter_data') && Mage::registry('openinviter_data')->getId() ) {
-            return Mage::helper('sponsorship')->__("Edition of the Open inviter provider '%s'", $this->htmlEscape(Mage::registry('openinviter_data')->getName()));
+            return Mage::helper('auguria_sponsorship')->__("Edition of the Open inviter provider '%s'", $this->htmlEscape(Mage::registry('openinviter_data')->getName()));
         } else {
-            return Mage::helper('sponsorship')->__('Add a provider');
+            return Mage::helper('auguria_sponsorship')->__('Add a provider');
         }
     }
 }

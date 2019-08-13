@@ -1,13 +1,13 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Bigstring',
-	'version'=>'1.0.4',
+	'version'=>'1.0.5',
 	'description'=>"Get the contacts from an Bigstring account",
-	'base_version'=>'1.6.5',
+	'base_version'=>'1.8.0',
 	'type'=>'email',
 	'check_url'=>'http://www.bigstring.com/?old=1',
-	'requirement'=>'email',
-	'allowed_domains'=>array('/(bigstring.com)/i'),
+	'requirement'=>'user',
+	'allowed_domains'=>false,
 	'imported_details'=>array('first_name','email_1'),
 	);
 /**
@@ -25,9 +25,9 @@ class bigstring extends openinviter_base
 	public $internalError=false;
 	protected $timeout=30;
 	
-	public $debug_array=array('initial_get'=>'userpass',
-			  				  'login_post'=>'frame',
-			  				  'url_contacts'=>'E-mail:'
+	public $debug_array=array('initial_get'=>'user',
+			  				  'login_post'=>'progress_upload_bar',
+			  				  'url_contacts'=>'contacts'
 							 );
 
 	/**
@@ -48,20 +48,21 @@ class bigstring extends openinviter_base
 		$this->service_password=$pass;
 		if (!$this->init()) return false;
 		
-		$res = $this->get("http://www.bigstring.com/?old=1");
+		$res = $this->get("http://www.bigstring.com");
 		if ($this->checkResponse("initial_get",$res))
-			$this->updateDebugBuffer('initial_get',"http://www.bigstring.com/?old=1",'GET');
+			$this->updateDebugBuffer('initial_get',"http://www.bigstring.com",'GET');
 		else
 			{
-			$this->updateDebugBuffer('initial_get',"http://www.bigstring.com/?old=1",'GET',false);
+			$this->updateDebugBuffer('initial_get',"http://www.bigstring.com",'GET',false);
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
 			}
 			
-		$form_action='http://www.bigstring.com/email/login.php';
-		$post_elements=array('username'=>$user,'userpass'=>$pass,'free'=>'Log-In'); 
+		$form_action='http://www.bigstring.com/mail/index.php';
+		$post_elements=array('user'=>$user,'pass'=>$pass); 		
  		$res=$this->post($form_action,$post_elements,true);
+ 		$res=$this->get("http://www.bigstring.com/mail/mailbox.php",true);
  		if ($this->checkResponse("login_post",$res))
 			$this->updateDebugBuffer('login_post',$form_action,'POST',true,$post_elements);
 		else
@@ -72,9 +73,7 @@ class bigstring extends openinviter_base
 			return false;
 			}
 		
-		
-			
-		$url_contacts="http://www.bigstring.com/email/addressbook/viewallcontacts.php?view=detailed";
+		$url_contacts="http://www.bigstring.com/mail/ajax/contacts/viewcontact.php";
 		$this->login_ok=$url_contacts;
 		return true;		
 	} 
@@ -95,23 +94,25 @@ class bigstring extends openinviter_base
 			$this->stopPlugin();
 			return false;
 			}
-		else $url=$this->login_ok;
-		$res=$this->get($url);
+		else $url=$this->login_ok;			
+		$post_elements=array('user'=>$this->service_user."@bigstring.com",'pass'=>$this->service_password,"lang"=>"en");
+		$res=$this->post($url,$post_elements);
 		if ($this->checkResponse("url_contacts",$res))
-			$this->updateDebugBuffer('url_contacts',$url,'GET');
+			$this->updateDebugBuffer('url_contacts',$url,'POST');
 		else
 			{
-			$this->updateDebugBuffer('url_contacts',$url,'GET',false);
+			$this->updateDebugBuffer('url_contacts',$url,'POST',false);
 			$this->debugRequest();
 			$this->stopPlugin();
 			return false;
 			}
 			
 		$contacts=array();
-		$names_array=$this->getElementDOM($res,"//td[@colspan='3']",'title');
-		$emails_array=$this->getElementDOM($res,"//td[.='E-mail:']",'title');
-		foreach($names_array as $key=>$values) $contacts[$emails_array[$key]]=array('first_name'=>$values,'email_1'=>$emails_array[$key]);
-		foreach ($contacts as $email=>$name) if (!$this->isEmail($email)) unset($contacts[$email]);
+		if (preg_match_all("#\(\'\'\,\'(.+)\'\,\'(.+)\'#U",$res,$matches))
+			{
+			foreach($matches[2] as $key=>$name)
+				if (!empty($matches[1][$key])) $contacts[$matches[1][$key]]=array('email_1'=>$matches[1][$key],'first_name'=>$name);	
+			}
 		return $this->returnContacts($contacts);
 		}
 

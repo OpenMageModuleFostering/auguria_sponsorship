@@ -1,7 +1,7 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Yahoo!',
-	'version'=>'1.5.3',
+	'version'=>'1.5.4',
 	'description'=>"Get the contacts from a Yahoo! account",
 	'base_version'=>'1.8.0',
 	'type'=>'email',
@@ -24,7 +24,7 @@ class yahoo extends openinviter_base
 	public $showContacts=true;
 	protected $timeout=30;
 	public $debug_array=array(
-			  'initial_get'=>'form: login information',
+			  'initial_get'=>'util.Event.addListener',
 			  'login_post'=>'window.location.replace',
 			  'print_page'=>'field[allc]',
 			  'contacts_file'=>'"'

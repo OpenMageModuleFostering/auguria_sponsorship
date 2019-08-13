@@ -1,7 +1,7 @@
 <?php
 $_pluginInfo=array(
 	'name'=>'Hi5',
-	'version'=>'1.1.6',
+	'version'=>'1.1.7',
 	'description'=>"Get the contacts from a Hi5 account",
 	'base_version'=>'1.6.7',
 	'type'=>'social',
@@ -26,7 +26,7 @@ class hi5 extends openinviter_base
 	protected $timeout=50;
 	
 	public $debug_array=array(
-				'initial_get'=>'email',
+				'initial_get'=>'setRequestId',
 				'login_post'=>'friends',
 				'url_friends'=>'friend-name',
 				'url_message'=>'toIds',
@@ -51,7 +51,7 @@ class hi5 extends openinviter_base
 		$this->service_password=$pass;
 		if (!$this->init()) return false;
 
-		$res=$this->get("http://www.hi5.com/");
+		$res=$this->get("http://hi5.com/friend/displayHomePage.do");		
 		if ($this->checkResponse("initial_get",$res))
 			$this->updateDebugBuffer('initial_get',"http://www.hi5.com/",'GET');
 		else

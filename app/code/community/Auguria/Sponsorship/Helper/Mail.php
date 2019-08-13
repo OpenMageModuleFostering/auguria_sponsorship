@@ -11,34 +11,34 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
     {
         return Mage::app()->getGroup()->getName();
     }
-    
+
     public function getSubject ()
     {
         return $this->__("Invitation to %s",$this->getStoreName());
     }
-	
+
     public function getHeaderMessage ($prenom, $nom)
     {
         return $this->__('Dear %s %s,',$prenom, $nom);
     }
-    
+
     public function getMessage ()
     {
         return $this->__('You should visit this website. It offers interesting products.');
     }
-	
+
     public function getSponsorUrl ($id, $prenom, $nom, $email)
     {
             return  Mage::getUrl('sponsorship/sponsor',Array ('sponsor_id'=> $id, 'nom'=>$nom , 'prenom'=>$prenom, 'email'=>$email));
 
     }
-	
+
     public function getFooterMessage ($id='',$prenom='', $nom='', $email='')
     {
             $url = $this->getSponsorUrl($id, $prenom, $nom, $email);
             return $this->__("<a href='%s'>%s</a>", $url, $this->getUrlWtHttp());
     }
-    
+
 	public function getUrlWtHttp()
     {
         $patterns = array();
@@ -48,26 +48,38 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
         $url = preg_replace($patterns, "", Mage::getUrl());
         return $url;
     }
-    
+
     public function htmlToText ($html)
     {
     	$h2t = new Auguria_Sponsorship_Lib_Html2Text($html);
 		return $h2t->get_text();
     }
-    
+
     public function recipientMailIsCustomer($mail)
     {
+    	//check if email is registred
         $customer = mage::getModel("customer/customer")
                         ->getCollection()
                         ->addAttributeToFilter("email",$mail);
         if (count($customer)==1)
         {
-            return true;
+        	//check if recipient is already a sponsor
+        	//check if we can invit registred user
+        	if (Mage::getStoreConfig('auguria_sponsorship/sponsor/allow_invit_registred_users')) {
+        		//check if registred user has already ordered
+        		if (Mage::helper('auguria_sponsorship')->haveOrder($customer->getFirstItem()->getId())) {
+        			return true;
+        		}
+        		//check if registred user has godchild
+        		elseif(Mage::helper('auguria_sponsorship')->isASponsor($customer->getFirstItem()->getId())) {
+        			return true;
+        		}
+        	}
+        	else {
+            	return true;
+        	}
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public function processMail($post)
@@ -81,7 +93,7 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
         //message
         $subject = $post['message']['subject'];
         $body = $post['message']['body'];
-        
+
         $date = now();
 
         //Boucle pour traiter les champs, les valider et les intégrer dans tableau mail
@@ -94,7 +106,7 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
             $mails[$i]["sender_name"] = $sender_name;
             $mails[$i]["sender_email"] = $sender_email;
             $mails[$i]["sender_id"] = $sender_id;
-            
+
             $recipient_firstname = ucwords(strtolower($post['recipient']['firstname'][$i]));
             $recipient_lastname = ucwords(strtolower($post['recipient']['lastname'][$i]));
             $mails[$i]["recipient_firstname"] = $recipient_firstname;
@@ -126,7 +138,7 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
             $textFooter = $this->htmlToText($htmlFooter);
             $mails[$i]["html_footer"] = $htmlFooter;
             $mails[$i]["text_footer"] = $textFooter;
-            
+
             $i++;
         }
         return $mails;
@@ -195,13 +207,13 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
             //si sponsorship_id est envoyé : c'est un update
             if (isset ($mail['sponsorship_id']))
             {
-                $invit = mage::getModel("sponsorship/sponsorship")->load($mail["sponsorship_id"]);
+                $invit = mage::getModel("auguria_sponsorship/sponsorship")->load($mail["sponsorship_id"]);
                 $data = $invit->getData();
                 $data["datetime_boost"] = $mail['datetime_boost'];
             }
             else
             {
-                $invit = mage::getModel("sponsorship/sponsorship");
+                $invit = mage::getModel("auguria_sponsorship/sponsorship");
                 $data["datetime"] = $mail['datetime'];
             }
             $data["parent_id"] = $mail["sender_id"];
@@ -218,7 +230,7 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
             return true;
         }
         catch (Exception $e)
-        {            
+        {
             return false;
         }
     }
@@ -236,7 +248,7 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
         $recipient_email = $mail["recipient_email"];
         $recipient = $mail["recipient_firstname"]." ".$mail["recipient_lastname"];
 
-        $mailTemplate = Mage::getModel('sponsorship/Core_Email_Template');
+        $mailTemplate = Mage::getModel('auguria_sponsorship/Core_Email_Template');
 
         $postObject = new Varien_Object();
         $postObject->setData(Array ("sender_name" => $sender_name,
@@ -249,12 +261,12 @@ class Auguria_Sponsorship_Helper_Mail extends Mage_Core_Helper_Abstract
                                     "recipient_email" => $recipient_email,
                                     "sponsorship_url" => $mail["sponsorship_url"]
                                     ));
-
+                                    
         $mailTemplate->setDesignConfig(array('area' => 'fronted'))
                         ->setReplyTo($sender_email)
                         ->setReturnPath($sender_email)
                         ->sendTransactional(
-                                Mage::getStoreConfig('sponsorship/invitation_email/email_template'),
+                                Mage::getStoreConfig('auguria_sponsorship/invitation/template'),
                                 $sender,
                                 $recipient_email,
                                 $recipient,

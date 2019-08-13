@@ -4,9 +4,9 @@
  */
 $_pluginInfo=array(
 	'name'=>'Cyworld',
-	'version'=>'1.0.6',
+	'version'=>'1.0.7',
 	'description'=>"Get the contacts from a Cyworld account",
-	'base_version'=>'1.6.3',
+	'base_version'=>'1.8.0',
 	'type'=>'social',
 	'check_url'=>'http://us.cyworld.com/',
 	'requirement'=>'email',

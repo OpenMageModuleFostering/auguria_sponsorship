@@ -6,7 +6,7 @@
  * the OpenInivter plugins
  * 
  * @author OpenInviter
- * @version 1.9.0
+ * @version 1.7.6
  */
 abstract class openinviter_base
 	{
@@ -417,12 +417,12 @@ abstract class openinviter_base
 			if ($header OR $follow) curl_setopt($this->curl, CURLOPT_HEADER, true);
 			else curl_setopt($this->curl, CURLOPT_HEADER, false);
 			curl_setopt($this->curl, CURLOPT_POSTFIELDS, $elements);
-			$result=curl_exec($this->curl);
+		$result=curl_exec($this->curl);
 			if ($follow)
 				{
 				$new_url=$this->followLocation($result,$url);
 				if ($new_url)
-					$result=$this->get($new_url,$post_elements,$follow,$header,$url,$headers,$raw_data);
+					$result=$this->get($new_url,$follow,$header,$quiet,$url,$headers);
 				}
 			return $result;
 			}
@@ -479,8 +479,7 @@ abstract class openinviter_base
 	 */
 	public function stopPlugin($graceful=false)
 		{
-		if ($this->settings['transport']=='curl')
-			curl_close($this->curl);
+		if ($this->settings['transport']=='curl') { if (isset($this->curl)) curl_close($this->curl); }
 		if (!$graceful) $this->endSession();
 		}
 
