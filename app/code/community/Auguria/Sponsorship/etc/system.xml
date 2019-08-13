@@ -266,16 +266,15 @@
                         </email_template_coupon>
                     </fields>
                 </change>
-            	<open_inviter translate="label">
-                    <label>Open Inviter options</label>
-                    <comment><![CDATA[Allows customers to import addressbook/contacts from different email providers like Yahoo, Gmail, Hotmail, Live etc. using different CMS software like Drupal, Joomla etc. or forum software like PHPBB, SMF etc. Learn more on <a href='http://openinviter.com'>openinviter.com</a>]]></comment>
-                    OpenInviter - import addressbook/contacts from different email providers like Yahoo, Gmail, Hotmail, Live etc. using different CMS software like Drupal, Joomla etc. or forum software like PHPBB, SMF etc. available at <a href='openinviter.com'>http://openinviter.com</a>
+            	<open_inviter translate="label comment">
+                    <label>Open Inviter options</label>                                        
                     <sort_order>5</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
 		            	<open_inviter_enabled>
+		            		<comment><![CDATA[Allows customers to import addressbook/contacts from different email providers like Yahoo, Gmail, Hotmail, Live etc. using different CMS software like Drupal, Joomla etc. or forum software like PHPBB, SMF etc. Learn more on <a href='http://openinviter.com'>openinviter.com</a>]]></comment>
                             <label>Activated</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -294,7 +293,7 @@
                             <show_in_store>1</show_in_store>
 		            	</username>
 		            	<private_key>
-                            <label>Private Kay</label>
+                            <label>Private Key</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>

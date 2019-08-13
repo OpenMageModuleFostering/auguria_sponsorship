@@ -43,7 +43,7 @@
 		<?php
 					foreach ($oi_services as $type=>$providers)	
 					{
-						echo "<optgroup label='{$oi_types[$type]}'>";
+						echo "<optgroup label='".$this->__($oi_types[$type])."'>";
 						foreach ($providers as $provider=>$details)
 							echo "<option value='{$provider}'".($this->getOpenInviterProviderBox() == $provider ? 'selected' : '').">{$details['name']}</option>";
 						echo "</optgroup>";

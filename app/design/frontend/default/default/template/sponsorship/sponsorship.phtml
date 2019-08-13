@@ -123,14 +123,34 @@
         	 * Open Inviter
         	 */
         	if (Mage::getStoreConfig('sponsorship/open_inviter/open_inviter_enabled')==true): ?>
-        <a href="<?php echo $this->getUrl('sponsorship/openinviter'); ?>" onclick='openPopup(this); return false'>
+        <p>
         	<?php echo $this->__('Select recipients from your address book.')?>
-		</a>
-		&nbsp;<?php echo $this->__('Or add recipient manually.')?>
+        	<a href="<?php echo $this->getUrl('sponsorship/openinviter'); ?>" onclick='openPopup(this); return false'>
+        		<?php echo $this->__('See all suported providers and process.')?>
+			</a>
+		</p>
+		<p class="openinviter-providers">
+			<?php
+				$providers = $this->getActiveProviders();
+				if (count($providers))
+					foreach ($providers as $provider):
+			?>
+					<a href="<?php echo $this->getUrl('sponsorship/openinviter', array('provider'=>$provider->getCode())); ?>" onclick='openPopup(this); return false'>
+        				<img src="<?php echo Mage::getBaseUrl('media').$provider->getImage(); ?>" alt="<?php echo $provider->getName(); ?>"/>
+					</a>
+					<?php endforeach; ?>
+		</p>
+		<p>
+			<?php echo $this->__('Or add recipient manually.')?>
+		</p>
+		<?php else: ?>        
+		<p>
+			<?php echo $this->__('Add recipients.')?>
+		</p>
         <?php endif; ?>
-        
         <ul class="form-list" id="recipient_options">
         </ul>
+        
         <div id="max_recipient_message" style="display:none">
         <?php if ($this->getMaxRecipients()): ?>
           <?php echo $this->__('Maximum %d email addresses allowed.', $this->getMaxRecipients()) ?>

@@ -97,4 +97,12 @@ class Auguria_Sponsorship_Block_Sponsorship extends Mage_Core_Block_Template
         $back_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $this->getUrl('customer/account/');
         return $back_url;
     }
+    
+    public function getActiveProviders()
+    {
+    	$providers = Mage::getResourceModel('sponsorship/sponsorshipopeninviter_collection')
+    					->addFieldToFilter('status', 1)
+    					;    	
+    	return $providers->getItems();
+    }
 }

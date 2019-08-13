@@ -33,6 +33,7 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
     	$inviter = Mage::getModel('sponsorship/openinviter');
     	$session = Mage::getSingleton('customer/session');
     	$old_form = Mage::getSingleton('customer/session')->getData('openinviter_form');
+    	mage::log(Mage::getSingleton('customer/session')->getData('openinviter_form'));
     	if (!isset($old_form))
     		$old_form = array();
     		
@@ -42,6 +43,12 @@ class Auguria_Sponsorship_OpeninviterController extends Mage_Core_Controller_Fro
         			'step'=>'get_contacts'
     			);
     	$form = array_merge($old_form, $new_form);
+    	
+    	if ($this->getRequest()->getParam('provider'))
+    	{
+    		$form = array_merge($form, array('provider_box'=>$this->getRequest()->getParam('provider')));
+    	}       			
+    	
     	$session->setData('openinviter_form', $form);
     	
         $this->loadLayout();

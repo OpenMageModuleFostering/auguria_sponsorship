@@ -49,4 +49,23 @@ class Auguria_Sponsorship_Model_Openinviter
     {
     	return $this->inviter->login($email_box, $password_box);
     }
+    
+    public function getPluginsArray()
+    {
+    	$plugins = $this->getOpenIniviterPlugins();
+    	$array = Array();
+    	if (count($plugins))
+    		foreach ($plugins as $type)
+    		{
+    			if (count($type))
+		    		foreach ($type as $code=>$plugin)
+		    		{
+		    			$name = $code;
+		    			if (isset($plugin['name']))
+		    				$name = $plugin['name'];
+		    			$array[] = array('value'=>$code, 'label'=>Mage::helper('sponsorship')->__($name));
+		    		}
+    		}
+    	return $array;
+    }
 }

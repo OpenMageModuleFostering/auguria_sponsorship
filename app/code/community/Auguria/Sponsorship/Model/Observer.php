@@ -337,7 +337,8 @@ class Auguria_Sponsorship_Model_Observer
     	$controller = $observer['controller_action'];
     	/*
     	 * Transmission de l'id du parrain + nom + prenom dans l'url
-    	 * http://www.inkonso.com?sponsor_id=x&nom=xxx&prenom=xxx&email=xxx
+    	 * base url / module / controller / action / parametres
+    	 * http://www.inkonso.com/cms/index/index/sponsor_id/x/nom/xxx/prenom/xxx/email/xxx
         */
     	$sponsorId = $controller->getRequest()->getParam('sponsor_id');    	
     	if ($sponsorId!='')
@@ -345,7 +346,7 @@ class Auguria_Sponsorship_Model_Observer
     		$nom = $controller->getRequest()->getParam('nom');
         	$prenom = $controller->getRequest()->getParam('prenom');
         	$email = $controller->getRequest()->getParam('email');
-    		
+        	
         	//stockage des variables dans la session
         	$session = Mage::getSingleton('core/session');
             $session->setData('sponsor_id',$sponsorId);
@@ -362,6 +363,8 @@ class Auguria_Sponsorship_Model_Observer
         	$cookie->set('sponsorship_firstname', $prenom, $period);
         	$cookie->set('sponsorship_lastname', $nom, $period);
         	$cookie->set('sponsorship_email', $email, $period);
+        	
+        	$controller->getRequest()->setParam('sponsor_id', null); 
     	}
     }
 }

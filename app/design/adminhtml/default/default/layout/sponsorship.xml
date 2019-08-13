@@ -23,4 +23,9 @@
             <block type="sponsorship/adminhtml_change" name="change" />
         </reference>
     </sponsorship_adminhtml_change_index>
+    <sponsorship_adminhtml_openinviter_index>
+        <reference name="content">
+            <block type="sponsorship/adminhtml_openinviter" name="openinviter" />
+        </reference>
+    </sponsorship_adminhtml_openinviter_index>
 </layout>

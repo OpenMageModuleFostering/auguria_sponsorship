@@ -10,7 +10,7 @@
 <config>
     <modules>
         <Auguria_Sponsorship>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
         </Auguria_Sponsorship>
     </modules>
     <frontend>
@@ -70,23 +70,28 @@
                         </invitations>
                         <parrainages module="sponsorship">
                                 <title>Sponsorships list</title>
-                                <sort_order>0</sort_order>
+                                <sort_order>1</sort_order>
                                 <action>sponsorship/adminhtml_link</action>
                         </parrainages>
                         <echanges module="sponsorship">
                                 <title>Points exchanges list</title>
-                                <sort_order>1</sort_order>
+                                <sort_order>2</sort_order>
                                 <action>sponsorship/adminhtml_change</action>
                         </echanges>
+                        <openinviter module="sponsorship">
+                                <title>Open inviter providers</title>
+                                <sort_order>3</sort_order>
+                                <action>sponsorship/adminhtml_openinviter</action>
+                        </openinviter>
                 </children>
             </sponsorship>
         </menu>
-	<acl>
+		<acl>
             <resources>
                 <all>
                         <title>Allow Everything</title>
                 </all>
-		<admin>
+				<admin>
                     <children>
                         <system>
                             <children>
@@ -112,6 +117,9 @@
                                 <echanges module="sponsorship">
                                     <title>Points exchanges list</title>
                                 </echanges>
+                                <openinviter module="sponsorship">
+                                	<title>Open inviter providers</title>
+                        		</openinviter>
                             </children>
                         </sponsorship>
                     </children>
@@ -236,8 +244,17 @@
                     <link>
                         <table>sponsorship_change</table>
                     </link>
+                    <sponsorshipopeninviter>
+                        <table>sponsorship_openinviter</table>
+                    </sponsorshipopeninviter>
                 </entities>
             </sponsorship_mysql4>
+            <!-- rewrite socialbookmarking url -->
+             <socialbookmarking>
+                 <rewrite>
+                 	<bookmarks>Auguria_Sponsorship_Model_SocialBookmarking_Bookmarks</bookmarks>
+                 </rewrite>
+             </socialbookmarking>
         </models>
         <resources>
             <sponsorship_setup>
