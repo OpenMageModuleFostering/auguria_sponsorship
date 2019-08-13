@@ -11,28 +11,28 @@ $installer = $this;
 $installer->startSetup();
 
 if (!$installer->hasSponsorshipInstall()) {
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'sponsor' )
-			->setData( 'used_in_forms', array( 'adminhtml_customer' ) )
-			->save();
-	
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'fidelity_points' )
-			->setData( 'used_in_forms', array( 'adminhtml_customer' ) )
-			->save();
-	
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'sponsor_points' )
-			->setData( 'used_in_forms', array( 'adminhtml_customer' ) )
-			->save();
-			
-	$installer->updateAttribute('customer', 'sponsor', 'group', 'Default');
-	$installer->updateAttribute('customer', 'fidelity_points', 'group', 'Default');
-	$installer->updateAttribute('customer', 'sponsor_points', 'group', 'Default');
-			
-	$installer->updateAttribute('customer', 'sponsor', 'sort_order', 250);
-	$installer->updateAttribute('customer', 'fidelity_points', 'sort_order', 251);
-	$installer->updateAttribute('customer', 'sponsor_points', 'sort_order', 252);
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'sponsor' )
+            ->setData( 'used_in_forms', array( 'adminhtml_customer' ) )
+            ->save();
+
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'fidelity_points' )
+            ->setData( 'used_in_forms', array( 'adminhtml_customer' ) )
+            ->save();
+
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'sponsor_points' )
+            ->setData( 'used_in_forms', array( 'adminhtml_customer' ) )
+            ->save();
+
+    $installer->updateAttribute('customer', 'sponsor', 'group', 'Default');
+    $installer->updateAttribute('customer', 'fidelity_points', 'group', 'Default');
+    $installer->updateAttribute('customer', 'sponsor_points', 'group', 'Default');
+
+    $installer->updateAttribute('customer', 'sponsor', 'sort_order', 250);
+    $installer->updateAttribute('customer', 'fidelity_points', 'sort_order', 251);
+    $installer->updateAttribute('customer', 'sponsor_points', 'sort_order', 252);
 }
 
-$installer->endSetup(); 
+$installer->endSetup();

@@ -25,7 +25,7 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                    	<module_mode translate="label">
+                        <module_mode translate="label">
                             <label>Mode of the module</label>
                             <frontend_type>select</frontend_type>
                             <source_model>auguria_sponsorship/adminhtml_system_config_source_mode</source_model>
@@ -34,7 +34,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                    	</module_mode>
+                        </module_mode>
                     </fields>
                 </general>
                 <accumulated translate="label">
@@ -56,54 +56,54 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_calculation>
-        				<points_validity>
-							<label>Points validity in days(0 for unlimited)</label>
+                        <points_validity>
+                            <label>Points validity in days(0 for unlimited)</label>
                             <frontend_type>text</frontend_type>                            
                             <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-						</points_validity>
-                		<cancel_earned_points>
-							<label>Cancel earned points on credit memo creation</label>
+                        </points_validity>
+                        <cancel_earned_points>
+                            <label>Cancel earned points on credit memo creation</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-						</cancel_earned_points>
-		                <points_to_cash>
-	                        <label>Conversion rate of points in currency</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
-	                        <sort_order>30</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </points_to_cash>
-		                <newsletter_points>
-	                        <label>Amount of winning points when subscribe to newsletter on account creation</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
-	                        <sort_order>40</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-			            </newsletter_points>
-		                <first_order_points>
-	                        <label>Amount of winning points for first order</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
-	                        <sort_order>50</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </first_order_points>
-						
-						
-						
+                        </cancel_earned_points>
+                        <points_to_cash>
+                            <label>Conversion rate of points in currency</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </points_to_cash>
+                        <newsletter_points>
+                            <label>Amount of winning points when subscribe to newsletter on account creation</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newsletter_points>
+                        <first_order_points>
+                            <label>Amount of winning points for first order</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </first_order_points>
+                        
+                        
+                        
                         <heading_cash translate="label">
                             <label>Cash exchange</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -111,16 +111,16 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </heading_cash>
-	                	<cash>
-	                        <label>Cash exchange enabled</label>
-	                        <frontend_type>select</frontend_type>
-	                        <source_model>adminhtml/system_config_source_yesno</source_model>
-	                        <sort_order>70</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-						</cash>
-						 <enable_check_company_number>
+                        <cash>
+                            <label>Cash exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cash>
+                         <enable_check_company_number>
                             <label>Enable checking company number</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -130,27 +130,27 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enable_check_company_number>
-		                <max_cash>
-	                        <label>Maximum amount permitted without company number</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
-	                        <sort_order>90</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </max_cash>
-		                <time_max_cash>
-	                        <label>Calculation period of the maximum allowed for an individual (days)</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
-	                        <sort_order>100</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </time_max_cash>
-						
-						
-						
+                        <max_cash>
+                            <label>Maximum amount permitted without company number</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_cash>
+                        <time_max_cash>
+                            <label>Calculation period of the maximum allowed for an individual (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </time_max_cash>
+                        
+                        
+                        
                         <heading_coupon translate="label">
                             <label>Coupon exchange</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -158,18 +158,18 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </heading_coupon>
-		                <coupon>
-	                        <label>Voucher exchange enabled</label>
-	                        <frontend_type>select</frontend_type>
-	                        <source_model>adminhtml/system_config_source_yesno</source_model>
-	                        <sort_order>120</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </coupon>
-						
-						
-						
+                        <coupon>
+                            <label>Voucher exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </coupon>
+                        
+                        
+                        
                         <heading_cart translate="label">
                             <label>Cart exchange</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -178,27 +178,37 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_cart>
-		                <cart>
-                            <label>Automatic discount in cart</label>
+                        <cart>
+                            <label>Cart exchange enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-	                    </cart>
-						<cancel_cart_points>
-							<label>Cancel the use of points on credit memo creation</label>
+                        </cart>
+                        <automatic_cart>
+                            <label>Automatic discount in cart</label>
+                            <comment>If enables, customer has no choice and it points will be used</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>145</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </automatic_cart>
+                        <cancel_cart_points>
+                            <label>Cancel the use of points on credit memo creation</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>150</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-						</cancel_cart_points>
-						
-						
-						
+                        </cancel_cart_points>
+                        
+                        
+                        
                         <heading_gift translate="label">
                             <label>Gift exchange</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -207,18 +217,18 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_gift>                        
-		                <gift>
-	                        <label>Gift exchange enabled</label>
-	                        <frontend_type>select</frontend_type>
-	                        <source_model>adminhtml/system_config_source_yesno</source_model>
-	                        <sort_order>170</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </gift>
-	                    
-	                    
-	                    
+                        <gift>
+                            <label>Gift exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </gift>
+                        
+                        
+                        
                         <heading_sponsorship translate="label">
                             <label>Sponsorship</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
@@ -227,62 +237,62 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_sponsorship>
-		                <optional_order>
-	                        <label>Allow customers who have never ordered to send sponsorship invitations</label>
-	                        <frontend_type>select</frontend_type>
-	                        <source_model>adminhtml/system_config_source_yesno</source_model>
-	                        <sort_order>190</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </optional_order>
-		                <allow_invit_registred_users>
-	                        <label>Allow to sponsor registred customers (but never ordered)</label>
-	                        <frontend_type>select</frontend_type>
-	                        <source_model>adminhtml/system_config_source_yesno</source_model>
-	                        <sort_order>200</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </allow_invit_registred_users>
-		                <sponsor_link_validity>
-	                        <label>Inactivity time before removal of the sponsorship link (days)</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
-	                        <comment>Needs to active cron jobs.</comment>
-	                        <sort_order>210</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </sponsor_link_validity>
-		                <sponsor_levels>
-	                        <label>Maximum levels of sponsorship</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
-	                        <sort_order>220</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </sponsor_levels>
-		                <sponsor_percent>
-	                        <label>Ratio applied from level 2 to calculate the points of the sponsor (in percentage)</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
-	                        <sort_order>230</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-	                    </sponsor_percent>
-		                <godson_first_order_points>
-	                        <label>Amount of winning points for the first godson order</label>
-	                        <frontend_type>text</frontend_type>
-	                        <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
-	                        <sort_order>240</sort_order>
-	                        <show_in_default>1</show_in_default>
-	                        <show_in_website>1</show_in_website>
-	                        <show_in_store>1</show_in_store>
-						</godson_first_order_points>
-						 <notification_enabled>
+                        <optional_order>
+                            <label>Allow customers who have never ordered to send sponsorship invitations</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </optional_order>
+                        <allow_invit_registred_users>
+                            <label>Allow to sponsor registred customers (but never ordered)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </allow_invit_registred_users>
+                        <sponsor_link_validity>
+                            <label>Inactivity time before removal of the sponsorship link (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <comment>Needs to active cron jobs.</comment>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_link_validity>
+                        <sponsor_levels>
+                            <label>Maximum levels of sponsorship</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_levels>
+                        <sponsor_percent>
+                            <label>Ratio applied from level 2 to calculate the points of the sponsor (in percentage)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_percent>
+                        <godson_first_order_points>
+                            <label>Amount of winning points for the first godson order</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </godson_first_order_points>
+                         <notification_enabled>
                             <label>Send notification to sponsor when godchild make him earn points</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -301,7 +311,7 @@
                             <show_in_store>1</show_in_store>
                         </notification>
                     </fields>
-        		</accumulated>
+                </accumulated>
                 <sponsor translate="label">
                     <label>Sponsorship and separated mode options</label>
                     <frontend_type>text</frontend_type>
@@ -321,25 +331,25 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_calculation>
-        				<points_validity>
-	                        <label>Points validity in days(0 for unlimited)</label>
+                        <points_validity>
+                            <label>Points validity in days(0 for unlimited)</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-						</points_validity>
-                		<cancel_earned_points>
-							<label>Cancel earned points on credit memo creation</label>
+                        </points_validity>
+                        <cancel_earned_points>
+                            <label>Cancel earned points on credit memo creation</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-						</cancel_earned_points>
-						 <sponsor_points_to_cash translate="label">
+                        </cancel_earned_points>
+                         <sponsor_points_to_cash translate="label">
                             <label>Conversion rate of points in currency</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
@@ -348,10 +358,10 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </sponsor_points_to_cash>
-						
-						
-						
-						<heading_cash translate="label">
+                        
+                        
+                        
+                        <heading_cash translate="label">
                             <label>Cash exchange</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <sort_order>40</sort_order>
@@ -406,15 +416,15 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                         </heading_coupon>
-		        		<sponsor_coupon translate="label">
+                        <sponsor_coupon translate="label">
                             <label>Voucher exchange enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>	
-						</sponsor_coupon>
+                            <show_in_store>1</show_in_store>    
+                        </sponsor_coupon>
                         
                         
                         
@@ -427,7 +437,7 @@
                             <show_in_store>1</show_in_store>
                         </heading_cart>
                         <sponsor_cart>
-                            <label>Automatic discount in cart</label>
+                            <label>Cart exchange enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>120</sort_order>
@@ -435,6 +445,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </sponsor_cart>
+                        <automatic_cart>
+                            <label>Automatic discount in cart</label>
+                            <comment>If enables, customer has no choice and it points will be used</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>125</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </automatic_cart>
                         <cancel_cart_points>
                             <label>Cancel the use of points on credit memo creation</label>
                             <frontend_type>select</frontend_type>
@@ -463,7 +483,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </sponsor_gift>	
+                        </sponsor_gift>    
                         
                         
                         
@@ -474,7 +494,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </heading_sponsorship>	
+                        </heading_sponsorship>    
                          <sponsor_optional_order translate="label">
                             <label>Allow customers who have never ordered to send invitations</label>
                             <frontend_type>select</frontend_type>
@@ -546,7 +566,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </notification> 	
+                        </notification>     
                     </fields>
                 </sponsor>
                 <fidelity translate="label">
@@ -568,25 +588,25 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_calculation>
-        				<points_validity>
-	                        <label>Points validity in days(0 for unlimited)</label>
+                        <points_validity>
+                            <label>Points validity in days(0 for unlimited)</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-						</points_validity>
-                		<cancel_earned_points>
-							<label>Cancel earned points on credit memo creation</label>
+                        </points_validity>
+                        <cancel_earned_points>
+                            <label>Cancel earned points on credit memo creation</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-						</cancel_earned_points>
-						 <fidelity_points_to_cash>
+                        </cancel_earned_points>
+                         <fidelity_points_to_cash>
                             <label>Conversion rate of points in currency</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
@@ -595,7 +615,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </fidelity_points_to_cash>
-						 <newsletter_points>
+                         <newsletter_points>
                             <label>Amount of winning points when subscribe to newsletter on account creation</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_naturalNumber</backend_model>
@@ -613,10 +633,10 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </first_order_points>
-						
-						
-						
-						<heading_cash translate="label">
+                        
+                        
+                        
+                        <heading_cash translate="label">
                             <label>Cash exchange</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <sort_order>60</sort_order>
@@ -690,28 +710,38 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </heading_cart>
-		                <fidelity_cart>
-                            <label>Automatic discount in cart</label>
+                        <fidelity_cart>
+                            <label>Cart exchange enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-	                    </fidelity_cart>
-						<cancel_cart_points>
-							<label>Cancel the use of points on credit memo creation</label>
+                        </fidelity_cart>
+                        <automatic_cart>
+                            <label>Automatic discount in cart</label>
+                            <comment>If enables, customer has no choice and it points will be used</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>145</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </automatic_cart>
+                        <cancel_cart_points>
+                            <label>Cancel the use of points on credit memo creation</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>150</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-						</cancel_cart_points>
-						
+                        </cancel_cart_points>
+                        
 
 
-						 <heading_gift translate="label">
+                         <heading_gift translate="label">
                             <label>Gift exchange</label>
                             <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
                             <sort_order>160</sort_order>
@@ -766,8 +796,8 @@
                             <show_in_store>1</show_in_store>
                         </max_recipients>
                         <template translate="label">
-                            <label>Invitation Email Template</label>                			
-                			<frontend_type>select</frontend_type>
+                            <label>Invitation Email Template</label>                            
+                            <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_template</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -785,8 +815,8 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <template translate="label">
-                            <label>Coupon Email Template</label>                                         			
-                			<frontend_type>select</frontend_type>
+                            <label>Coupon Email Template</label>                                                     
+                            <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_email_template</source_model>
                             <sort_order>0</sort_order>
                             <show_in_default>1</show_in_default>
@@ -823,15 +853,15 @@
                         </administrator_email>
                     </fields>
                 </cash>
-            	<open_inviter translate="label comment">
+                <open_inviter translate="label comment">
                     <label>Open Inviter options</label>                                        
                     <sort_order>7</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-		            	<open_inviter_enabled>
-		            		<comment><![CDATA[Allows customers to import addressbook/contacts from different email providers like Yahoo, Gmail, Hotmail, Live etc. using different CMS software like Drupal, Joomla etc. or forum software like PHPBB, SMF etc. Learn more on <a href='http://openinviter.com'>openinviter.com</a>]]></comment>
+                        <open_inviter_enabled>
+                            <comment><![CDATA[Allows customers to import addressbook/contacts from different email providers like Yahoo, Gmail, Hotmail, Live etc. using different CMS software like Drupal, Joomla etc. or forum software like PHPBB, SMF etc. Learn more on <a href='http://openinviter.com'>openinviter.com</a>]]></comment>
                             <label>Activated</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -839,8 +869,8 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-		            	</open_inviter_enabled>
-		            	<username>
+                        </open_inviter_enabled>
+                        <username>
                             <label>Username</label>
                             <frontend_type>text</frontend_type>
                             <backend_model>auguria_sponsorship/adminhtml_system_config_backend_sponsorship_openinviter</backend_model>
@@ -848,17 +878,17 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-		            	</username>
-		            	<private_key>
+                        </username>
+                        <private_key>
                             <label>Private Key</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-		            	</private_key>
-            		</fields>
-            	</open_inviter>
+                        </private_key>
+                    </fields>
+                </open_inviter>
             </groups>
         </auguria_sponsorship>
     </sections>

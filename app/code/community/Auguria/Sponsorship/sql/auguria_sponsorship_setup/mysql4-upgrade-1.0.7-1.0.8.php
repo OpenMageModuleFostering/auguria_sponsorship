@@ -11,11 +11,11 @@ $installer = $this;
 $installer->startSetup();
 
 if (!$installer->hasSponsorshipInstall()) {
-	$installer->run("
-	ALTER TABLE {$this->getTable('sponsorship_fidelity_log')} CHANGE `record_type` `record_type`
-		ENUM('order', 'gift', 'coupon_code', 'cash', 'admin', 'first') NOT NULL;
-	ALTER TABLE {$this->getTable('sponsorship_sponsor_log')} CHANGE `record_type` `record_type`
-		ENUM('order', 'gift', 'coupon_code', 'cash', 'admin', 'first') NOT NULL;
-	");
+    $installer->run("
+    ALTER TABLE {$this->getTable('sponsorship_fidelity_log')} CHANGE `record_type` `record_type`
+        ENUM('order', 'gift', 'coupon_code', 'cash', 'admin', 'first') NOT NULL;
+    ALTER TABLE {$this->getTable('sponsorship_sponsor_log')} CHANGE `record_type` `record_type`
+        ENUM('order', 'gift', 'coupon_code', 'cash', 'admin', 'first') NOT NULL;
+    ");
 }
-$installer->endSetup(); 
+$installer->endSetup();

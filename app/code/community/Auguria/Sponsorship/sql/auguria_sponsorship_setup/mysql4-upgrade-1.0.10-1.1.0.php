@@ -10,41 +10,41 @@ $installer = $this;
 
 $installer->startSetup();
 if (!$installer->hasSponsorshipInstall()) {
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'sponsor' )
-			->setData( 'used_in_forms', array() )
-			->save();
-	
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'special_rate' )
-			->setData( 'used_in_forms', array() )
-			->save();
-	
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'fidelity_points' )
-			->setData( 'used_in_forms', array() )
-			->save();
-	
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'sponsor_points' )
-			->setData( 'used_in_forms', array() )
-			->save();
-	
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'iban' )
-			->setData( 'used_in_forms', array() )
-			->save();
-	
-	Mage::getSingleton( 'eav/config' )
-			->getAttribute( 'customer', 'siret' )
-			->setData( 'used_in_forms', array() )
-			->save();
-	
-	$installer->updateAttribute('customer', 'sponsor', 'group', 'Sponsorship');
-	$installer->updateAttribute('customer', 'special_rate', 'group', 'Sponsorship');
-	$installer->updateAttribute('customer', 'fidelity_points', 'group', 'Sponsorship');
-	$installer->updateAttribute('customer', 'sponsor_points', 'group', 'Sponsorship');
-	$installer->updateAttribute('customer', 'iban', 'group', 'Sponsorship');
-	$installer->updateAttribute('customer', 'siret', 'group', 'Sponsorship');
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'sponsor' )
+            ->setData( 'used_in_forms', array() )
+            ->save();
+
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'special_rate' )
+            ->setData( 'used_in_forms', array() )
+            ->save();
+
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'fidelity_points' )
+            ->setData( 'used_in_forms', array() )
+            ->save();
+
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'sponsor_points' )
+            ->setData( 'used_in_forms', array() )
+            ->save();
+
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'iban' )
+            ->setData( 'used_in_forms', array() )
+            ->save();
+
+    Mage::getSingleton( 'eav/config' )
+            ->getAttribute( 'customer', 'siret' )
+            ->setData( 'used_in_forms', array() )
+            ->save();
+
+    $installer->updateAttribute('customer', 'sponsor', 'group', 'Sponsorship');
+    $installer->updateAttribute('customer', 'special_rate', 'group', 'Sponsorship');
+    $installer->updateAttribute('customer', 'fidelity_points', 'group', 'Sponsorship');
+    $installer->updateAttribute('customer', 'sponsor_points', 'group', 'Sponsorship');
+    $installer->updateAttribute('customer', 'iban', 'group', 'Sponsorship');
+    $installer->updateAttribute('customer', 'siret', 'group', 'Sponsorship');
 }
-$installer->endSetup(); 
+$installer->endSetup();

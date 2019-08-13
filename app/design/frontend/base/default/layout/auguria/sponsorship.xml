@@ -18,17 +18,17 @@
     
     <!-- Déclaration du template OpenInviter -->    
     <auguria_sponsorship_openinviter_index>
-    	<reference name="root">
-    		<action method="setTemplate"><template>page/empty.phtml</template></action>
-    	</reference>
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>
+        </reference>
         <reference name="content">
             <block type="auguria_sponsorship/openinviter" name="openinviter" template="auguria/sponsorship/openinviter.phtml" />
         </reference>
     </auguria_sponsorship_openinviter_index>
     <auguria_sponsorship_openinviter_import>
-    	<reference name="root">
-    		<action method="setTemplate"><template>page/empty.phtml</template></action>
-    	</reference>
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>
+        </reference>
         <reference name="content">
             <block type="auguria_sponsorship/openinviter" name="openinviter" template="auguria/sponsorship/openinviterimport.phtml" />
         </reference>
@@ -92,46 +92,53 @@
     <auguria_sponsorship_points_change>
         <update handle="customer_account"/>
         <block type="auguria_sponsorship/customer_form_pointsChange" name="customer_pointschange_cash" template="auguria/sponsorship/customer/form/pointschange.phtml">
-        	<block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_cash" as="cash" template="auguria/sponsorship/customer/form/pointschange/pointschange_cash.phtml"/>
+            <block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_cash" as="cash" template="auguria/sponsorship/customer/form/pointschange/pointschange_cash.phtml"/>
         </block>>
         <block type="auguria_sponsorship/customer_form_pointsChange" name="customer_pointschange_coupon" template="auguria/sponsorship/customer/form/pointschange.phtml">
-        	<block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_coupon" as="coupon" template="auguria/sponsorship/customer/form/pointschange/pointschange_coupon.phtml"/>
+            <block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_coupon" as="coupon" template="auguria/sponsorship/customer/form/pointschange/pointschange_coupon.phtml"/>
         </block>>
         <block type="auguria_sponsorship/customer_form_pointsChange" name="customer_pointschange_gift" template="auguria/sponsorship/customer/form/pointschange.phtml">
-        	<block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_gift" as="gift" template="auguria/sponsorship/customer/form/pointschange/pointschange_gift.phtml"/>
+            <block type="auguria_sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_gift" as="gift" template="auguria/sponsorship/customer/form/pointschange/pointschange_gift.phtml"/>
         </block>>
     </auguria_sponsorship_points_change>
     
+    <!-- Add block to claim for cart points exchange -->
+    <checkout_cart_index>
+        <reference name="content">
+            <block after="checkout.cart" type="auguria_sponsorship/cart_exchange" as="cart_points_exchange" name="cart_points_exchange" template="auguria/sponsorship/cart/exchange.phtml"/>
+        </reference>
+    </checkout_cart_index>
+    
     <!-- Add auguria sponsorship account point block into dashboard as info1 -->
     <customer_account_index>
-		<reference name="customer_account_dashboard">
-			<block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_points" as="info1" template="auguria/sponsorship/customer/account/dashboard/points.phtml">
-				<block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_fidelity_points" as="customer_account_fidelity_points" template="auguria/sponsorship/customer/account/dashboard/fidelity_points.phtml"/>
-				<block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_sponsor_points" as="customer_account_sponsor_points" template="auguria/sponsorship/customer/account/dashboard/sponsor_points.phtml"/>
-				<block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_accumulated_points" as="customer_account_accumulated_points" template="auguria/sponsorship/customer/account/dashboard/accumulated_points.phtml"/>
-			</block>
-		</reference>
-	</customer_account_index>
-	
-	<!-- Remplacement de edit.phtml pour ajout champ Iban et Bic dans les informations du compte -->
-	<customer_account_edit>
+        <reference name="customer_account_dashboard">
+            <block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_points" as="info1" template="auguria/sponsorship/customer/account/dashboard/points.phtml">
+                <block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_fidelity_points" as="customer_account_fidelity_points" template="auguria/sponsorship/customer/account/dashboard/fidelity_points.phtml"/>
+                <block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_sponsor_points" as="customer_account_sponsor_points" template="auguria/sponsorship/customer/account/dashboard/sponsor_points.phtml"/>
+                <block type="auguria_sponsorship/customer_account_pointsDetail" name="customer_account_accumulated_points" as="customer_account_accumulated_points" template="auguria/sponsorship/customer/account/dashboard/accumulated_points.phtml"/>
+            </block>
+        </reference>
+    </customer_account_index>
+    
+    <!-- Remplacement de edit.phtml pour ajout champ Iban et Bic dans les informations du compte -->
+    <customer_account_edit>
         <reference name="customer_edit">
-        	<action method="setTemplate">
-				<template>auguria/sponsorship/customer/form/edit.phtml</template>
-			</action>
+            <action method="setTemplate">
+                <template>auguria/sponsorship/customer/form/edit.phtml</template>
+            </action>
         </reference>
     </customer_account_edit>
     
     <!-- Ajout d'un lien vers le détail des points -->
-	<customer_account>
-		<reference name="customer_account_navigation">
+    <customer_account>
+        <reference name="customer_account_navigation">
                 <action ifconfig="auguria_sponsorship/fidelity/fidelity_enabled" method="addLink" translate="label" module="auguria_sponsorship"><name>fidelity_points</name><path>auguria_sponsorship/points/fidelity</path><label>Fidelity points management</label></action>
                 <action ifconfig="auguria_sponsorship/sponsor/sponsor_enabled" method="addLink" translate="label" module="auguria_sponsorship"><name>sponsor_points</name><path>auguria_sponsorship/points/sponsorship</path><label>Sponsorship management</label></action>
                 <action ifconfig="auguria_sponsorship/accumulated/accumulated_enabled" method="addLink" translate="label" module="auguria_sponsorship"><name>accumulated_points</name><path>auguria_sponsorship/points/accumulated</path><label>Fidelity points and sponsorship management</label></action>
         </reference>
-	</customer_account>
-	<!-- Ajout du js pour le remplissage automatique des champs lors de l'invitation-->
-	<customer_account_create>
+    </customer_account>
+    <!-- Ajout du js pour le remplissage automatique des champs lors de l'invitation-->
+    <customer_account_create>
         <reference name="content">
             <block type="auguria_sponsorship/customer_javascript" name="customer_javascript" />
         </reference>

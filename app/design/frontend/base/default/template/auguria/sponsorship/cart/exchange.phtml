@@ -1,0 +1,72 @@
+<?php
+/**
+ * @category   Auguria
+ * @package    Auguria_GiftCatalog
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/* @var $this Auguria_Sponsorship_Block_Cart_Exchange */
+?>
+<?php
+    $itemQty = $this->helper('checkout/cart')->getItemsQty();
+
+    if ($itemQty > 0):
+        // For each points type
+        $modules = Mage::helper('auguria_sponsorship/config')->getPointsTypes();
+
+        foreach ($modules as $module):
+
+            $isActivated = $this->isActivated($module);
+            $isAutomatic = $this->isAutomatic($module);
+            $availablePoints = $this->getAvailablePoints($module);
+
+            // If exchange is activated, not automatic and customer has points
+            if ($isActivated && !$isAutomatic && $availablePoints > 0):
+                // Check if customer has actvated points exchange
+                if ($this->isPointUseActivated($module)):
+?>
+<div class="block block-exchange">
+    <div class="block-content">
+        <div class='button'>
+            <form method="post" action="<?php echo $this->getUrl('sponsorship/cart/doNotUsePoints'); ?>">
+                <input type="hidden" name="sponsorship_type" value="<?php echo $module; ?>" />
+                <button style="padding-top: 9px;" type="submit" title="<?php echo $this->__('Cancel the use of my %s points', $this->__($module)) ?>" class="button btn-cart">
+                    <span><span><?php echo $this->__('Cancel the use of my %s points', $this->__($module)); ?></span></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<?php
+                //Customer has not activated exchange
+                else:
+                    $availableCash = $this->getAvailableCash($module);
+?>
+<div class="block block-exchange">
+    <div class="block-content">
+        <p class="block-subtitle">
+<?php
+                    echo $this->__(
+                        "You have %d points %s equivalent to %s",
+                        $availablePoints,
+                        $this->__($module),
+                        Mage::app()->getStore()->formatPrice($availableCash)
+                    );
+?>
+        </p>
+        <div class='button'>
+            <form method="post" action="<?php echo $this->getUrl('sponsorship/cart/usePoints'); ?>">
+                <input type="hidden" name="sponsorship_type" value="<?php echo $module; ?>" />
+                <button type="submit" title="<?php echo $this->__('Use my points') ?>" class="button btn-cart">
+                    <span><span><?php echo $this->__('Use my points'); ?></span></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<?php
+                endif;
+            endif;
+        endforeach;
+    endif;
+?>
