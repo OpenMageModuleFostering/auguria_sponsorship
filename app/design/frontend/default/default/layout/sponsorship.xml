@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<layout version="0.1.0">
+    <!-- Déclaration du template de l'index -->
+    <sponsorship_index_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sponsorship/sponsorship" name="sponsorship" template="sponsorship/sponsorship.phtml" />
+        </reference>
+    </sponsorship_index_index>
+    
+     <!-- Déclaration du block détail des points fidélité -->
+    <sponsorship_fidelitypoints_index>
+        <update handle="customer_account"/>
+        <!-- Ajout du css pour table_orderer -->
+        <reference name="head">
+            <action method="addCss">
+                <link>css/tableorderer.css</link>
+            </action>
+            <action method="addJs">
+                <link>tableorderer/table_orderer.js</link>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="sponsorship/customer_account_pointsDetail" name="sponsorship_customer_pointsdetail" template="sponsorship/customer/account/fidelitypointsdetail.phtml"/>
+        </reference>
+    </sponsorship_fidelitypoints_index>
+    
+    <!-- Déclaration du block détail des points parrainage -->
+    <sponsorship_sponsorpoints_index>
+        <update handle="customer_account"/>
+        <!-- Ajout du css pour table_orderer -->
+        <reference name="head">
+            <action method="addCss">
+                <link>css/tableorderer.css</link>
+            </action>
+            <action method="addJs">
+                <link>tableorderer/table_orderer.js</link>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="sponsorship/customer_account_pointsDetail" name="sponsorship_customer_pointsdetail" template="sponsorship/customer/account/sponsorpointsdetail.phtml"/>
+        </reference>
+    </sponsorship_sponsorpoints_index>
+    
+    <!-- Déclaration du block pour la relance des filleuls -->
+    <sponsorship_boost_index>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sponsorship/customer_form_boost" name="sponsorship_customer_boost" template="sponsorship/customer/form/boost.phtml"/>
+        </reference>
+    </sponsorship_boost_index>
+    
+    <!-- Déclaration du block d'échange des points -->
+    <sponsorship_fidelitypoints_change>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange" template="sponsorship/customer/form/pointschange.phtml"/>
+        </reference>
+        <reference name="sponsorship_customer_pointschange">
+            <block type="sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_cash" as="cash" template="sponsorship/customer/form/pointschange/pointschange_cash.phtml"/>
+            <block type="sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_coupon" as="coupon" template="sponsorship/customer/form/pointschange/pointschange_coupon.phtml"/>
+            <block type="sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_gift" as="gift" template="sponsorship/customer/form/pointschange/pointschange_gift.phtml"/>
+        </reference>
+    </sponsorship_fidelitypoints_change>
+    <sponsorship_sponsorpoints_change>
+        <update handle="customer_account"/>
+        <reference name="content">
+            <block type="sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange" template="sponsorship/customer/form/pointschange.phtml"/>
+        </reference>
+        <reference name="sponsorship_customer_pointschange">
+            <block type="sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_cash" as="cash" template="sponsorship/customer/form/pointschange/pointschange_cash.phtml"/>
+            <block type="sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_coupon" as="coupon" template="sponsorship/customer/form/pointschange/pointschange_coupon.phtml"/>
+            <block type="sponsorship/customer_form_pointsChange" name="sponsorship_customer_pointschange_gift" as="gift" template="sponsorship/customer/form/pointschange/pointschange_gift.phtml"/>
+        </reference>
+    </sponsorship_sponsorpoints_change>
+    
+    <!-- Remplacement de dashboard.phtml pour ajouter un block
+    	Déclaration d'un block supplémentaire -->
+    <customer_account_index>
+		<reference name="customer_account_dashboard">
+			<action method="setTemplate">
+				<template>sponsorship/customer/account/dashboard.phtml</template>
+			</action>
+			<block type="sponsorship/customer_account_pointsDetail" name="customer_account_points" as="fidelity_points" template="sponsorship/customer/account/dashboard/fidelity_points.phtml"/>
+			<block type="sponsorship/customer_account_pointsDetail" name="customer_account_points" as="sponsor_points" template="sponsorship/customer/account/dashboard/sponsor_points.phtml"/>			
+		</reference>
+	</customer_account_index>
+	
+	<!-- Remplacement de edit.phtml pour ajout champ Iban dans les informations du compte-->
+	<customer_account_edit>
+        <reference name="customer_edit">
+        	<action method="setTemplate">
+				<template>sponsorship/customer/form/edit.phtml</template>
+			</action>
+        </reference>
+    </customer_account_edit>
+    
+    <!-- Ajout d'un lien vers le détail des points -->
+	<customer_account>
+		<reference name="customer_account_navigation">
+                <action ifconfig="sponsorship/fidelity/fidelity_enabled" method="addLink" translate="label" module="sponsorship"><name>fidelity_points</name><path>sponsorship/fidelitypoints/</path><label>Fidélité</label></action>
+                <action ifconfig="sponsorship/sponsor/sponsor_enabled" method="addLink" translate="label" module="sponsorship"><name>sponsor_points</name><path>sponsorship/sponsorpoints/</path><label>Parrainage</label></action>
+        </reference>
+	</customer_account>
+	
+    <!-- Remplacement de register.phtml pour afficher email de la session -->
+	<customer_account_create>
+        <reference name="customer_form_register">
+        	<action method="setTemplate">
+				<template>sponsorship/customer/form/register.phtml</template>
+			</action>
+        </reference>
+    </customer_account_create>
+</layout> 

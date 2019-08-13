@@ -1,0 +1,167 @@
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<?php
+    //initialisation des intitulés pour table orderer
+    $msgs = "{loading: '".$this->__("loading")
+            ."',emptyResults: '".$this->__("emptyResults")
+            ."',errorURL: '".$this->__("errorURL")
+            ."',errorData: '".$this->__("errorData")
+            ."',searchLabel: '".$this->__("searchLabel")
+            ."',filterLabel: '".$this->__("filterLabel")
+            ."',paginationOf: '".$this->__("paginationOf")
+            ."',paginationPages: '".$this->__("paginationPages")
+            ."',paginationFirst: '".$this->__("paginationFirst")
+            ."',paginationPrev: '".$this->__("paginationPrev")
+            ."',paginationNext: '".$this->__("paginationNext")
+            ."',paginationLast: '".$this->__("paginationLast")."'}";
+?>
+<div class="std">
+	<div class="page-title">
+    	<h1>
+        	<?php echo $this->__('Fidelity points'); ?>
+    	</h1>
+	</div>
+	<?php echo $this->getMessagesBlock()->getGroupedHtml(); ?>
+
+<?php if ($this->getFidelityEnabledConfig ()):
+
+        //si il y eu des commandes
+        $_commandes = $this->getCommandes();
+        if ($_commandes):?>
+
+    <h2 class="title"><?php echo $this->__('Your lastest orders') ?></h2>	
+	<div id="last-orders-table"></div>
+
+<script type="text/javascript">
+lastOrdersCols = ['<?php echo $this->__("Identifier");
+            ?>','<?php echo $this->__("Date");
+            ?>','<?php echo $this->__("Amount");
+            ?>','<?php echo $this->__("Winning"); ?>'];
+lastOrders = new Array(
+                <?php
+                    $nb = count($_commandes);
+                    $i = 1;
+                    foreach ($_commandes as $_commande):
+
+                        echo $this->__('{"numero": "%s",',$_commande['increment_id']);
+                        echo $this->__('"date": "%s",',$this->formatDate($_commande['created_at']));
+                        echo $this->__('"montant": "%01.2f",',$_commande['grand_total']);
+                        echo $this->__('"points": "%d"}',$this->getOrderFidelityPoints($_commande['entity_id']));
+                        if ($i != $nb)
+                        {
+                            echo ",
+                                ";
+                        }
+                        $i++;
+                    endforeach;
+                ?>
+    );
+new TableOrderer('last-orders-table',{data : lastOrders, cols : lastOrdersCols},<?php echo $this->__($msgs); ?>);
+</script>
+	<br/>
+		<?php endif; //fin de la vérification qu'il y a eu des commandes ?>
+		
+    <h2><?php echo $this->__('Use of your fidelity points') ?></h2>
+	<div>
+	    <?php
+	        echo $this->__('Fidelity balance:');
+	        $fPoints = floor($this->getFidelityPoints());
+	        echo " ".$fPoints;
+	    ?>
+	</div>
+<!--Liste des échanges réalisés-->
+	
+        <?php if ($this->hasChange('fidelity')): //Début vérification qu'il y a eu des échanges'?>
+	<div>
+            <?php echo $this->__("Your points exchanges:") ?>
+	</div>
+
+	<div id="fidelity-change-table"></div>
+
+<script type="text/javascript">
+fidelityChangeCols = ['<?php echo $this->__("Type");
+            ?>','<?php echo $this->__("Date");
+            ?>','<?php echo $this->__("Points");
+            ?>','<?php echo $this->__("Value"); ?>'];
+fidelityChange = new Array(
+                <?php
+                    $changes = $this->getChanges('fidelity');
+                    $nb = count($changes);
+                    $i = 1;
+                    foreach ($changes as $change):
+
+                        echo $this->__('{"type": "%s",',$change->getType());
+                        echo $this->__('"date": "%s",',$this->formatDate($change->getDatetime()));
+                        echo $this->__('"points": "%d",',$change->getPoints());
+                        echo $this->__('"valeur": "%.2f"}',$change->getValue());
+                        if ($i != $nb)
+                        {
+                            echo ",
+                                ";
+                        }
+                        $i++;
+                    endforeach;
+                ?>
+    );
+new TableOrderer('fidelity-change-table',{data : fidelityChange, cols : fidelityChangeCols, filter:'bottom', paginate:'top', pageCount:5},<?php echo $this->__($msgs); ?>);
+</script>
+        <?php endif; //fin de vérification qu'il y a eu des échanges fidélité ?>
+        <!--Liste des échanges réalisés-->
+        <?php if ($fPoints>0): // si le solde de points fidélité est >0?>
+            <?php if ($this->isFidelityChangeEnabled()):?>
+	<div>
+                <?php echo $this->__('Change your points into:');?>
+    	<ul class="disc">
+                <?php if ($this->getFidelityCashConfig()):?>
+        	<li>
+                <a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'fidelity','type'=>'cash')) ?>"><?php echo $this->__('Cash') ?></a>
+        	</li>
+                <?php endif;?>
+                <?php if ($this->getFidelityCouponConfig()):?>
+        	<li>
+                <a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'fidelity','type'=>'coupon')) ?>"><?php echo $this->__('Vouchers') ?></a>
+        	</li>
+                <?php endif;?>
+                <?php if ($this->getFidelityGiftConfig()):?>
+			<li>
+                <a href="<?php echo Mage::getUrl('*/*/change', Array('module'=>'fidelity','type'=>'gift')) ?>"><?php echo $this->__('Gifts') ?></a>
+        	</li>
+                <?php endif;?>
+    	</ul>
+	</div>
+            <?php endif; //change actif?>
+        <?php else: //si le solde des poinst n'est pas supérieur à 0?>
+            <?php if ($this->isFidelityChangeEnabled()):?>
+	<div>
+                <?php echo $this->__('Once you will have points, you can change them into:');?>
+    	<ul class="disc">
+                <?php if ($this->getFidelityCashConfig()):?>
+        	<li>
+                    <?php echo $this->__('Cash') ?>
+        	</li>
+                <?php endif;?>
+                <?php if ($this->getFidelityCouponConfig()):?>
+        	<li>
+                    <?php echo $this->__('Vouchers') ?>
+        	</li>
+                <?php endif;?>
+                <?php if ($this->getFidelityGiftConfig()):?>
+        	<li>
+                    <?php echo $this->__('Gifts') ?>
+        	</li>
+                <?php endif;?>
+    	</ul>
+	</div>
+            <?php endif;//fidelity change enable ?>
+        <?php endif; //fin de la vérification du solde des points fidélité ?>
+<?php endif; ?>
+	<div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    </div>
+ </div>

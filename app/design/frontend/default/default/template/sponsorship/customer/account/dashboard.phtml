@@ -1,0 +1,53 @@
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<div class="dashboard">
+    <div class="page-title">
+        <h1><?php echo $this->__('My Dashboard') ?></h1>
+    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getChildHtml('hello') ?>
+    <?php echo $this->getChildHtml('top') ?>
+    <div class="box-account box-info">
+        <div class="box-head">
+            <h2><?php echo $this->__('Account Information') ?></h2>
+        </div>            
+        <?php echo $this->getChildHtml('info') ?>
+        <?php echo $this->getChildHtml('address') ?>
+    </div>
+    <?php
+            $sponsorEnabled = Mage::getStoreConfig('sponsorship/sponsor/sponsor_enabled');
+            $fidelityEnabled = Mage::getStoreConfig('sponsorship/fidelity/fidelity_enabled');
+            if ($sponsorEnabled):?>
+    <div class="box-account box-info">
+        <div class="box-head">
+            <h2><?php echo $this->__('Sponsorship'); ?></h2>
+            <a href="<?php echo $this->getUrl('sponsorship/sponsorpoints') ?>"><?php echo $this->__('Details')?></a>
+        </div>
+        <?php
+            echo $this->getChildHtml('sponsor_points');
+        ?>
+    </div>
+        <?php
+            endif;            
+            if ($fidelityEnabled):?>
+    <div class="box-account box-info">
+        <div class="box-head">
+            <h2><?php echo $this->__('Fidelity'); ?></h2>
+            <a href="<?php echo $this->getUrl('sponsorship/fidelitypoints') ?>"><?php echo $this->__('Details')?></a>
+        </div>
+        <?php
+            echo $this->getChildHtml('fidelity_points');
+        ?>
+    </div>
+        <?php
+            endif;
+        ?>
+    <?php echo $this->getChildHtml('info1') ?>
+    <?php echo $this->getChildHtml('info2') ?>
+</div>

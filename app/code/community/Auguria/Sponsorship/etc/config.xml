@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Auguria_Sponsorship>
+            <version>1.0.1</version>
+        </Auguria_Sponsorship>
+    </modules>
+    <frontend>
+    	<secure_url>
+            <sponsorship_index>/sponsorship/index/</sponsorship_index>
+            <sponsorship_boost>/sponsorship/boost/</sponsorship_boost>
+            <sponsorship_points>/sponsorship/points/</sponsorship_points>
+        </secure_url>
+        <routers>
+            <sponsorship>
+                <use>standard</use>
+                <args>
+                    <module>Auguria_Sponsorship</module>
+                    <frontName>sponsorship</frontName>
+                </args>
+            </sponsorship>
+        </routers>
+        <layout>
+            <updates>
+                <sponsorship>
+                    <file>sponsorship.xml</file>
+                </sponsorship>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Auguria_Sponsorship>
+                    <files>
+                        <default>Auguria_Sponsorship.csv</default>
+                    </files>
+                </Auguria_Sponsorship>
+            </modules>
+        </translate>
+    </frontend>
+    <admin>
+        <routers>
+			<sponsorship>
+				<use>admin</use>
+				<args>
+					<module>Auguria_Sponsorship</module>
+					<frontName>sponsorship</frontName>
+				</args>
+			</sponsorship>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <sponsorship module="sponsorship">
+                <title>Fidelity and Sponsorship</title>
+                <sort_order>71</sort_order>
+                <children>
+                        <invitations module="sponsorship">
+                                <title>Invitations list</title>
+                                <sort_order>0</sort_order>
+                                <action>sponsorship/adminhtml_sponsorship</action>
+                        </invitations>
+                        <parrainages module="sponsorship">
+                                <title>Sponsorships list</title>
+                                <sort_order>0</sort_order>
+                                <action>sponsorship/adminhtml_link</action>
+                        </parrainages>
+                        <echanges module="sponsorship">
+                                <title>Points exchanges list</title>
+                                <sort_order>1</sort_order>
+                                <action>sponsorship/adminhtml_change</action>
+                        </echanges>
+                </children>
+            </sponsorship>
+        </menu>
+	<acl>
+            <resources>
+                <all>
+                        <title>Allow Everything</title>
+                </all>
+		<admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <sponsorship translate="title" module="sponsorship">
+                                            <title>Module Sponsorship</title>
+                                        </sponsorship>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                        <sponsorship module="sponsorship">
+                            <title>Sponsorship</title>
+                            <sort_order>80</sort_order>
+                            <children>
+                                <invitations module="sponsorship">
+                                    <title>Invitations list</title>
+                                </invitations>
+                                <parrainages module="sponsorship">
+                                    <title>Sponsorships list</title>
+                                </parrainages>
+                                <echanges module="sponsorship">
+                                    <title>Points exchanges list</title>
+                                </echanges>
+                            </children>
+                        </sponsorship>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+		<layout>
+			<updates>
+				<sponsorship>
+					<file>sponsorship.xml</file>
+				</sponsorship>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<Auguria_Sponsorship>
+					<files>
+						<auguria_sponsorship>Auguria_Sponsorship.csv</auguria_sponsorship>
+					</files>
+				</Auguria_Sponsorship>
+			</modules>
+		</translate>
+    </adminhtml>
+    <global>
+        <events>
+        <!-- Création éventuelle du lien de parrainage lors de la commande -->
+            <checkout_type_onepage_save_order_after>
+                <observers>
+                    <set_sponsorship>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>setSponsor</method>
+                    </set_sponsorship>
+                </observers>
+            </checkout_type_onepage_save_order_after>
+
+            <!-- Incrémentation des points lors du paiement -->
+            <sales_order_payment_pay>
+                <observers>
+                    <calc_points>
+                        <type>singleton</type>
+                        <class>Auguria_Sponsorship_Model_Observer</class>
+                        <method>calcPoints</method>
+                    </calc_points>
+                </observers>
+            </sales_order_payment_pay>
+    	</events>
+    	<fieldsets>
+            <sales_convert_quote_item>
+                <cart_fidelity_points>
+                    <to_order_item>*</to_order_item>
+                </cart_fidelity_points>
+                <cart_sponsor_points>
+                    <to_order_item>*</to_order_item>
+                </cart_sponsor_points>
+            </sales_convert_quote_item>
+            <sales_convert_order_item>
+                <cart_fidelity_points>
+                    <to_quote_item>*</to_quote_item>
+                </cart_fidelity_points>
+                <cart_sponsor_points>
+                    <to_quote_item>*</to_quote_item>
+                </cart_sponsor_points>
+            </sales_convert_order_item>
+        </fieldsets>
+    	<rewrite>
+    		<auguria_sponsorship_customer_account>
+                <from><![CDATA[#^/customer/account/#]]></from><!-- si index à la place de account : ne pas mettre index -->
+                <to>/sponsorship/customer_account/</to>
+            </auguria_sponsorship_customer_account>
+        </rewrite>
+        <models>
+            <catalogrule_mysql4>
+                <rewrite>
+                    <rule>Auguria_Sponsorship_Model_Mysql4_Rule</rule>
+                </rewrite>
+            </catalogrule_mysql4>
+            <salesrule>
+            	<rewrite>
+            		<validator>Auguria_Sponsorship_Model_Validator</validator>
+            	</rewrite>
+            </salesrule>
+            <customer>
+            	<rewrite>
+            		<customer>Auguria_Sponsorship_Model_Customer_Customer</customer>
+            	</rewrite>
+            </customer>
+            <sponsorship>
+                <class>Auguria_Sponsorship_Model</class>
+                <resourceModel>sponsorship_mysql4</resourceModel>
+            </sponsorship>
+            <sponsorship_mysql4>
+                <class>Auguria_Sponsorship_Model_Mysql4</class>
+                <entities>
+                    <sponsorship>
+                        <table>sponsorship</table>
+                    </sponsorship>
+                    <catalogfidelitypoint>
+                        <table>catalogrule_product_fidelity_point</table>
+                    </catalogfidelitypoint>
+                    <catalogsponsorpoint>
+                        <table>catalogrule_product_sponsor_point</table>
+                    </catalogsponsorpoint>
+                    <fidelitylog>
+                        <table>sponsorship_fidelity_log</table>
+                    </fidelitylog>
+                    <sponsorlog>
+                        <table>sponsorship_sponsor_log</table>
+                    </sponsorlog>
+                    <change>
+                        <table>sponsorship_change</table>
+                    </change>
+                    <link>
+                        <table>sponsorship_change</table>
+                    </link>
+                </entities>
+            </sponsorship_mysql4>
+        </models>
+        <resources>
+            <sponsorship_setup>
+                <setup>
+                    <module>Auguria_Sponsorship</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </sponsorship_setup>
+            <sponsorship_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </sponsorship_write>
+            <sponsorship_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </sponsorship_read>
+        </resources>
+        <blocks>
+            <sponsorship>
+                <class>Auguria_Sponsorship_Block</class>
+            </sponsorship>
+             <adminhtml>
+                 <rewrite>
+                     <promo_catalog_edit_tab_actions>Auguria_Sponsorship_Block_Promo_Catalog_Edit_Tab_Actions</promo_catalog_edit_tab_actions>
+                     <promo_quote_edit_tab_actions>Auguria_Sponsorship_Block_Promo_Quote_Edit_Tab_Actions</promo_quote_edit_tab_actions>
+                 </rewrite>
+             </adminhtml>
+             <customer>
+             	<rewrite>
+             		<widget_name>Auguria_Sponsorship_Block_Customer_Widget_Name</widget_name>
+             	</rewrite>
+             </customer>
+        </blocks>
+        <helpers>
+            <sponsorship>
+                <class>Auguria_Sponsorship_Helper</class>
+            </sponsorship>
+        </helpers>
+        <template>
+            <email>
+                <sponsorship_email_invitation translate="label" module="sponsorship">
+                    <label>Sponsorship invitation</label>
+                    <file>sponsorship_invitation.html</file>
+                    <type>html</type>
+                </sponsorship_email_invitation>
+                <sponsorship_email_coupon translate="label" module="sponsorship">
+                    <label>Sponsorship coupon</label>
+                    <file>sponsorship_coupon.html</file>
+                    <type>html</type>
+                </sponsorship_email_coupon>
+            </email>
+        </template>
+    </global>
+
+    <default>
+        <sponsorship>
+            <sponsor>
+                <sponsor_enabled>1</sponsor_enabled>
+                <sponsor_cash>1</sponsor_cash>
+                <sponsor_coupon>1</sponsor_coupon>
+                <sponsor_gift>0</sponsor_gift>
+                <sponsor_max_cash>350</sponsor_max_cash>
+                <sponsor_time_max_cash>90</sponsor_time_max_cash>
+                <sponsor_points_to_cash>1</sponsor_points_to_cash>
+                <sponsor_optional_order>1</sponsor_optional_order>
+                <sponsor_link_validity>365</sponsor_link_validity>
+                <sponsor_levels>100</sponsor_levels>
+                <sponsor_percent>50</sponsor_percent>
+            </sponsor>
+            <invitation_email>
+                <sponsor_invitation_validity>365</sponsor_invitation_validity>
+                <time_before_boost>7</time_before_boost>
+                <max_recipients>20</max_recipients>
+                <email_template>sponsorship_email_invitation</email_template>
+            </invitation_email>
+            <fidelity>
+                <fidelity_enabled>1</fidelity_enabled>
+                <fidelity_cash>1</fidelity_cash>
+                <fidelity_coupon>1</fidelity_coupon>
+                <fidelity_gift>0</fidelity_gift>
+                <fidelity_max_cash>350</fidelity_max_cash>
+                <fidelity_time_max_cash>90</fidelity_time_max_cash>
+                <fidelity_points_to_cash>1</fidelity_points_to_cash>
+            </fidelity>
+            <change>
+                <email_template_coupon>sponsorship_email_coupon</email_template_coupon>
+            </change>
+        </sponsorship>
+    </default>
+    <crontab>
+        <jobs>
+            <sponsorship_boost>
+                <schedule>
+                    <cron_expr>0 */1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>sponsorship/autoBoost::process</model>
+                </run>
+            </sponsorship_boost>
+        </jobs>
+    </crontab>
+</config>

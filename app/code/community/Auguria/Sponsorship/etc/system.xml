@@ -1,0 +1,272 @@
+<!--
+/**
+ * @category   Auguria
+ * @package    Auguria_Sponsorship
+ * @author     Auguria
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <sections>
+        <sponsorship translate="label" module="sponsorship">
+            <label>Fidelity and Sponsorship</label>
+            <tab>general</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>200</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <sponsor translate="label">
+                    <label>Sponsorship options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <sponsor_enabled translate="label">
+                            <label>Sponsorship module activated</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_enabled>
+		        <sponsor_cash translate="label">
+                            <label>Cash exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>						
+			</sponsor_cash>
+		        <sponsor_coupon translate="label">
+                            <label>Voucher exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>	
+			</sponsor_coupon>
+		        <sponsor_gift translate="label">
+                            <label>Gift exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+		        </sponsor_gift>
+                        <sponsor_max_cash translate="label">
+                            <label>Maximum amount permitted without company number</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_max_cash>
+                        <sponsor_time_max_cash translate="label">
+                            <label>Calculation period of the maximum allowed for an individual (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_time_max_cash>
+                        <sponsor_points_to_cash translate="label">
+                            <label>Conversion rate of points in currency</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_points_to_cash>
+                        <sponsor_optional_order translate="label">
+                            <label>Allow to send invitations to customers who have never ordered</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_optional_order>
+                        <sponsor_link_validity translate="label">
+                            <label>Inactivity time before removal of the sponsorship link (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_link_validity>
+                        <sponsor_levels translate="label">
+                            <label>Maximum levels of sponsorship</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_levels>
+                        <sponsor_percent translate="label">
+                            <label>Ratio applied from level 2 to calculate the points of the sponsor (in percentage)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_percent>
+                    </fields>
+                </sponsor>
+                <fidelity translate="label">
+                    <label>Fidelity options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                    	<fidelity_enabled translate="label">
+                            <label>Fidelity module activated</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fidelity_enabled>
+                        <fidelity_cash translate="label">
+                            <label>Cash exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fidelity_cash>
+                        <fidelity_coupon translate="label">
+                            <label>Voucher exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fidelity_coupon>
+                        <fidelity_gift translate="label">
+                            <label>Gift exchange enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fidelity_gift>
+                        <fidelity_max_cash>
+                            <label>Maximum amount permitted without company number</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fidelity_max_cash>
+                        <fidelity_time_max_cash>
+                            <label>Calculation period of the maximum allowed for an individual (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fidelity_time_max_cash>
+                        <fidelity_points_to_cash>
+                            <label>Conversion rate of points in currency</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_float</backend_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fidelity_points_to_cash>
+                    </fields>
+                </fidelity>
+                <invitation_email translate="label">
+                    <label>Sponsorship mail options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>3</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <sponsor_invitation_validity translate="label">
+                            <label>Time validity invitations (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sponsor_invitation_validity>
+                        <time_before_boost translate="label">
+                            <label>Time to send it automatically (days)</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </time_before_boost>
+                        <max_recipients translate="label">
+                            <label>Max invitations</label>
+                            <frontend_type>text</frontend_type>
+                            <backend_model>sponsorship/adminhtml_system_config_backend_sponsorship_entier</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_recipients>
+                        <email_template translate="label">
+                            <label>Email Template</label>
+                            <frontend_type>text</frontend_type>
+                			<!--
+                			<frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                             -->
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email_template>
+                    </fields>
+                </invitation_email>
+                <change translate="label">
+                    <label>Voucher exchange mail options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>4</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <email_template_coupon translate="label">
+                            <label>Email Template</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email_template_coupon>
+                    </fields>
+                </change>
+            </groups>
+        </sponsorship>
+    </sections>
+</config>

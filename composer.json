@@ -1,0 +1,19 @@
+{
+    "name": "OpenMageModuleFostering/Auguria_Sponsorship",
+    "type": "magento-module",
+    "license": "OSL-3.0",
+    "homepage": "",
+    "description": "This module allows customers to earn fidelity and sponsorship points.
+Customers can invit friends on your site and when their friends buy products, they earn sponsorship points. If a godchild sponsor a person, the sponsor will earn a percentage too.
+When customers buy, they can win fidelity points. 
+These points can then be exchanged against cash, discounts or gifts (not yet implemented).",
+    "authors": [
+    {
+        "name": "Auguria",
+        "email": "magento@auguria.net"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
