@@ -7,7 +7,7 @@
  */
 $setup = new Mage_Sales_Model_Mysql4_Setup('core_setup');
 $setup->startSetup();
-if (!$setup->hasSponsorshipInstall()) {
+if (!$this->hasSponsorshipInstall()) {
 	$setup->addAttribute('quote_item', 'cart_fidelity_points', array(
 	        'type'              => 'decimal',
 	        'backend'           => '',
@@ -26,7 +26,7 @@ if (!$setup->hasSponsorshipInstall()) {
 	        'visible_on_front'  => false,
 	        'unique'            => false,
 	    ));
-	    
+
 	$setup->addAttribute('quote_item', 'cart_sponsor_points', array(
 	        'type'              => 'decimal',
 	        'backend'           => '',
