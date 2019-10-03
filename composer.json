@@ -1,19 +1,5 @@
 {
-    "name": "OpenMageModuleFostering/Auguria_Sponsorship",
-    "type": "magento-module",
-    "license": "OSL-3.0",
-    "homepage": "",
-    "description": "Add possibility to :
-- Add fidelity points to the customer if customer subscribe to the newletter on registration
-- Add fidelity points on first order payment
--Add sponso points on first godson order payment",
-    "authors": [
-    {
-        "name": "Auguria",
-        "email": "magento@auguria.net"
-    }
-],
-    "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+    "keywords": [
+        "openmage-module"
+    ]
 }
